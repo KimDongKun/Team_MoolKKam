@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: cefb092686d984045add80ef299f3211
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 316038
+  packageName: just a pixel filter
+  packageVersion: 1.0
+  assetPath: Assets/just a pixel filter/Runtime/Shaders/PixelizationShader.shader
+  uploadId: 746031

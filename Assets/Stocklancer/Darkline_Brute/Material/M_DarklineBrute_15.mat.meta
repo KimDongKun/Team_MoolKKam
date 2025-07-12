@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 69d99054522bdee459f4f21dd5ebb563
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 302096
+  packageName: 'Darklines: the Brute'
+  packageVersion: 1.0
+  assetPath: Assets/Stocklancer/Darkline_Brute/Material/M_DarklineBrute_15.mat
+  uploadId: 711995

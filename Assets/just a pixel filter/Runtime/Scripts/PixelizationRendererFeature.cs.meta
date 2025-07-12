@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: c7a6241a09b9ded4b9e31289facb0b76
+AssetOrigin:
+  serializedVersion: 1
+  productId: 316038
+  packageName: just a pixel filter
+  packageVersion: 1.0
+  assetPath: Assets/just a pixel filter/Runtime/Scripts/PixelizationRendererFeature.cs
+  uploadId: 746031

@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3323289317047296197
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e65f4dd638196448ba02aae246e8de4, type: 3}
+  m_Name: Pixelization
+  m_EditorClassIdentifier: 
+  active: 1
+  overrideEnable:
+    m_OverrideState: 1
+    m_Value: 1
+  sizingMode:
+    m_OverrideState: 1
+    m_Value: 0
+  pixelBlockSize:
+    m_OverrideState: 1
+    m_Value: 8
+  targetResolution:
+    m_OverrideState: 1
+    m_Value: 320
+  downsampleFactor:
+    m_OverrideState: 1
+    m_Value: 1
+  samplingMode:
+    m_OverrideState: 1
+    m_Value: 0
+  pixelAspectMode:
+    m_OverrideState: 1
+    m_Value: 0
+  customPixelAspectRatio:
+    m_OverrideState: 1
+    m_Value: 1
+  posterizeLevels:
+    m_OverrideState: 1
+    m_Value: 256
+  enablePalette:
+    m_OverrideState: 1
+    m_Value: 1
+  luminanceMode:
+    m_OverrideState: 1
+    m_Value: 0
+  paletteTexture:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: 18e09a4a407538e43acc5fd915baea97, type: 3}
+    dimension: 1
+  paletteBlend:
+    m_OverrideState: 1
+    m_Value: 1
+  ditheringMode:
+    m_OverrideState: 1
+    m_Value: 0
+  ditherPatternType:
+    m_OverrideState: 0
+    m_Value: 0
+  ditherPatternTexture:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  ditherPatternTiling:
+    m_OverrideState: 1
+    m_Value: 4
+  ditherIntensity:
+    m_OverrideState: 1
+    m_Value: 0.5
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: Example 5
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: -3323289317047296197}
