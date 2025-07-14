@@ -286,6 +286,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DarkLine_Brute
       objectReference: {fileID: 0}
+    - target: {fileID: 8163512465336316521, guid: b5041a729e8368f4182b36493a5d17d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8791395880036493523, guid: b5041a729e8368f4182b36493a5d17d4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5798751
@@ -1232,7 +1236,7 @@ GameObject:
   - component: {fileID: 1487019190}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1350,7 +1354,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634722732}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e25f017ba2bc834f92b9b4564d2f874, type: 3}
   m_Name: 
@@ -2335,7 +2339,7 @@ Transform:
   m_GameObject: {fileID: 9098295010766390599}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: -0.043, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4387,7 +4391,7 @@ Transform:
   m_GameObject: {fileID: 3376859567915743964}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.0294778, y: -2.6224353, z: -1.1884193}
+  m_LocalPosition: {x: -1.0407556, y: -2.56, z: -1.133088}
   m_LocalScale: {x: 1.32824, y: 1.32824, z: 1.32824}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5044,6 +5048,9 @@ GameObject:
   - component: {fileID: 2708584558463246438}
   - component: {fileID: 8320118401291958812}
   - component: {fileID: 8320118401291958813}
+  - component: {fileID: 8320118401291958814}
+  - component: {fileID: 8320118401291958815}
+  - component: {fileID: 8320118401291958816}
   m_Layer: 0
   m_Name: SK_Succubus_Lucia Red
   m_TagString: Untagged
@@ -5283,13 +5290,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248720787920059264}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.101292886, z: -0, w: 0.99485666}
+  m_LocalPosition: {x: -0.002920459, y: 0, z: -0.00030568818}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2708584558463246438}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -11.627, z: 0}
 --- !u!137 &3737678326223742665
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -10328,7 +10335,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3376859567915743964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: db3b6a507fae0154e84b5ea90690ff37, type: 3}
   m_Controller: {fileID: 9100000, guid: ec3380d34fdad60489483290707423cb, type: 2}
   m_CullingMode: 1
@@ -10358,6 +10365,74 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &8320118401291958814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376859567915743964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a87b56cb7820546b4b6e9d32eaf113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 3376859567915743964}
+  rotationSpeed: 10
+  h: 0
+  jumpForce: 7
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2
+--- !u!54 &8320118401291958815
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376859567915743964}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &8320118401291958816
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376859567915743964}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8328352829429800093
 GameObject:
   m_ObjectHideFlags: 0
@@ -10974,6 +11049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4557560040658207644}
   - component: {fileID: 1039352628057741202}
+  - component: {fileID: 8946610422760518278}
   m_Layer: 0
   m_Name: SK_LUCIA_PANTIES
   m_TagString: Untagged
@@ -10981,6 +11057,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8946610422760518278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8946610422760518277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f4d8af4697a964391ea9df3eb7e91b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  h: 0
 --- !u!1 &8959285553280824373
 GameObject:
   m_ObjectHideFlags: 0
