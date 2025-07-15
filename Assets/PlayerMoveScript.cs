@@ -3,6 +3,9 @@ using UnityEngine.UIElements;
 
 public class PlayerMoveScript : MonoBehaviour
 {
+    public PlayerModel playerModel;
+    public PlayerViewModel playerViewModel;
+
     public GameObject player;
     private Quaternion targetRotation;
     public float rotationSpeed = 10f;
@@ -15,6 +18,9 @@ public class PlayerMoveScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerModel = new PlayerModel();
+        playerViewModel = new PlayerViewModel(playerModel);
+
         rb = GetComponent<Rigidbody>();
     }
 
