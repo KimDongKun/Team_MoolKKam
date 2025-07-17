@@ -23,21 +23,40 @@ public class PlayerUIView : MonoBehaviour
         UpdateUI();
         playerViewModel.PropertyChanged += OnPlayerViewModelPropertyChanged;
     }
-    private void OnPlayerViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    public void OnPlayerViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
+        Debug.Log(e.PropertyName);
         // 변경된 속성에 따라 UI 업데이트
         if (e.PropertyName == "Name")
         {
-            //playerNameText.text = playerViewModel.Name;
+            goldText.text = playerViewModel.Name;
+            Debug.Log(playerViewModel.Name);
         }
         else if (e.PropertyName == "Health")
         {
             hpSlider.value = playerViewModel.Health;
+            Debug.Log(playerViewModel.Health);
         }
+        else if(e.PropertyName == "TakeDamage")
+        {
+            hpSlider.value = playerViewModel.Health;
+        }
+
+        UpdateUI();
     }
     private void UpdateUI()
     {
         //playerNameText.text = playerViewModel.Name;
         hpSlider.value = playerViewModel.Health;
+        Debug.Log("hp 슬라이드:"+ hpSlider.value);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+            playerViewModel.TakeDamage(1);
+            Debug.Log("스페이스바 입력 " + playerViewModel.Health);
+        }
     }
 }

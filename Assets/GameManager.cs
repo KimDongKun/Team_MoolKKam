@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,4 +15,5 @@ public class GameManager : MonoBehaviour
         player.playerViewModel = new PlayerViewModel(player.playerModel);
         playerUIView.Init(player.playerViewModel);
     }
+    
 }

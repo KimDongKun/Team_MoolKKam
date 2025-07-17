@@ -35,9 +35,18 @@ public class PlayerViewModel : INotifyPropertyChanged
             }
         }
     }
+
+    public void TakeDamage(int dmg)
+    {
+        playerModel.Health -= dmg;
+        Debug.Log("데미지 받음 :" + playerModel.Health);
+        OnPropertyChanged("Health");
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged(string propertyName)
     {
+        Debug.Log($"프로퍼티 이름 {propertyName}");
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
