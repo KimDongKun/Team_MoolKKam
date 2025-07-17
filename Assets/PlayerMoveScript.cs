@@ -15,12 +15,15 @@ public class PlayerMoveScript : MonoBehaviour
     private Rigidbody rb;
     public float fallMultiplier = 1.5f;
     public float lowJumpMultiplier = 1f;
+    private Animator animator;
+    private Player_Attack_Script pas;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerModel = new PlayerModel();
         playerViewModel = new PlayerViewModel(playerModel);
-
+         animator = GetComponent<Animator>();
+        pas = GetComponent<Player_Attack_Script>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -49,8 +52,9 @@ public class PlayerMoveScript : MonoBehaviour
         fixedEuler.x = 0f;
         fixedEuler.z = 0f;
         transform.rotation = Quaternion.Euler(fixedEuler);
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !pas.isAttacking)
         {
+            animator.SetTrigger("jump");
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
