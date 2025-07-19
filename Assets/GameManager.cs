@@ -6,8 +6,7 @@ public class GameManager : MonoBehaviour
     public PlayerMoveScript player;
     public PlayerUIView playerUIView;
 
-    public PlayerMoveScript playerMoveScript;
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,5 +14,5 @@ public class GameManager : MonoBehaviour
         player.playerViewModel = new PlayerViewModel(player.playerModel);
         playerUIView.Init(player.playerViewModel);
     }
-    
+
 }

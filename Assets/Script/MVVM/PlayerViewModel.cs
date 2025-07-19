@@ -6,6 +6,8 @@ public class PlayerViewModel : INotifyPropertyChanged
     private PlayerModel playerModel;
     public string HealthText => $"HP: {playerModel.Health}";
     public Color HealthColor => playerModel.Health < 30 ? Color.red : Color.green;
+
+    public bool IsGathering => playerModel.IsGathering;
     public PlayerViewModel(PlayerModel model)
     {
         playerModel = model;
@@ -41,6 +43,13 @@ public class PlayerViewModel : INotifyPropertyChanged
         playerModel.Health -= dmg;
         Debug.Log("데미지 받음 :" + playerModel.Health);
         OnPropertyChanged("Health");
+    }
+    public void CompleteGathering()
+    {
+        Debug.Log("자원채취 완료");
+        playerModel.resourceObject.SetActive(false);
+        playerModel.CompleteGathering();
+        
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

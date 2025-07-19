@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerUIView : MonoBehaviour
 {
 
-    [SerializeField] PlayerViewModel playerViewModel;
+    [SerializeField] public PlayerViewModel playerViewModel;
 
     [SerializeField] TMP_Text goldText;
     [SerializeField] TMP_Text logText;
@@ -15,6 +15,7 @@ public class PlayerUIView : MonoBehaviour
     [SerializeField] TMP_Text diamondText;
 
     [SerializeField] Slider hpSlider;
+    [SerializeField] Slider gatheringSlider;
 
     public void Init(PlayerViewModel vm)
     {
@@ -52,11 +53,22 @@ public class PlayerUIView : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.E) && playerViewModel.IsGathering)
         {
+            gatheringSlider.value += Time.deltaTime;
+            gatheringSlider.gameObject.SetActive(true);
 
-            playerViewModel.TakeDamage(1);
-            Debug.Log("스페이스바 입력 " + playerViewModel.Health);
+            if (gatheringSlider.value.Equals(gatheringSlider.maxValue))
+            {
+                playerViewModel.CompleteGathering();
+            }
+            //playerViewModel.TakeDamage(1);
+            //Debug.Log("스페이스바 입력 " + playerViewModel.Health);
+        }
+        else
+        {
+            gatheringSlider.value = 0;
+            gatheringSlider.gameObject.SetActive(false);
         }
     }
 }

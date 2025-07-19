@@ -18,9 +18,6 @@ public class PlayerMoveScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerModel = new PlayerModel();
-        playerViewModel = new PlayerViewModel(playerModel);
-
         rb = GetComponent<Rigidbody>();
     }
 
