@@ -7610,7 +7610,6 @@ GameObject:
   - component: {fileID: 8320118401291958813}
   - component: {fileID: 8320118401291958815}
   - component: {fileID: 8320118401291958816}
-  - component: {fileID: 8320118401291958817}
   - component: {fileID: 8320118401291958818}
   - component: {fileID: 8320118401291958819}
   m_Layer: 0
@@ -12977,21 +12976,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &8320118401291958817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376859567915743964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa16f6ecbd5165408f3537df6c86605, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 8320118401291958812}
-  weaponTrigger: {fileID: 5893193}
-  isAttacking: 0
 --- !u!114 &8320118401291958818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13005,6 +12989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8320118401291958812}
+  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &8320118401291958819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13017,6 +13002,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a87b56cb7820546b4b6e9d32eaf113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponController: {fileID: 5893193}
+  animator: {fileID: 8320118401291958812}
   player: {fileID: 3376859567915743964}
   rotationSpeed: 10
   h: 0
