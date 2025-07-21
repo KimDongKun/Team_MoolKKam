@@ -3,7 +3,7 @@ using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerMoveScript player;
+    public PlayerController player;
     public PlayerUIView playerUIView;
 
     

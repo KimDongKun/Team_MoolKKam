@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class damege_triger_script : MonoBehaviour
+public class WeaponController : MonoBehaviour
 {
     public int damage = 10;
     public string targetTag = "Enemy";
@@ -24,14 +25,14 @@ public class damege_triger_script : MonoBehaviour
     {
         if (!canDamage) return;
         if (!other.CompareTag(targetTag)) return;
-        if (damagedEnemies.Contains(other.gameObject)) return; // ✅ 이미 맞은 적은 무시
+        if (damagedEnemies.Contains(other.gameObject)) return; // 이미 맞은 적은 무시
 
         // 데미지 처리
-        var health = other.GetComponent<helth_script>();
+        var health = other.GetComponent<EnemyController>();
         if (health != null)
         {
             health.TakeDamage(damage);
-            damagedEnemies.Add(other.gameObject); // ✅ 맞은 적 등록
+            damagedEnemies.Add(other.gameObject); // 맞은 적 등록
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ResourceController : MonoBehaviour
 {
-    [SerializeField] private PlayerMoveScript player;
+    [SerializeField] private PlayerController player;
     public resourceType type = resourceType.None;
 
     public ItemData itemData;
@@ -16,7 +16,7 @@ public class ResourceController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<PlayerMoveScript>(out player))
+        if (other.TryGetComponent<PlayerController>(out player))
         {
             player.playerModel.StartGathering(itemData, this.gameObject);
             Debug.Log("ÀÚ¿ø È¹µæ À¯¹« bool => true : "+type.ToString());
@@ -27,7 +27,7 @@ public class ResourceController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<PlayerMoveScript>(out player))
+        if (other.TryGetComponent<PlayerController>(out player))
         {
             Debug.Log("ÀÚ¿ø È¹µæ À¯¹« bool => false : " + type.ToString());
         }

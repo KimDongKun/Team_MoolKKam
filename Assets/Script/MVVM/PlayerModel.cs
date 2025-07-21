@@ -9,9 +9,18 @@ public class PlayerModel
     public float Speed { get; set; }
 
     public GameObject resourceObject;
+    public bool isAttacking { get; set; }
     public bool IsGathering { get; private set; }
     public ItemData CurrentItem { get; private set; }
 
+    public void StartAttack(WeaponController weapon)
+    {
+        weapon.EnableDamage();
+    }
+    public void EndAttack(WeaponController weapon)
+    {
+        weapon.DisableDamage();
+    }
     public void StartGathering(ItemData ore, GameObject obj)
     {
         CurrentItem = ore;
