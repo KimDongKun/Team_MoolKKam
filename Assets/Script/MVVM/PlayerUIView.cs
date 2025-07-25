@@ -42,6 +42,33 @@ public class PlayerUIView : MonoBehaviour
         {
             hpSlider.value = playerViewModel.Health;
         }
+        else if (e.PropertyName == "CompleteGathering")
+        {
+           for(int i = 0; i<playerViewModel.itemList.Count; i++)
+            {
+                var name = playerViewModel.itemList[i].itemData.ItemName;
+                if (name == "Gold")
+                {
+                    goldText.text = playerViewModel.itemList[i].Quantity.ToString();
+                }
+                else if (name == "Log")
+                {
+                    logText.text = playerViewModel.itemList[i].Quantity.ToString();
+                }
+                else if (name == "Stone")
+                {
+                    stoneText.text = playerViewModel.itemList[i].Quantity.ToString();
+                }
+                else if (name == "Iron")
+                {
+                    ironText.text = playerViewModel.itemList[i].Quantity.ToString();
+                }
+                else if (name == "Diamond")
+                {
+                    diamondText.text = playerViewModel.itemList[i].Quantity.ToString();
+                }
+            }
+        }
 
         UpdateUI();
     }
@@ -49,7 +76,6 @@ public class PlayerUIView : MonoBehaviour
     {
         //playerNameText.text = playerViewModel.Name;
         hpSlider.value = playerViewModel.Health;
-        Debug.Log("hp 슬라이드:"+ hpSlider.value);
     }
     private void Update()
     {
@@ -62,8 +88,6 @@ public class PlayerUIView : MonoBehaviour
             {
                 playerViewModel.CompleteGathering();
             }
-            //playerViewModel.TakeDamage(1);
-            //Debug.Log("스페이스바 입력 " + playerViewModel.Health);
         }
         else
         {

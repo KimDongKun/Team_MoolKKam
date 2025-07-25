@@ -1,5 +1,8 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class PlayerModel
 {
@@ -12,6 +15,7 @@ public class PlayerModel
     public bool isAttacking { get; set; }
     public bool IsGathering { get; private set; }
     public ItemData CurrentItem { get; private set; }
+    public List<InventoryData> GetItemList = new List<InventoryData>();
 
     public void StartAttack(WeaponController weapon)
     {
@@ -34,9 +38,9 @@ public class PlayerModel
         CurrentItem = null;
         resourceObject = null;
     }
-    public PlayerModel() //테스트 셋업용
+    public PlayerModel(string name) //테스트 셋업용
     {
-        Name = "Test";
+        Name = name;
         Health = 10f;
         Attack = 5f;
         Speed = 3f;

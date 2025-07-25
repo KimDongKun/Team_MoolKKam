@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player.playerModel = new PlayerModel();
+        player.playerModel = new PlayerModel("플레이어A");
         player.playerViewModel = new PlayerViewModel(player.playerModel);
         playerUIView.Init(player.playerViewModel);
     }

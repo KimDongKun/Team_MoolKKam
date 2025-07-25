@@ -8,3 +8,14 @@ public class ItemData : ScriptableObject
     public Sprite Icon;
     public int MaxStack = 1;
 }
+public class InventoryData
+{
+    public ItemData itemData;
+    public int Quantity = 1;
+
+    public InventoryData(ItemData item, int qt)
+    {
+        itemData = item;
+        Quantity = qt;
+    }
+}
