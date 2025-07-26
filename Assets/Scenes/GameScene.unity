@@ -200,7 +200,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 881c9e53f10c5bc44a81a9d60a8dd23a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7039,7 +7039,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -1, z: -1.133088}
-  m_LocalScale: {x: 1.32824, y: 1.32824, z: 1.32824}
+  m_LocalScale: {x: 1.6700001, y: 1.6700001, z: 1.6700001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2273993512531651570}
@@ -10092,7 +10092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5776963883199672854
 Transform:
   m_ObjectHideFlags: 0
@@ -13077,11 +13077,6 @@ MonoBehaviour:
   weaponController: {fileID: 5893193}
   animator: {fileID: 8320118401291958812}
   player: {fileID: 3376859567915743964}
-  rotationSpeed: 10
-  h: 0
-  jumpForce: 7
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
 --- !u!1 &8328352829429800093
 GameObject:
   m_ObjectHideFlags: 0
@@ -13932,7 +13927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &9105382040492801969
 GameObject:
   m_ObjectHideFlags: 0
