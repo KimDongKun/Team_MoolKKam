@@ -12,16 +12,34 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start() => currentHealth = maxHealth;
 
-    public virtual void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount, AttackModel attack)
     {
         currentHealth -= amount;
-        Debug.Log($"{gameObject.name} 피격! 현재 체력: {currentHealth}");
-
+        Debug.Log($"{gameObject.name} 피격! 현재 체력: {currentHealth} 공격유형 {attack.Type}");
+        if(attack.Type == AttackType.Parry)
+        {
+            Debug.Log($"{gameObject.name} 파링 성공!");
+            anim.SetTrigger("Stun");
+        }
         if (currentHealth <= 0)
         {
             Die();
         }
     }
+    public void FixedUpdate()
+    {
+       
+        if (ShouldAttack())
+        {
+            Attack();
+        }
+        else
+        {
+            Move();
+        }
+    }
+    
+    
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} 사망!");

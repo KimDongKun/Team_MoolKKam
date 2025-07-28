@@ -44,6 +44,20 @@ public class PlayerViewModel : INotifyPropertyChanged
             }
         }
     }
+    public void ReceiveDamage(float damage)
+    {
+        // 모델에서 체력 감소 처리
+        playerModel.Health -= damage;
+
+        // UI 갱신 등 추가 처리
+        Debug.Log($"플레이어 피격! 남은 체력: {playerModel.Health}");
+
+        if (playerModel.Health <= 0)
+        {
+           Debug.Log("플레이어 사망!");
+            // 플레이어 사망 처리 로직 추가 (예: 게임 오버 화면 표시 등)
+        }
+    }
     public void AddItem(ItemData data)
     {
         var item = itemList.FirstOrDefault(i => i.itemData.ItemName == data.ItemName);
@@ -81,17 +95,19 @@ public class PlayerViewModel : INotifyPropertyChanged
         h = Input.GetAxisRaw("Horizontal");
         // rotate y 설정 오른쪽 90 왼쪽 270   
 
-        animator.SetFloat("Speed", Mathf.Abs(h));
+        animator.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
         player.transform.position = new Vector3(player.transform.position.x + (h * playerModel.Speed * Time.deltaTime), player.transform.position.y, player.transform.position.z);
         if (h > 0)
         {
-            playerModel.TargetRotation = Quaternion.Euler(0, 130, 0); // 오른쪽
+            playerModel.TargetRotation = Quaternion.Euler(0, 90, 0); // 오른쪽
+            player.transform.rotation = Quaternion.Euler(0, 90, 0);
             playerModel.FacingDirection = 0; // 오른쪽
             playerModel.IsPlayerMoving = true; // 플레이어가 움직이고 있음
         }
         else if (h < 0)
         {
-            playerModel.TargetRotation = Quaternion.Euler(0, 230, 0); // 왼쪽
+            playerModel.TargetRotation = Quaternion.Euler(0, 270, 0); // 왼쪽
+            player.transform.rotation = Quaternion.Euler(0, 270, 0);
             playerModel.FacingDirection = 1; // 왼쪽 
             playerModel.IsPlayerMoving = true; // 플레이어가 움직이고 있음
         }
@@ -100,19 +116,22 @@ public class PlayerViewModel : INotifyPropertyChanged
                        playerModel.IsPlayerMoving = false; // 플레이어가 움직이지 않음
         }
 
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, playerModel.TargetRotation, Time.deltaTime * playerModel.RotationSpeed);
-        Vector3 fixedEuler = player.transform.rotation.eulerAngles;
-        fixedEuler.x = 0f;
-        fixedEuler.z = 0f;
-        player.transform.rotation = Quaternion.Euler(fixedEuler);
-        playerModel.TargetRotation = player.transform.rotation;
+  
     }
+
+    public void GuardPlayer(Animator animator, Rigidbody rb)
+    {
+        animator.SetBool("IsGuard", true);
+        playerModel.IsGuarding = true;
+
+    }
+
     public void JumpPlayer(bool space, Animator animator,Rigidbody rb)
     {
         float hight = rb.linearVelocity.y;
         animator.SetFloat("Hight", hight);
         animator.SetBool("Ground", playerModel.IsGrounded);
-        if (space && playerModel.IsGrounded && !playerModel.IsAttacking && !playerModel.IsRolling)
+        if (space && playerModel.IsGrounded && !playerModel.IsAttacking && !playerModel.IsRolling && !playerModel.IsGuarding)
         {
             animator.SetTrigger("jump");
             rb.AddForce(Vector3.up * playerModel.JumpForce, ForceMode.Impulse);
@@ -132,11 +151,24 @@ public class PlayerViewModel : INotifyPropertyChanged
         
 
     }
-    public void TakeDamage(int dmg)
+    public string TakeDamage(int dmg)
     {
+        if (playerModel.IsGuarding)
+        {
+            playerModel.Animator.SetTrigger("Block");
+            if (playerModel.IsParrying)
+            {
+                playerModel.IsParrying = false; // 반격 상태 해제
+                return "parry"; // 가드 중에 적의 공격을 막으면 반격
+            }
+            else { 
+                return "block"; // 가드 중에는 데미지를 받지 않음
+            }
+        }
         playerModel.Health -= dmg;
-        Debug.Log("데미지 받음 :" + playerModel.Health);
+       // Debug.Log("데미지 받음 :" + playerModel.Health);
         OnPropertyChanged("Health");
+        return "hit";
     }
     public void CompleteGathering()
     {
@@ -151,7 +183,7 @@ public class PlayerViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged(string propertyName)
     {
-        Debug.Log($"프로퍼티 이름 {propertyName}");
+   //     Debug.Log($"프로퍼티 이름 {propertyName}");
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 

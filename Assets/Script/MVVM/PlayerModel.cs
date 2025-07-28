@@ -22,10 +22,14 @@ public class PlayerModel
 
     public bool IsPlayerMoving { get; set; } // 플레이어가 움직이고 있는지 여부
 
+    public bool IsParrying { get; set; } // 플레이어가 방어 중인지 여부
+
     public bool IsGrounded { get; set; } // = true; // 플레이어가 땅에 있는지 여부
     public bool IsRolling { get; set; } // 플레이어가 구르고 있는지 여부
     
-    
+    public bool IsGuarding { get; set; } // 플레이어가 방어 중인지 여부 
+
+    public Animator Animator { get; set; } // 플레이어 애니메이터
     public Quaternion TargetRotation { get; set; } // 플레이어 회전값 10
 
     public GameObject resourceObject;
@@ -34,9 +38,9 @@ public class PlayerModel
     public ItemData CurrentItem { get; private set; }
     public List<InventoryData> GetItemList = new List<InventoryData>();
 
-    public void StartAttack(WeaponController weapon)
+    public void StartAttack(WeaponController weapon, AttackModel attackModel)
     {
-        weapon.EnableDamage();
+        weapon.EnableDamage(attackModel);
     }
     public void EndAttack(WeaponController weapon)
     {
@@ -58,7 +62,7 @@ public class PlayerModel
     public PlayerModel(string name) //테스트 셋업용
     {
         Name = name;
-        Health = 10f;
+        Health = 100f;
         Attack = 5f;
         Speed = 9f;
         JumpForce = 15f; // 점프 힘

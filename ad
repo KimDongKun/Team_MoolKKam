@@ -1,0 +1,37 @@
+[33m51b3205[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32m캐릭터_조작_고도화[m[33m, [m[1;31morigin/캐릭터_조작_고도화[m[33m)[m HEAD@{0}: checkout: moving from main to 캐릭터_조작_고도화
+[33mf4e06b0[m[33m ([m[1;31morigin/자원수집_인벤토리기능구현[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{1}: checkout: moving from 캐릭터_조작_고도화 to main
+[33m51b3205[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32m캐릭터_조작_고도화[m[33m, [m[1;31morigin/캐릭터_조작_고도화[m[33m)[m HEAD@{2}: reset: moving to HEAD
+[33m51b3205[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32m캐릭터_조작_고도화[m[33m, [m[1;31morigin/캐릭터_조작_고도화[m[33m)[m HEAD@{3}: commit: 캐릭터 조작 고도화
+[33mf4e06b0[m[33m ([m[1;31morigin/자원수집_인벤토리기능구현[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{4}: checkout: moving from main to 캐릭터_조작_고도화
+[33mf4e06b0[m[33m ([m[1;31morigin/자원수집_인벤토리기능구현[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{5}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33ma1f2c01[m HEAD@{6}: reset: moving to HEAD
+[33ma1f2c01[m HEAD@{7}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m3249c69[m HEAD@{8}: checkout: moving from attack_GD to main
+[33m741b216[m[33m ([m[1;31morigin/attack_GD[m[33m, [m[1;32mattack_GD[m[33m)[m HEAD@{9}: checkout: moving from Manager생성 to attack_GD
+[33m6d38090[m[33m ([m[1;31morigin/Manager생성[m[33m, [m[1;32mManager생성[m[33m)[m HEAD@{10}: checkout: moving from attack_GD to Manager생성
+[33m741b216[m[33m ([m[1;31morigin/attack_GD[m[33m, [m[1;32mattack_GD[m[33m)[m HEAD@{11}: checkout: moving from main to attack_GD
+[33m3249c69[m HEAD@{12}: checkout: moving from attack_GD to main
+[33m741b216[m[33m ([m[1;31morigin/attack_GD[m[33m, [m[1;32mattack_GD[m[33m)[m HEAD@{13}: commit: 플레이어 애니메이션,공격 기능 추가
+[33m3249c69[m HEAD@{14}: checkout: moving from main to attack_GD
+[33m3249c69[m HEAD@{15}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33meaafb70[m[33m ([m[1;31morigin/branch_test_GD[m[33m, [m[1;32mbranch_test_GD[m[33m)[m HEAD@{16}: merge branch_test_GD: Fast-forward
+[33m9b43eb4[m[33m ([m[1;31morigin/BranchTestDK[m[33m, [m[1;32mBranchTestDK[m[33m)[m HEAD@{17}: checkout: moving from branch_test_GD to main
+[33meaafb70[m[33m ([m[1;31morigin/branch_test_GD[m[33m, [m[1;32mbranch_test_GD[m[33m)[m HEAD@{18}: checkout: moving from main to branch_test_GD
+[33m9b43eb4[m[33m ([m[1;31morigin/BranchTestDK[m[33m, [m[1;32mBranchTestDK[m[33m)[m HEAD@{19}: checkout: moving from branch_test_GD to main
+[33meaafb70[m[33m ([m[1;31morigin/branch_test_GD[m[33m, [m[1;32mbranch_test_GD[m[33m)[m HEAD@{20}: checkout: moving from main to branch_test_GD
+[33m9b43eb4[m[33m ([m[1;31morigin/BranchTestDK[m[33m, [m[1;32mBranchTestDK[m[33m)[m HEAD@{21}: checkout: moving from branch_test_GD to main
+[33meaafb70[m[33m ([m[1;31morigin/branch_test_GD[m[33m, [m[1;32mbranch_test_GD[m[33m)[m HEAD@{22}: merge main: Merge made by the 'ort' strategy.
+[33ma399011[m HEAD@{23}: checkout: moving from main to branch_test_GD
+[33m9b43eb4[m[33m ([m[1;31morigin/BranchTestDK[m[33m, [m[1;32mBranchTestDK[m[33m)[m HEAD@{24}: checkout: moving from branch_test_GD to main
+[33ma399011[m HEAD@{25}: checkout: moving from main to branch_test_GD
+[33m9b43eb4[m[33m ([m[1;31morigin/BranchTestDK[m[33m, [m[1;32mBranchTestDK[m[33m)[m HEAD@{26}: checkout: moving from branch_test_GD to main
+[33ma399011[m HEAD@{27}: commit: 캐릭터 이동 추가
+[33m6b9f5d4[m HEAD@{28}: checkout: moving from main to branch_test_GD
+[33m9b43eb4[m[33m ([m[1;31morigin/BranchTestDK[m[33m, [m[1;32mBranchTestDK[m[33m)[m HEAD@{29}: checkout: moving from branch_test_GD to main
+[33m6b9f5d4[m HEAD@{30}: reset: moving to HEAD
+[33m6b9f5d4[m HEAD@{31}: checkout: moving from main to branch_test_GD
+[33m6b9f5d4[m HEAD@{32}: checkout: moving from BranchTestDK to main
+[33m6b9f5d4[m HEAD@{33}: reset: moving to HEAD
+[33m6b9f5d4[m HEAD@{34}: checkout: moving from main to BranchTestDK
+[33m6b9f5d4[m HEAD@{35}: commit: 캐릭터 컨트롤 생성
+[33m09fa4f6[m HEAD@{36}: clone: from https://github.com/KimDongKun/Team_MoolKKam.git

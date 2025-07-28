@@ -31,7 +31,7 @@ public class ResourceController : MonoBehaviour
         if (other.TryGetComponent<PlayerController>(out player))
         {
             player.playerModel.StartGathering(itemData, this.gameObject);
-            Debug.Log("Á¢ÃËÇÑ °´Ã¼ ÀÌ¸§:" + player.playerModel.Name);
+            //Debug.Log("Á¢ÃËÇÑ °´Ã¼ ÀÌ¸§:" + player.playerModel.Name);
             //Debug.Log("ÀÚ¿ø È¹µæ À¯¹« bool => true : "+type.ToString());
         }
 

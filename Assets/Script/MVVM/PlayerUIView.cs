@@ -26,7 +26,7 @@ public class PlayerUIView : MonoBehaviour
     }
     public void OnPlayerViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        Debug.Log(e.PropertyName);
+       // Debug.Log(e.PropertyName);
         // 변경된 속성에 따라 UI 업데이트
         if (e.PropertyName == "Name")
         {
@@ -36,7 +36,7 @@ public class PlayerUIView : MonoBehaviour
         else if (e.PropertyName == "Health")
         {
             hpSlider.value = playerViewModel.Health;
-            Debug.Log(playerViewModel.Health);
+          //  Debug.Log(playerViewModel.Health);
         }
         else if(e.PropertyName == "TakeDamage")
         {

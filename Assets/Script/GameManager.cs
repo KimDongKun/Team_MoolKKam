@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player.playerModel = new PlayerModel("플레이어A");
+        player.playerModel.Animator = player.GetComponent<Animator>();
         player.playerViewModel = new PlayerViewModel(player.playerModel);
         playerUIView.Init(player.playerViewModel);
     }

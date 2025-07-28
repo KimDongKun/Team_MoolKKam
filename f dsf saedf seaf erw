@@ -1,0 +1,47 @@
+[33mcommit d10fc1d0b04d2b117c39ee3b06f7b752d996ee46[m
+Merge: a1f2c01 32595ee
+Author: lee5081 <gy5081@naver.com>
+Date:   Sat Jul 26 02:41:25 2025 +0900
+
+    On main: !!GitHub_Desktop<main>
+
+[1mdiff --cc Assets/Script/MVVM/PlayerUIView.cs[m
+[1mindex e52c893,e52c893..ee4ee14[m
+[1m--- a/Assets/Script/MVVM/PlayerUIView.cs[m
+[1m+++ b/Assets/Script/MVVM/PlayerUIView.cs[m
+[36m@@@ -42,8 -42,8 +42,7 @@@[m [mpublic class PlayerUIView : MonoBehavio[m
+          {[m
+              hpSlider.value = playerViewModel.Health;[m
+          }[m
+[31m--[m
+[31m--        UpdateUI();[m
+[32m++            UpdateUI();[m
+      }[m
+      private void UpdateUI()[m
+      {[m
+[1mdiff --cc Assets/Script/PlayerController.cs[m
+[1mindex 7beacff,7beacff..b665f9c[m
+[1m--- a/Assets/Script/PlayerController.cs[m
+[1m+++ b/Assets/Script/PlayerController.cs[m
+[36m@@@ -37,6 -37,6 +37,8 @@@[m [mpublic class PlayerController : MonoBeh[m
+  [m
+          animator.SetFloat("Speed", Mathf.Abs(h));[m
+  [m
+[32m++        [m
+[32m++[m
+          player.transform.position = new Vector3(player.transform.position.x + (h * 6f * Time.deltaTime), player.transform.position.y, player.transform.position.z);[m
+          if (h > 0)[m
+          {[m
+[1mdiff --cc Assets/Script/WeaponController.cs[m
+[1mindex 72d0530,72d0530..0931c59[m
+[1m--- a/Assets/Script/WeaponController.cs[m
+[1m+++ b/Assets/Script/WeaponController.cs[m
+[36m@@@ -28,7 -28,7 +28,7 @@@[m [mpublic class WeaponController : MonoBeh[m
+          if (damagedEnemies.Contains(other.gameObject)) return; // 이미 맞은 적은 무시[m
+  [m
+          // 데미지 처리[m
+[31m--        var health = other.GetComponent<EnemyController>();[m
+[32m++        var health = other.GetComponent<Enemy>();[m
+          if (health != null)[m
+          {[m
+              health.TakeDamage(damage);[m

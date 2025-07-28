@@ -23,12 +23,41 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!playerModel.IsAttacking)
+            float h = Input.GetAxisRaw("Horizontal");
+        if (h != 0)
+        {
+            animator.SetBool("PressMove", true);
+        }
+        else
+        {
+            animator.SetBool("PressMove", false);
+
+        }
+        if (Input.GetMouseButton(0))
+        {
+            animator.SetBool("OnLeftClick", true);
+        }
+        else
+        {
+            animator.SetBool("OnLeftClick", false);
+        }
+        if (Input.GetMouseButton(1))
+        {
+            animator.SetBool("OnRightClick", true);
+        }
+        else
+        {
+            animator.SetBool("OnRightClick", false);
+        }
+
+
+        if (!playerModel.IsAttacking && !playerModel.IsGuarding)
         {
             playerViewModel.MovePlayer(animator, player);   //플레이어 이동함수
         }
@@ -37,29 +66,21 @@ public class PlayerController : MonoBehaviour
             playerModel.IsPlayerMoving = false; // 플레이어가 움직이지 않음
         }
             playerViewModel.JumpPlayer(Input.GetKeyDown(KeyCode.Space), animator, rb); //플레이어 점프함수
-            float h = Input.GetAxisRaw("Horizontal");
-        if(h != 0) {
-            animator.SetBool("PressMove", true);
-        }
-        else {
-        animator.SetBool("PressMove",false);
-          
-        }
+ 
         if (Input.GetKeyDown(KeyCode.LeftShift) && !playerModel.IsRolling && playerModel.IsPlayerMoving  )
         {
             playerViewModel.RollPlayer(animator,rb); //플레이어 구르기
         }
-        if (Input.GetMouseButtonDown(0))
+
+        if(Input.GetMouseButton(1) && !playerModel.IsAttacking && !playerModel.IsRolling && playerModel.IsGrounded && !playerModel.IsGuarding)
         {
-            animator.SetBool("OnLeftClick", true);
+            animator.SetTrigger("Guard");
+            playerViewModel.GuardPlayer(animator,rb);
         }
-        else
+
+        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && !playerModel.IsAttacking && !playerModel.IsGuarding)
         {
-            animator.SetBool("OnLeftClick", false);
-        }
-        if (Input.GetMouseButtonDown(0) && !playerModel.IsAttacking)
-        {
-            Debug.Log($"마우스 누름");
+           // Debug.Log($"마우스 왼쪽 누름");
             animator.SetTrigger("Attack");
             playerModel.IsAttacking = true;
             Vector3 direction = playerModel.FacingDirection == 0 ? Vector3.right : Vector3.left;
@@ -67,9 +88,28 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    public void EnableDamage()
+    public void GarudExit()
     {
-        playerModel.StartAttack(weaponController);
+        playerModel.IsGuarding = false;
+        animator.SetBool("IsGuard", false);
+    }
+    public string TakeDamage(int damage)
+    {
+            return    playerViewModel.TakeDamage(damage);
+    }
+    public void EnableDamage(string attack)
+    {
+
+        Debug.Log($"EnableDamage called with attack: {attack}");
+        AttackModel attackModel = new AttackModel();
+        attackModel.Type = AttackType.Basic; // 기본 공격 타입 설정
+        if (attack == "Parring")
+        {
+            attackModel.Type = AttackType.Parry;
+            playerModel.StartAttack(weaponController, attackModel);
+            return;
+        }
+        playerModel.StartAttack(weaponController, attackModel);
     }
 
     public void DisableDamage()
