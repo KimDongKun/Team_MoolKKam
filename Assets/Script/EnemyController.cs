@@ -7,7 +7,7 @@ public class EnemyController : Enemy
     private Transform player;
     public float moveSpeed = 2f;
     public float attackRange = 4.5f;
-    public float attackCooldown = 1.2f;
+    public float attackCooldown = 5f;
     private float lastAttackTime = -999f;
     public Transform attackPoint;
     public LayerMask playerLayer;
@@ -30,10 +30,15 @@ public class EnemyController : Enemy
     {
         
     }
+
+    public override void ResetStun()
+    {
+         stunned = false;
+    }
     protected override bool ShouldAttack()
     {
         if (player == null) return false;
-
+        if (stunned || isAttacking) return false;
         float distance = Mathf.Abs(player.position.x - transform.position.x);
         bool inRange = distance <= attackRange;
         //Debug.Log($"Distance to player: {distance}, In range: {inRange}");
@@ -46,11 +51,15 @@ public class EnemyController : Enemy
         isAttacking = true;
         animator.SetTrigger("Attack");
         lastAttackTime = Time.time;
-
+        float direction = Mathf.Sign(player.position.x - transform.position.x);
+        if (direction > 0 && !facingRight)
+            Flip();
+        else if (direction < 0 && facingRight)
+            Flip();
     }
     protected override void Move()
     {
-        if (player == null || isAttacking) return;
+        if (player == null || isAttacking || stunned) return;
         float distance = Mathf.Abs(player.position.x - transform.position.x);
         if (distance <= stopDistance)
         {
@@ -64,7 +73,7 @@ public class EnemyController : Enemy
         transform.position += new Vector3(direction * moveSpeed * Time.fixedDeltaTime, 0, 0);
 
         // 바라보는 방향 반전 (좌우 뒤집기)
-        if (direction > 0 && !facingRight)
+        if (direction > 0 && !facingRight )
             Flip();
         else if (direction < 0 && facingRight)
             Flip();
@@ -95,7 +104,7 @@ public class EnemyController : Enemy
                 if (player != null)
                 {
                   string type = player.TakeDamage((int)damage);
-                //  Debug.Log($"Enemy dealt {damage} damage to player. Type: {type}");
+                  Debug.Log($"Enemy dealt {damage} damage to player. Type: {type}");
                 }
             }
         }

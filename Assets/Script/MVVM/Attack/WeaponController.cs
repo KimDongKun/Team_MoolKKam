@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public int damage = 10;
-    public string targetTag = "Enemy";
+    public string targetTag = "enemy";
     private bool canDamage = false;
     private HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
     public AttackModel attackModel;
@@ -23,8 +23,10 @@ public class WeaponController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        string objectTeg = other.tag;
         if (!canDamage) return;
-        if (!other.CompareTag(targetTag)) return;
+       // Debug.Log($"WeaponController OnTriggerStay: {other.gameObject.name} with tag {other.tag}");
+        if (!objectTeg.Equals(targetTag)) return;
         if (damagedEnemies.Contains(other.gameObject)) return; // 이미 맞은 적은 무시
         // 데미지 처리
         var health = other.GetComponent<EnemyController>();

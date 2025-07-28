@@ -27,7 +27,14 @@ public class PlayerModel
     public bool IsGrounded { get; set; } // = true; // 플레이어가 땅에 있는지 여부
     public bool IsRolling { get; set; } // 플레이어가 구르고 있는지 여부
     
+    public bool HasJumpAttacked { get; set; } // 플레이어가 점프 공격을 했는지 여부
     public bool IsGuarding { get; set; } // 플레이어가 방어 중인지 여부 
+
+    public float rollDistance = 13f; // 플레이어 구르기 거리  
+
+    public float rollSpeed = 8f; // 플레이어 구르기 속도
+
+    public float rollTime = 1.2f; // 플레이어 구르기 시간
 
     public Animator Animator { get; set; } // 플레이어 애니메이터
     public Quaternion TargetRotation { get; set; } // 플레이어 회전값 10

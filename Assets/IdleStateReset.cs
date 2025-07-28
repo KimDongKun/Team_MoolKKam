@@ -10,7 +10,6 @@ public class IdleStateReset : StateMachineBehaviour
         if (model != null)
         {
             model.IsAttacking = false;
-            model.IsRolling = false;
         }
     }
 }

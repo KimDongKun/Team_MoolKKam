@@ -11,6 +11,10 @@ public class PlayerViewModel : INotifyPropertyChanged
     private PlayerModel playerModel;
     public string HealthText => $"HP: {playerModel.Health}";
     public Color HealthColor => playerModel.Health < 30 ? Color.red : Color.green;
+    private float rollTimer = 0f;
+
+
+
 
     public ItemData AddItemData => playerModel.CurrentItem;
     public List<InventoryData> itemList => playerModel.GetItemList;
@@ -72,21 +76,54 @@ public class PlayerViewModel : INotifyPropertyChanged
         }
     }
 
+
+    private Vector3 rollStartPos;
+    private Vector3 rollTargetPos;
     public void RollPlayer(Animator animator , Rigidbody rb)
     {
+        rollTimer = 0f;
+        PlayerController playerController = animator.GetComponent<PlayerController>();
         float h = Input.GetAxisRaw("Horizontal");
         animator.SetTrigger("Roll");
-        if (h > 0)
-        {
-            rb.linearVelocity += (Vector3.right * 8f);
-
-        }
-        else if(h<0)
-        {
-            rb.linearVelocity += (Vector3.left * 8f);
-        }
+        animator.SetBool("IsRolling", true);
         playerModel.IsRolling = true;
+        rollTimer = 0f;
+        rollStartPos = playerController.transform.position;
 
+        // 현재 바라보는 방향 (Y축 기준)
+        float yRotation = playerController.transform.rotation.eulerAngles.y;
+        Vector3 direction = (yRotation == 90f) ? Vector3.right : Vector3.left;
+
+        rollTargetPos = rollStartPos + direction * playerModel.rollDistance;
+        //float rollSpeed = 13f; // 구르기 속도 
+        //if (h > 0)
+        //{
+        //    rb.linearVelocity = (Vector3.right * rollSpeed);
+
+        //}
+        //else if(h<0)
+        //{
+        //    rb.linearVelocity = (Vector3.left * rollSpeed);
+        //}
+
+    }
+
+
+    public void Rolling(GameObject player)
+    {
+        rollTimer += Time.deltaTime;
+        float t = rollTimer / playerModel.rollTime;
+
+        if (t >= 1f)
+        {
+            playerModel.IsRolling = false;
+            player.transform.position = rollTargetPos; // 최종 위치 고정
+        }
+        else
+        {
+            float newX = Mathf.Lerp(rollStartPos.x, rollTargetPos.x, t);
+            player.transform.position = new Vector3(newX, player.transform.position.y, player.transform.position.z);
+        }
     }
 
     public void MovePlayer(Animator animator,GameObject player)   // 플레이어 이동함수
@@ -140,6 +177,18 @@ public class PlayerViewModel : INotifyPropertyChanged
             playerModel.IsGrounded = false;
 
         }
+
+        if (playerModel.IsAttacking)
+        {
+
+            Vector3 vel = rb.linearVelocity;
+            vel.y = 0f; // Y 속도를 고정 (중력 무시)
+          //  rb.linearVelocity = vel;
+
+            return;
+        }
+
+
         if (rb.linearVelocity.y < 0.2 && !playerModel.IsGrounded)
         {
             rb.linearVelocity += Vector3.up * Physics.gravity.y * (playerModel.FallMultiplier + 1f) * Time.deltaTime;

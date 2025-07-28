@@ -9,8 +9,9 @@ public class WalkStateReset : StateMachineBehaviour
         PlayerModel model = pc.playerModel;
         if (model != null)
         {
+         
             model.IsAttacking = false;
-            model.IsRolling = false;
+            
         }
     }
 }

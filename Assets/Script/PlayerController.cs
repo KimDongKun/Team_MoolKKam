@@ -16,7 +16,11 @@ public class PlayerController : MonoBehaviour
     private Quaternion targetRotation;
     private Rigidbody rb;
 
-    
+
+    public float maxCheckDistance = 5f;  // 최대 검사 거리
+    public LayerMask groundLayer;        // Ground 전용 레이어 (선택사항)
+    public float bufferTime = 0.3f; // 선입력 유지 시간 (초)
+    private float AttackBufferTimer = 0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,12 +43,14 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("PressMove", false);
 
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || (AttackBufferTimer != 0 && AttackBufferTimer < bufferTime))
         {
             animator.SetBool("OnLeftClick", true);
+            AttackBufferTimer += Time.deltaTime;
         }
         else
         {
+            AttackBufferTimer = 0f; // Reset the buffer timer if the left click is not pressed
             animator.SetBool("OnLeftClick", false);
         }
         if (Input.GetMouseButton(1))
@@ -55,9 +61,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("OnRightClick", false);
         }
+        animator.SetBool("IsAttacking", playerModel.IsAttacking);
 
 
-        if (!playerModel.IsAttacking && !playerModel.IsGuarding)
+        if (!playerModel.IsAttacking && !playerModel.IsGuarding && !playerModel.IsRolling ||
+    (playerModel.IsAttacking && !playerModel.IsGrounded))
         {
             playerViewModel.MovePlayer(animator, player);   //플레이어 이동함수
         }
@@ -71,6 +79,10 @@ public class PlayerController : MonoBehaviour
         {
             playerViewModel.RollPlayer(animator,rb); //플레이어 구르기
         }
+        if (playerModel.IsRolling)
+        {
+            playerViewModel.Rolling(player);
+        }
 
         if(Input.GetMouseButton(1) && !playerModel.IsAttacking && !playerModel.IsRolling && playerModel.IsGrounded && !playerModel.IsGuarding)
         {
@@ -78,17 +90,53 @@ public class PlayerController : MonoBehaviour
             playerViewModel.GuardPlayer(animator,rb);
         }
 
-        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && !playerModel.IsAttacking && !playerModel.IsGuarding)
+        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && !playerModel.IsAttacking && !playerModel.IsGuarding && playerModel.IsGrounded)  // 일반공격 트리거
         {
-           // Debug.Log($"마우스 왼쪽 누름");
-            animator.SetTrigger("Attack");
+            // Debug.Log($"마우스 왼쪽 누름");
             playerModel.IsAttacking = true;
+            animator.SetTrigger("Attack");
             Vector3 direction = playerModel.FacingDirection == 0 ? Vector3.right : Vector3.left;
-            rb.linearVelocity += direction * 7f;
+            rb.linearVelocity = direction * 7f;
+           
+        }
+        float distance = GetDistanceToGround();
+        animator.SetFloat("DistanceToGround", distance);
+        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && !playerModel.IsAttacking && !playerModel.IsGuarding && !playerModel.IsGrounded && !playerModel.HasJumpAttacked) // 공중공격 트리거
+        {
+            Debug.Log($"Distance to ground: {distance}");
+            if (distance > 3f)
+            {
+                playerModel.IsAttacking = true;
+                playerModel.HasJumpAttacked = true;
+                animator.SetTrigger("FlyAttack");
+                Vector3 direction = playerModel.FacingDirection == 0 ? Vector3.right : Vector3.left;
+            }
         }
 
+
     }
-    public void GarudExit()
+    
+
+
+    float GetDistanceToGround()
+    {
+        RaycastHit hit;
+
+        // 아래 방향으로 Ray 발사
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, maxCheckDistance))
+        {
+            if (hit.collider.CompareTag("ground"))
+            {
+                return hit.distance; // Ground까지의 거리 반환
+            }
+        }
+
+        return -1f; // Ground가 감지되지 않았을 경우
+    }
+
+
+
+public void GarudExit()
     {
         playerModel.IsGuarding = false;
         animator.SetBool("IsGuard", false);
@@ -97,9 +145,11 @@ public class PlayerController : MonoBehaviour
     {
             return    playerViewModel.TakeDamage(damage);
     }
+
     public void EnableDamage(string attack)
     {
-
+        AttackBufferTimer = 0f;  // 공격 버퍼 타이머 초기화
+        playerModel.IsAttacking = true;
         Debug.Log($"EnableDamage called with attack: {attack}");
         AttackModel attackModel = new AttackModel();
         attackModel.Type = AttackType.Basic; // 기본 공격 타입 설정
@@ -109,11 +159,31 @@ public class PlayerController : MonoBehaviour
             playerModel.StartAttack(weaponController, attackModel);
             return;
         }
+        if (attack == "JumpAttack01")
+            ApplyJumpAttack(3f, 4f);
+        else if (attack == "JumpAttack02")
+            ApplyJumpAttack(3f, 9f);
+        else if (attack == "JumpAttack03")
+            ApplyJumpAttack(3f, 4f);
+
         playerModel.StartAttack(weaponController, attackModel);
+    }
+
+    void ApplyJumpAttack(float xPower, float yPower)
+    {
+        Vector3 vel = rb.linearVelocity;
+        vel.y = 0f;
+
+        float dir = (playerModel.FacingDirection == 1) ? -1f : 1f;
+        vel.x = dir * xPower;
+
+        rb.linearVelocity = vel;
+        rb.AddForce(Vector3.up * yPower, ForceMode.Impulse);
     }
 
     public void DisableDamage()
     {
+        playerModel.IsAttacking = false;
         playerModel.EndAttack(weaponController);
     }
     public void EndAttack()
