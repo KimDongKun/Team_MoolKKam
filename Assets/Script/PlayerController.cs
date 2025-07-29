@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,9 +17,11 @@ public class PlayerController : MonoBehaviour
     public GameObject player;
     private Quaternion targetRotation;
     private Rigidbody rb;
+    public List<Slash> slashList; // 슬래시 오브젝트 리스트
 
 
-    public float maxCheckDistance = 5f;  // 최대 검사 거리
+
+    public float maxCheckDistance = 10f;  // 최대 검사 거리
     public LayerMask groundLayer;        // Ground 전용 레이어 (선택사항)
     public float bufferTime = 0.3f; // 선입력 유지 시간 (초)
     private float AttackBufferTimer = 0f;
@@ -123,7 +127,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
 
         // 아래 방향으로 Ray 발사
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, maxCheckDistance))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, maxCheckDistance,groundLayer))
         {
             if (hit.collider.CompareTag("ground"))
             {
@@ -148,7 +152,6 @@ public void GarudExit()
 
     public void EnableDamage(string attack)
     {
-        AttackBufferTimer = 0f;  // 공격 버퍼 타이머 초기화
         playerModel.IsAttacking = true;
         Debug.Log($"EnableDamage called with attack: {attack}");
         AttackModel attackModel = new AttackModel();
@@ -159,17 +162,48 @@ public void GarudExit()
             playerModel.StartAttack(weaponController, attackModel);
             return;
         }
+        if(attack == "Combo_1")
+        {
+            StartCoroutine(SlashFX(0));
+       
+
+        }else if(attack == "Combo_2")
+        {
+            StartCoroutine(SlashFX(1));
+        }else if(attack == "Combo_3")
+        {
+            StartCoroutine(SlashFX(2));
+        }
         if (attack == "JumpAttack01")
-            ApplyJumpAttack(3f, 4f);
+        {
+            ApplyJumpAttack(3f, 45f, Vector3.down);
+            StartCoroutine(SlashFX(3));
+         //   StartCoroutine(SlashFX(6));
+        }
         else if (attack == "JumpAttack02")
-            ApplyJumpAttack(3f, 9f);
+        {
+
+            ApplyJumpAttack(3f, 9f, Vector3.up);
+            StartCoroutine(SlashFX(4));
+        }
         else if (attack == "JumpAttack03")
-            ApplyJumpAttack(3f, 4f);
+        {
+            ApplyJumpAttack(3f, 4f, Vector3.up);
+            StartCoroutine(SlashFX(5));
+        }
 
         playerModel.StartAttack(weaponController, attackModel);
     }
+    IEnumerator SlashFX(int index)
+    {
+        slashList[index].slashObject.SetActive(true);
 
-    void ApplyJumpAttack(float xPower, float yPower)
+
+        yield return new WaitForSeconds(0.3f);
+        slashList[index].slashObject.SetActive(false);
+    }
+
+    void ApplyJumpAttack(float xPower, float yPower,Vector3 dirY)
     {
         Vector3 vel = rb.linearVelocity;
         vel.y = 0f;
@@ -177,8 +211,17 @@ public void GarudExit()
         float dir = (playerModel.FacingDirection == 1) ? -1f : 1f;
         vel.x = dir * xPower;
 
-        rb.linearVelocity = vel;
-        rb.AddForce(Vector3.up * yPower, ForceMode.Impulse);
+        if (dirY == Vector3.down)
+        {
+            vel.y = -yPower; // 아래로 순간 속도 설정
+            rb.linearVelocity = vel;
+        }
+        else
+        {
+            rb.linearVelocity = vel;
+        rb.AddForce(dirY * yPower, ForceMode.Impulse);
+
+        }
     }
 
     public void DisableDamage()
@@ -196,4 +239,11 @@ public void GarudExit()
         if (collision.gameObject.CompareTag("ground"))
             playerModel.IsGrounded = true;
     }
+}
+
+[System.Serializable]
+public class Slash
+{
+    public GameObject slashObject; // 슬래시 오브젝트
+    public float delay; // 슬래시 지속 시간
 }

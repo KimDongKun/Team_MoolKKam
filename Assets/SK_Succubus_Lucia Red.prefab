@@ -4686,6 +4686,11 @@ MonoBehaviour:
   weaponController: {fileID: 5042832934362703892}
   animator: {fileID: 5580800664106702527}
   player: {fileID: 4153128679992022669}
+  maxCheckDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  bufferTime: 0.3
 --- !u!1 &4216567610107627225
 GameObject:
   m_ObjectHideFlags: 0
