@@ -1,8 +1,6 @@
-using NUnit.Framework;
+
 using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class PlayerModel
 {
@@ -14,8 +12,11 @@ public class PlayerModel
     public GameObject resourceObject;
     public bool isAttacking { get; set; }
     public bool IsGathering { get; private set; }
+    public bool IsNpcMeeting { get; private set; }
+    public NPCModel NPCModel { get; set; }
     public ItemData CurrentItem { get; private set; }
     public List<InventoryData> GetItemList = new List<InventoryData>();
+    
 
     public void StartAttack(WeaponController weapon)
     {
@@ -24,6 +25,17 @@ public class PlayerModel
     public void EndAttack(WeaponController weapon)
     {
         weapon.DisableDamage();
+    }
+    public void StartNPCTrigger(NPCModel npcModel)
+    {
+        NPCModel = npcModel;
+        NPCModel.isTrigger = true;
+        IsNpcMeeting = true;
+    }
+    public void CompleteNPCTrigger()
+    {
+        NPCModel = null;
+        IsNpcMeeting = false;
     }
     public void StartGathering(ItemData ore, GameObject obj)
     {

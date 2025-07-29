@@ -10,9 +10,11 @@ public class PlayerViewModel : INotifyPropertyChanged
     public string HealthText => $"HP: {playerModel.Health}";
     public Color HealthColor => playerModel.Health < 30 ? Color.red : Color.green;
 
+    public NPCModel npcModel=>playerModel.NPCModel;
     public ItemData AddItemData => playerModel.CurrentItem;
     public List<InventoryData> itemList => playerModel.GetItemList;
     public bool IsGathering => playerModel.IsGathering;
+    public bool IsNpcMeeting => playerModel.IsNpcMeeting;
     public PlayerViewModel(PlayerModel model)
     {
         playerModel = model;
