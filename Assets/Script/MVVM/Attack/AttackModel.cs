@@ -12,6 +12,9 @@ public class AttackModel
     
 
 }
+public class AttackModelList
+{
+}
 
 
 public enum AttackType

@@ -9,6 +9,8 @@ public class AttackAnimStateScript : StateMachineBehaviour
        // Debug.Log($"AttackAnimStateScript: OnStateEnter - State Info: {dbug}");
         PlayerController playerController = animator.GetComponent<PlayerController>();
         playerController.playerModel.IsAttacking = true;
+        animator.SetBool("IsGuard", false);
+        playerController.GarudExit();
     }
 
 

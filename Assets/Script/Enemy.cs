@@ -23,6 +23,12 @@ public abstract class Enemy : MonoBehaviour
             anim.SetTrigger("Stun");
             stunned = true;
         }
+        if(attack.Type == AttackType.Skill)
+        {
+            anim.SetTrigger("Stun");
+            stunned = true;
+
+        }
         if (currentHealth <= 0)
         {
             Die();

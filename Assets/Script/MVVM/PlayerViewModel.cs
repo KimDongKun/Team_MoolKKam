@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -155,6 +156,47 @@ public class PlayerViewModel : INotifyPropertyChanged
 
   
     }
+
+    public void UseSkill(Animator animator, Rigidbody rb, string type)
+    {
+        if(type == "ParryedAttack")
+        {
+            float dashForce = 45f; // 대시 힘  
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(rb.transform.forward * dashForce, ForceMode.VelocityChange);
+            rb.useGravity = false; // 중력 비활성화
+            playerModel.HasParried = false; // 패링 상태 해제
+        MonoBehaviour mono = rb.GetComponent<MonoBehaviour>();
+        if (mono != null)
+        {
+            mono.StartCoroutine(RestoreGravity(rb, 0.15f));
+        }
+        }
+        if(type == "GuardAttackSkill")
+        {
+            animator.SetTrigger("GuardAttackSkill");
+            float dashForce = 45f; // 대시 힘  
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(rb.transform.forward * dashForce, ForceMode.VelocityChange);
+            rb.useGravity = false; // 중력 비활성화
+            MonoBehaviour mono = rb.GetComponent<MonoBehaviour>();
+            if (mono != null)
+            {
+                mono.StartCoroutine(RestoreGravity(rb, 0.15f));
+            }
+        }
+
+    }
+    private IEnumerator RestoreGravity(Rigidbody rb, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        rb.linearVelocity = Vector3.zero;
+        rb.useGravity = true;
+    }
+
+
+
+
 
     public void GuardPlayer(Animator animator, Rigidbody rb)
     {

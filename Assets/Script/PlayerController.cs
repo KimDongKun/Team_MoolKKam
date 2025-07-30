@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
@@ -19,19 +20,25 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public List<Slash> slashList; // 슬래시 오브젝트 리스트
 
+    
 
 
-    public float maxCheckDistance = 10f;  // 최대 검사 거리
+
+    public float maxCheckDistance = 17f;  // 최대 검사 거리
     public LayerMask groundLayer;        // Ground 전용 레이어 (선택사항)
     public float bufferTime = 0.3f; // 선입력 유지 시간 (초)
     private float AttackBufferTimer = 0f;
+
+    public bool skill1_canSkill = true;
+    public bool skill2_canSkill = true; // 스킬 쿨타임 변수
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        
-        
+
+        if (col == null)
+            col = GetComponent<CapsuleCollider>();
     }
 
     // Update is called once per frame
@@ -88,15 +95,58 @@ public class PlayerController : MonoBehaviour
             playerViewModel.Rolling(player);
         }
 
+        if((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerModel.HasParried )  // 패링후 스킬
+        {
+            playerModel.IsAttacking = true;
+            animator.SetTrigger("ParrySkill");
+            playerViewModel.UseSkill(animator,rb,"ParryedAttack");
+            StartCoroutine(SlashFX(6));
+            StartCoroutine(SlashFX(8));
+            StartCoroutine(EnableAttack("ParrySkill", 0.05f));
+
+        }
+        if((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerModel.IsGuarding  && !playerModel.HasParried && !playerModel.IsAttacking) // 가드 상태 스킬
+        {
+            if (Input.GetKey(KeyCode.W) && skill2_canSkill)
+            {
+                playerModel.IsAttacking = true;
+                StartCoroutine(EnableAttack("UpperSkill", 0.05f));
+                StartCoroutine(SlashFX(4));
+                StartCoroutine(SkillCollDown("UpperSkill", 2));
+                ApplyJumpAttack(0f, 13f, Vector3.up);
+                animator.SetTrigger("UpperSkill");
+                skill2_canSkill = false; // 스킬 쿨타임 시작
+                playerModel.IsGrounded = false;
+            }
+            else if(h!= 0 && skill1_canSkill)
+            {
+
+            playerModel.IsAttacking = true;
+            playerViewModel.UseSkill(animator, rb, "GuardAttackSkill");
+            StartCoroutine(SlashFX(6));
+            StartCoroutine(SlashFX(8));
+            StartCoroutine(EnableAttack("UpperSkill", 0.05f));
+            StartCoroutine(SkillCollDown("GuardAttackSkill",2));    // 나중에 스킬 객체 만들어서 각 쿨타임적용
+            StartCoroutine(EnableAttack("GuardAttackSkill", 0.05f));
+            skill1_canSkill = false; // 스킬 쿨타임 시작   
+
+            }
+
+
+                
+            
+        }
+
         if(Input.GetMouseButton(1) && !playerModel.IsAttacking && !playerModel.IsRolling && playerModel.IsGrounded && !playerModel.IsGuarding)
         {
             animator.SetTrigger("Guard");
             playerViewModel.GuardPlayer(animator,rb);
         }
 
+
         if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && !playerModel.IsAttacking && !playerModel.IsGuarding && playerModel.IsGrounded)  // 일반공격 트리거
         {
-            // Debug.Log($"마우스 왼쪽 누름");
+       
             playerModel.IsAttacking = true;
             animator.SetTrigger("Attack");
             Vector3 direction = playerModel.FacingDirection == 0 ? Vector3.right : Vector3.left;
@@ -108,7 +158,7 @@ public class PlayerController : MonoBehaviour
         if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && !playerModel.IsAttacking && !playerModel.IsGuarding && !playerModel.IsGrounded && !playerModel.HasJumpAttacked) // 공중공격 트리거
         {
             Debug.Log($"Distance to ground: {distance}");
-            if (distance > 3f)
+            if (distance > 2f)
             {
                 playerModel.IsAttacking = true;
                 playerModel.HasJumpAttacked = true;
@@ -119,25 +169,46 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    
+    private CapsuleCollider col;
+    private void OnDrawGizmos()
+    {
+        if (col == null) return;
 
+        Vector3 footPos = col.bounds.center;
+        footPos.y = col.bounds.min.y + 0.05f;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(footPos, footPos + Vector3.down * maxCheckDistance);
+        Gizmos.DrawWireSphere(footPos + Vector3.down * maxCheckDistance, 0.1f);
+    }
+    private float lastDistance = 0f;
 
     float GetDistanceToGround()
     {
+        if (col == null) return lastDistance;
+
         RaycastHit hit;
 
-        // 아래 방향으로 Ray 발사
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, maxCheckDistance,groundLayer))
+        // 발바닥 위치 계산 (Collider 기준)
+        Vector3 footPos = col.bounds.center;
+        footPos.y = col.bounds.min.y + 0.05f;  // 살짝 위에서 시작
+
+        // SphereCast 사용 (두께 있는 레이)
+        if (Physics.SphereCast(footPos, 0.1f, Vector3.down, out hit, maxCheckDistance, groundLayer))
         {
             if (hit.collider.CompareTag("ground"))
             {
-                return hit.distance; // Ground까지의 거리 반환
+                lastDistance = hit.distance;
+                return hit.distance;
             }
         }
 
-        return -1f; // Ground가 감지되지 않았을 경우
+        // 감지 실패 시 이전 값 유지
+        return lastDistance;
     }
 
+
+    
 
 
 public void GarudExit()
@@ -148,6 +219,26 @@ public void GarudExit()
     public string TakeDamage(int damage)
     {
             return    playerViewModel.TakeDamage(damage);
+    }
+    
+    IEnumerator DisAbleHasParryed()
+    {
+        yield return new WaitForSeconds(1f);
+        playerModel.HasParried = false;
+    }
+
+    IEnumerator SkillCollDown(string type,float time)
+    {
+        yield return new WaitForSeconds(time);
+        if(type == "UpperSkill")
+        {
+           skill2_canSkill = true;
+        }
+        else if (type == "GuardAttackSkill")
+        {
+        skill1_canSkill = true;
+            
+        }
     }
 
     public void EnableDamage(string attack)
@@ -160,6 +251,10 @@ public void GarudExit()
         {
             attackModel.Type = AttackType.Parry;
             playerModel.StartAttack(weaponController, attackModel);
+            playerModel.HasParried = true;        
+            StartCoroutine(SlashFX(0));
+            StartCoroutine(DisAbleHasParryed());
+            StartCoroutine(SlashFX(9));
             return;
         }
         if(attack == "Combo_1")
@@ -178,7 +273,7 @@ public void GarudExit()
         {
             ApplyJumpAttack(3f, 45f, Vector3.down);
             StartCoroutine(SlashFX(3));
-         //   StartCoroutine(SlashFX(6));
+            StartCoroutine(SlashFX(7));
         }
         else if (attack == "JumpAttack02")
         {
@@ -191,9 +286,40 @@ public void GarudExit()
             ApplyJumpAttack(3f, 4f, Vector3.up);
             StartCoroutine(SlashFX(5));
         }
+        else if (attack == "ParrySkill")
+        {
+
+        }else if (attack == "GuardAttackSkill")
+        {
+            attackModel.Type = AttackType.Skill; // 스킬 공격 타입 설정
+            playerModel.StartAttack(weaponController, attackModel);
+            StartCoroutine(EndAttack(0.3f,1.5f)); // 공격 종료 후 히트박스 비활성화
+            return;
+        }else if (attack == "UpperSkill")
+        {
+            
+        }
+
 
         playerModel.StartAttack(weaponController, attackModel);
+        StartCoroutine(EndAttack(0.1f,1.2f)); // 공격 종료 후 히트박스 비활성화
+
     }
+
+    IEnumerator EnableAttack(string type,float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EnableDamage(type);
+    }
+
+    IEnumerator EndAttack(float time,float delay)   // 플레이어 공격 히트박스 적용 시간
+    {
+               yield return new WaitForSeconds(delay);
+     //   playerModel.IsAttacking = false;
+             yield return new WaitForSeconds(time);
+        playerModel.EndAttack(weaponController);
+    }
+
     IEnumerator SlashFX(int index)
     {
         slashList[index].slashObject.SetActive(true);
@@ -246,4 +372,5 @@ public class Slash
 {
     public GameObject slashObject; // 슬래시 오브젝트
     public float delay; // 슬래시 지속 시간
+    public Vector3 atPlayerPotion; // 플레이어 위치에서의 슬래시 위치
 }

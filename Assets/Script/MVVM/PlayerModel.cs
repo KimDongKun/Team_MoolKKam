@@ -26,7 +26,9 @@ public class PlayerModel
 
     public bool IsGrounded { get; set; } // = true; // 플레이어가 땅에 있는지 여부
     public bool IsRolling { get; set; } // 플레이어가 구르고 있는지 여부
-    
+
+    public bool HasParried { get; set; } // 플레이어가 방어를 했는지 여부    
+
     public bool HasJumpAttacked { get; set; } // 플레이어가 점프 공격을 했는지 여부
     public bool IsGuarding { get; set; } // 플레이어가 방어 중인지 여부 
 
@@ -48,6 +50,8 @@ public class PlayerModel
     public void StartAttack(WeaponController weapon, AttackModel attackModel)
     {
         weapon.EnableDamage(attackModel);
+
+
     }
     public void EndAttack(WeaponController weapon)
     {

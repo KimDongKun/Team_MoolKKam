@@ -18,7 +18,7 @@ public class GuardScript : StateMachineBehaviour
         PlayerController playerController = animator.GetComponent<PlayerController>();
         animator.SetBool("Block", false);
         playerController.GarudExit();
-        Debug.Log("GuardScript: OnStateMachineExit called, exiting guard state.");
+        //Debug.Log("GuardScript: OnStateMachineExit called, exiting guard state.");
 
         }
     }
@@ -27,6 +27,6 @@ public class GuardScript : StateMachineBehaviour
         PlayerController playerController = animator.GetComponent<PlayerController>();
         animator.SetBool("Block", false);
         playerController.GarudExit();
-        Debug.Log("GuardScript: OnStateMachineExit called, exiting guard state.");
+       // Debug.Log("GuardScript: OnStateMachineExit called, exiting guard state.");
     }
 }
