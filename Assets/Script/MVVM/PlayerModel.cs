@@ -38,8 +38,13 @@ public class PlayerModel
 
     public float rollTime = 1.2f; // 플레이어 구르기 시간
 
+    public bool IsChaged { get; set; } // 플레이어가 충전 중인지 여부   
     public Animator Animator { get; set; } // 플레이어 애니메이터
     public Quaternion TargetRotation { get; set; } // 플레이어 회전값 10
+
+    [SerializeField] public float maxChargeTime = 3f; // 총 차지 시간
+    public float chargeTime = 0f;
+    public int currentLevel = 0;
 
     public GameObject resourceObject;
     public bool IsAttacking { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class WeaponController : MonoBehaviour
 {
@@ -9,17 +10,52 @@ public class WeaponController : MonoBehaviour
     private bool canDamage = false;
     private HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
     public AttackModel attackModel;
+    public Vector3 DefaultRange;
+    private BoxCollider col;
+    public VisualEffect dot;
+    public void Start()
+    {
+        DefaultRange = GetComponent<BoxCollider>().size; // 기본 범위 크기 저장
+        col = GetComponent<BoxCollider>(); 
+        Debug.Log($"WeaponController Start: DefaultRange = {DefaultRange}");
+    }
     public void EnableDamage(AttackModel attack)
     {
         attackModel = attack;
         canDamage = true;
+        UpdateHitbox(attack);
         damagedEnemies.Clear(); // 🧹 공격 시작할 때 맞은 적 목록 초기화
+        
     }
 
     public void DisableDamage()
     {
         canDamage = false;
     }
+
+
+    public void Update()
+    {
+        // 공격 중일 때만 Hitbox를 업데이트
+        GameObject weapone = GameObject.FindWithTag("Weapon");
+        Transform weaponTransform = weapone.transform;
+        Vector3 worldposition = transform.TransformPoint(weaponTransform.position);
+      //   Debug.Log($"WeaponController Update: worldposition = {worldposition}");
+        GameObject goal = GameObject.FindWithTag("Finish");
+        dot.SetVector3("Weapon", weapone.transform.position);
+        dot.SetVector3("pivot", goal.transform.position);
+    }
+
+    public void UpdateHitbox(AttackModel attack)
+    {
+        // 크기 설정
+        col.size = attack.Range;
+
+        // center는 Pivot(0,0,0) 기준이므로
+        // 앞으로 절반, 위로 절반 이동시켜서 앞+위쪽으로 커지도록 설정
+        col.center = new Vector3(0, 0, attack.Range.z / 2f);
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
