@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Linq;
 using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -27,6 +28,17 @@ public class PlayerUIView : MonoBehaviour
     [SerializeField] RawImage npcImage;
     [SerializeField] TMP_Text npcName;
     [SerializeField] TMP_Text npcTalk;
+
+    [Header("Upgrade UI")]
+    [SerializeField] GameObject upgradeUI;
+    [SerializeField] GameObject upgradeEffectUI;
+    [SerializeField] TMP_Text weaponLevel;
+    [SerializeField] TMP_Text Gold;
+    [SerializeField] TMP_Text firstVaule;
+    [SerializeField] TMP_Text secondVaule;
+    [SerializeField] TMP_Text thirdVaule;
+    [SerializeField] TMP_Text forthVaule;
+    [SerializeField] Button UpgradeButton;
 
     public void Init(PlayerViewModel vm)
     {
@@ -60,8 +72,9 @@ public class PlayerUIView : MonoBehaviour
         {
             hpSlider.value = playerViewModel.Health;
         }
-        else if (e.PropertyName == "CompleteGathering")
+        else if (e.PropertyName == "CompleteGathering" || e.PropertyName == "InventoryUpdate")
         {
+            Debug.Log("호출된 프로퍼티:" + e.PropertyName);
            for(int i = 0; i<playerViewModel.itemList.Count; i++)
             {
                 var name = playerViewModel.itemList[i].itemData.ItemName;
@@ -93,6 +106,11 @@ public class PlayerUIView : MonoBehaviour
     public void UpdateUI()
     {
         hpSlider.value = playerViewModel.Health;
+        if (npcViewModel != null)
+        {
+            SetCostData();
+        }
+        
     }
     void UpdateDialogue(string dialogue)
     {
@@ -102,6 +120,30 @@ public class PlayerUIView : MonoBehaviour
             npcViewModel.dialogueIndex = 0;
             npcUI.SetActive(false);
         }
+    }
+    void SetCostData()
+    {
+
+        //weaponLevel.text = playerViewModel.WeaponLevel;
+
+        var gold = playerViewModel.itemList.FirstOrDefault(item => item.itemData.ItemID == "0");
+        var first = playerViewModel.itemList.FirstOrDefault(item => item.itemData.ItemID == "01");
+        var second = playerViewModel.itemList.FirstOrDefault(item => item.itemData.ItemID == "02");
+        var third = playerViewModel.itemList.FirstOrDefault(item => item.itemData.ItemID == "03");
+        var forth = playerViewModel.itemList.FirstOrDefault(item => item.itemData.ItemID == "04");
+
+        int goldQuantity = gold != null ? gold.Quantity : 0;
+        int firstQuantity = first != null ? first.Quantity : 0;
+        int secondQuantity = second != null ? second.Quantity : 0;
+        int thirdQuantity = third != null ? third.Quantity : 0;
+        int forthQuantity = forth != null ? forth.Quantity : 0;
+
+
+        Gold.text = $"{goldQuantity.ToString()}/{npcViewModel.costGold.ToString()}";
+        firstVaule.text = $"{firstQuantity.ToString()}/{npcViewModel.costFirst.ToString()}";
+        secondVaule.text = $"{secondQuantity.ToString()}/{npcViewModel.costSecond.ToString()}";
+        thirdVaule.text = $"{thirdQuantity.ToString()}/{npcViewModel.costThird.ToString()}";
+        forthVaule.text = $"{forthQuantity.ToString()}/{npcViewModel.costFourth.ToString()}";
     }
 
     private void Update()
@@ -128,14 +170,49 @@ public class PlayerUIView : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && playerViewModel.IsNpcMeeting)
         {
             OnNPCPropertyChanged(playerViewModel);
-            npcViewModel.ShowNextDialogue();
             npcImage.texture = npcViewModel.Image;
             npcName.text = npcViewModel.Name;
-            npcUI.SetActive(true);
+
+            if (npcViewModel.isNPCTrader)
+            {
+                Debug.Log("NPC : 거래시작");
+                TradeViewModel tradeViewModel = new TradeViewModel(npcViewModel.tradeModel);
+
+                upgradeUI.SetActive(true);
+                npcViewModel.ShowTradeUI();
+                UpgradeButton.onClick.RemoveAllListeners();
+
+                var costItemList = tradeViewModel.TryTrade(playerViewModel.itemList, npcViewModel.tradeModel.costitemList);
+                if (costItemList)
+                {
+                    Debug.Log("거래조건 충족함.");
+                    UpgradeButton.onClick.AddListener(() => tradeViewModel.Trade(playerViewModel.itemList, npcViewModel.tradeModel.costitemList));
+                    UpgradeButton.onClick.AddListener(() => playerViewModel.UpgradeWeaponPlayer());
+                    UpgradeButton.onClick.AddListener(() => upgradeEffectUI.SetActive(false));
+                    UpgradeButton.onClick.AddListener(() => upgradeEffectUI.SetActive(true));
+                    UpgradeButton.onClick.AddListener(() => playerViewModel.InventoryUpdate());
+                }
+                else
+                {
+                    Debug.Log("거래조건 충족하지못함.");
+                }
+                SetCostData();
+
+
+            }
+            else
+            {
+                npcUI.SetActive(true);
+                npcViewModel.ShowNextDialogue();
+            }
+            
+            
+            
         }
-        else if(Input.GetKeyDown(KeyCode.Escape) && playerViewModel.IsNpcMeeting)
+        else if(Input.GetKeyDown(KeyCode.Escape))
         {
             npcUI.SetActive(false);
+            upgradeUI.gameObject.SetActive(false);
             // playerViewModel.
         }
     }

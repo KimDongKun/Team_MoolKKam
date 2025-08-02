@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TradeModel
 {
+    public WeaponModel weaponModel;
     public PlayerModel playerModel { get; set; }
     public List<InventoryData> costitemList = new List<InventoryData>();
 

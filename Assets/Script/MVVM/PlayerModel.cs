@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerModel
 {
+    public WeaponModel weaponModel;
+
     public string Name { get; set; }
     public float Health { get; set; }
     public float Attack { get; set; }
@@ -26,9 +28,11 @@ public class PlayerModel
     {
         weapon.DisableDamage();
     }
+
     public void StartNPCTrigger(NPCModel npcModel)
     {
         NPCModel = npcModel;
+        npcModel.PlayerModel = this;
         NPCModel.isTrigger = true;
         IsNpcMeeting = true;
     }
@@ -52,6 +56,7 @@ public class PlayerModel
     }
     public PlayerModel(string name) //테스트 셋업용
     {
+        weaponModel = new WeaponModel();
         Name = name;
         Health = 10f;
         Attack = 5f;

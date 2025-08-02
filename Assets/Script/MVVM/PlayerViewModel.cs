@@ -2,15 +2,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerViewModel : INotifyPropertyChanged
 {
     private PlayerModel playerModel;
+    public string WeaponLevel => $"LV {playerModel.weaponModel.UpgradeLevel}";
     public string HealthText => $"HP: {playerModel.Health}";
     public Color HealthColor => playerModel.Health < 30 ? Color.red : Color.green;
 
-    public NPCModel npcModel=>playerModel.NPCModel;
+    public NPCModel npcModel => playerModel.NPCModel;
     public ItemData AddItemData => playerModel.CurrentItem;
     public List<InventoryData> itemList => playerModel.GetItemList;
     public bool IsGathering => playerModel.IsGathering;
@@ -44,19 +46,31 @@ public class PlayerViewModel : INotifyPropertyChanged
             }
         }
     }
-    public void AddItem(ItemData data)
+    public void AddItem(ItemData data, int Quantity = 0)
     {
+        Debug.Log("획득한 아이템 갯수 : " + Quantity);
         var item = itemList.FirstOrDefault(i => i.itemData.ItemName == data.ItemName);
+        var resultQuantiy = Quantity != 0 ? Quantity : 0;
         if (item != null)
         {
-            item.Quantity += data.MaxStack;//MaxStack대신 랜덤 갯수값 (1~3)사이의 값으로 수정.
+            Debug.Log(data.ItemName + " : " + Quantity);
+            item.Quantity += resultQuantiy;
+            //item.Quantity += data.MaxStack;//MaxStack대신 랜덤 갯수값 (1~3)사이의 값으로 수정.
         }
         else
         {
-            
-            itemList.Add(new InventoryData(data, data.MaxStack));
+            itemList.Add(new InventoryData(data, resultQuantiy));
         }
+        InventoryUpdate();
     }
+    public void UpgradeWeaponPlayer()
+    {
+        WeaponViewModel weaponViewModel = new WeaponViewModel(playerModel.weaponModel);
+        weaponViewModel.UpgradeWeapon();
+        
+        InventoryUpdate();
+    }
+    public void InventoryUpdate() => OnPropertyChanged("InventoryUpdate");
    
     public void TakeDamage(int dmg)
     {

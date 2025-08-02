@@ -8,6 +8,7 @@ public class ItemData : ScriptableObject
     public Sprite Icon;
     public int MaxStack = 1;
 }
+[System.Serializable]
 public class InventoryData
 {
     public ItemData itemData;

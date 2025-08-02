@@ -6,11 +6,10 @@ using System.Collections.Generic;
 public class WeaponViewModel : INotifyPropertyChanged
 {
     private WeaponModel weaponModel;
-
     
     public void UpgradeWeapon()
     {
-        weaponModel.UpgradeLevel++;
+        weaponModel.UpgradeLevel+=1;
         weaponModel.Damage = 10 * weaponModel.UpgradeLevel;
     }
     public WeaponViewModel(WeaponModel model)

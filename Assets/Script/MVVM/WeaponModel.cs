@@ -10,6 +10,6 @@ public class WeaponModel
     {
         Name = "Sword";
         Damage = 10 * UpgradeLevel;
-        UpgradeLevel = 0;
+        UpgradeLevel = 1;
     }
 }
