@@ -91,6 +91,8 @@ public class PlayerModel
     }
     public PlayerModel(string name) //테스트 셋업용
     {
+        weaponModel = new WeaponModel();
+
         Name = name;
         Health = 100f;
         Attack = 5f;
