@@ -1,24 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 public class GameManager : MonoBehaviour
 {
     public PlayerController player;
     public PlayerUIView playerUIView;
-    public PlayerController player2;
-    
+    public List<InventoryData> playerInventory;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //player.playerModel = new PlayerModel("플레이어A");
-        //player.playerModel.Animator = player.GetComponent<Animator>();
-        //player.playerViewModel = new PlayerViewModel(player.playerModel);
-        //playerUIView.Init(player.playerViewModel);
+        
+        player.playerModel = new PlayerModel("플레이어A");
+        player.playerViewModel = new PlayerViewModel(player.playerModel);
+        player.playerModel.Animator = player.GetComponent<Animator>();
+        playerUIView.Init(player.playerViewModel);
+        for (int i = 0; i < playerInventory.Count; i++)
+            player.playerViewModel.AddItem(playerInventory[i].itemData);
 
-        player2.playerModel = new PlayerModel("플레이어B");
-        player2.playerModel.Animator = player2.GetComponent<Animator>();
-        player2.playerViewModel = new PlayerViewModel(player2.playerModel);
-        playerUIView.Init(player2.playerViewModel);
     }
 
 }
