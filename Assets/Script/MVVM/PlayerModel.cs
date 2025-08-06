@@ -6,7 +6,8 @@ using UnityEngine.Windows;
 
 public class PlayerModel
 {
-    
+    public NPCModel NPCModel { get; set; }
+    public WeaponModel weaponModel { get; set; }
     public string Name { get; set; }
     public float Health { get; set; }
     public float Attack { get; set; }
@@ -49,6 +50,7 @@ public class PlayerModel
     public GameObject resourceObject;
     public bool IsAttacking { get; set; }
     public bool IsGathering { get; private set; }
+    public bool IsNpcMeeting { get; private set; }
     public ItemData CurrentItem { get; private set; }
     public List<InventoryData> GetItemList = new List<InventoryData>();
 
@@ -61,6 +63,18 @@ public class PlayerModel
     public void EndAttack(WeaponController weapon)
     {
         weapon.DisableDamage();
+    }
+    public void StartNPCTrigger(NPCModel npcModel)
+    {
+        NPCModel = npcModel;
+        npcModel.PlayerModel = this;
+        NPCModel.isTrigger = true;
+        IsNpcMeeting = true;
+    }
+    public void CompleteNPCTrigger()
+    {
+        NPCModel = null;
+        IsNpcMeeting = false;
     }
     public void StartGathering(ItemData ore, GameObject obj)
     {

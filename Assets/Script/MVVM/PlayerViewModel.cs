@@ -10,6 +10,8 @@ using UnityEngine;
 public class PlayerViewModel : INotifyPropertyChanged
 {
     private PlayerModel playerModel;
+    public string WeaponLevel => $"LV {playerModel.weaponModel.UpgradeLevel}";
+    public NPCModel npcModel => playerModel.NPCModel;
     public string HealthText => $"HP: {playerModel.Health}";
     public Color HealthColor => playerModel.Health < 30 ? Color.red : Color.green;
     private float rollTimer = 0f;
@@ -20,6 +22,7 @@ public class PlayerViewModel : INotifyPropertyChanged
     public ItemData AddItemData => playerModel.CurrentItem;
     public List<InventoryData> itemList => playerModel.GetItemList;
     public bool IsGathering => playerModel.IsGathering;
+    public bool IsNpcMeeting => playerModel.IsNpcMeeting;
     public PlayerViewModel(PlayerModel model)
     {
         playerModel = model;
@@ -63,20 +66,31 @@ public class PlayerViewModel : INotifyPropertyChanged
             // 플레이어 사망 처리 로직 추가 (예: 게임 오버 화면 표시 등)
         }
     }
-    public void AddItem(ItemData data)
+    public void AddItem(ItemData data, int Quantity = 0)
     {
+        Debug.Log("획득한 아이템 갯수 : " + Quantity);
         var item = itemList.FirstOrDefault(i => i.itemData.ItemName == data.ItemName);
+        var resultQuantiy = Quantity != 0 ? Quantity : 0;
         if (item != null)
         {
-            item.Quantity += data.MaxStack;//MaxStack대신 랜덤 갯수값 (1~3)사이의 값으로 수정.
+            Debug.Log(data.ItemName + " : " + Quantity);
+            item.Quantity += resultQuantiy;
+            //item.Quantity += data.MaxStack;//MaxStack대신 랜덤 갯수값 (1~3)사이의 값으로 수정.
         }
         else
         {
-            
-            itemList.Add(new InventoryData(data, data.MaxStack));
+            itemList.Add(new InventoryData(data, resultQuantiy));
         }
+        InventoryUpdate();
     }
+    public void UpgradeWeaponPlayer()
+    {
+        WeaponViewModel weaponViewModel = new WeaponViewModel(playerModel.weaponModel);
+        weaponViewModel.UpgradeWeapon();
 
+        InventoryUpdate();
+    }
+    public void InventoryUpdate() => OnPropertyChanged("InventoryUpdate");
 
     private Vector3 rollStartPos;
     private Vector3 rollTargetPos;
