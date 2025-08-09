@@ -270,6 +270,10 @@ public class PlayerViewModel : INotifyPropertyChanged
                 return "block"; // 가드 중에는 데미지를 받지 않음
             }
         }
+        if (playerModel.IsRolling)
+        {
+            return "roll"; // 구르는 중에는 데미지를 받지 않음    
+        }
         playerModel.Health -= dmg;
        // Debug.Log("데미지 받음 :" + playerModel.Health);
         OnPropertyChanged("Health");

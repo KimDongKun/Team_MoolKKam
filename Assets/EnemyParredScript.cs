@@ -17,8 +17,7 @@ public class EnemyParredScript : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Enemy enemy = animator.GetComponent<Enemy>();
-        enemy.ResetStun();
+;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

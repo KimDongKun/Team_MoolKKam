@@ -338,7 +338,7 @@ public void GarudExit()
     
     IEnumerator DisAbleHasParryed()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
         playerModel.HasParried = false;
     }
 
@@ -375,6 +375,7 @@ public void GarudExit()
             StartCoroutine(SlashFX(0));
             StartCoroutine(DisAbleHasParryed());
             StartCoroutine(SlashFX(9));
+            StartCoroutine(EndAttack(0.3f, 1.5f)); // 공격 종료 후 히트박스 비활성화
             return;
         }
         if (attack == "Combo_1")
@@ -424,7 +425,8 @@ public void GarudExit()
         }
         else if (attack == "UpperSkill")
         {
-
+            attackModel.Type = AttackType.Skill; // 스킬 공격 타입 설정
+            attackModel.Range = new Vector3(1f, 1f, 1.4f); // 상향 공격 범위 설정
         }
         else if (attack == "ChargeAttackSkill")
         {

@@ -66,7 +66,7 @@ public class PlayerUIView : MonoBehaviour
         else if (e.PropertyName == "Health")
         {
             hpSlider.value = playerViewModel.Health;
-          //  Debug.Log(playerViewModel.Health);
+            //  Debug.Log(playerViewModel.Health);
         }
         else if(e.PropertyName == "TakeDamage")
         {
