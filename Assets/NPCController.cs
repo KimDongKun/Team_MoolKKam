@@ -8,7 +8,7 @@ public class NPCController : MonoBehaviour
 
     public NPCModel npcModel;
     public InventoryData[] itemData;
-
+    public GameObject tradeUI;
 
     public Texture2D npcImage;
     public string npcName;
@@ -21,6 +21,12 @@ public class NPCController : MonoBehaviour
         var itemDataList = itemData.ToList();
         npcModel = new NPCModel(npcName, npcImage, npcTalks, isNpcTrader, itemDataList);
         npcModel.isNPCTrader = isNpcTrader;
+
+        if (isNpcTrader)
+        {
+            npcModel.TradeUI = tradeUI;
+        }
+
         Debug.Log(npcName + npcModel.isNPCTrader);
     }
 

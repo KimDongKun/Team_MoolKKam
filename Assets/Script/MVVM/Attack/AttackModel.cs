@@ -9,8 +9,8 @@ public class AttackModel
     public AttackType Type; // Basic, Skill, Parry, Counter
     public float Cooldown;
     public string AnimationTrigger;
-    
 
+   
 }
 public class AttackModelList
 {

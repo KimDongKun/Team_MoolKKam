@@ -51,7 +51,7 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} 사망!");
-        Destroy(gameObject); // 또는 애니메이션 처리 등
+        Destroy(this.gameObject); // 또는 애니메이션 처리 등
     }
     public abstract void ResetStun(); // 공격조건 만족할시 때리기
     protected abstract bool ShouldAttack(); // 공격조건 만족할시 때리기

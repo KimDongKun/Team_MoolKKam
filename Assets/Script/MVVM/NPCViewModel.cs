@@ -7,6 +7,8 @@ public class NPCViewModel
 {
     private NPCModel npcModel;
     public TradeModel tradeModel => npcModel.tradeModel;
+
+    public GameObject tradeUI => npcModel.TradeUI;
     public bool isTrigger => npcModel.isTrigger;
     public bool isNPCTrader => npcModel.isNPCTrader;
 

@@ -40,6 +40,9 @@ public class PlayerUIView : MonoBehaviour
     [SerializeField] TMP_Text forthVaule;
     [SerializeField] Button UpgradeButton;
 
+    [Header("Trader UI")]
+    [SerializeField] GameObject tradeUI;
+
     public void Init(PlayerViewModel vm)
     {
         playerViewModel = vm;
@@ -178,7 +181,7 @@ public class PlayerUIView : MonoBehaviour
                 Debug.Log("NPC : 거래시작");
                 TradeViewModel tradeViewModel = new TradeViewModel(npcViewModel.tradeModel);
 
-                upgradeUI.SetActive(true);
+                npcViewModel.tradeUI.SetActive(true);
                 npcViewModel.ShowTradeUI();
                 UpgradeButton.onClick.RemoveAllListeners();
 
@@ -213,6 +216,7 @@ public class PlayerUIView : MonoBehaviour
         {
             npcUI.SetActive(false);
             upgradeUI.gameObject.SetActive(false);
+            tradeUI.gameObject.SetActive(false);
             // playerViewModel.
         }
     }
