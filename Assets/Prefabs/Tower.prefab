@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 5532661651773153024}
   m_Layer: 0
   m_Name: Tower
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -484,6 +484,7 @@ MonoBehaviour:
   hpUI: {fileID: 8758726025015419844}
   currentHP: 3
   maxHP: 3
+  isInstall: 0
   Damage: 10
   detectionRange: 15
   firePoint: {fileID: 1065359247812268305}

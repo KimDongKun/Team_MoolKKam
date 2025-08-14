@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildObject : MonoBehaviour
+public class BuildObject : MonoBehaviour, IDamageable
 {
     public Slider hpUI;
     public int currentHP;
@@ -30,5 +30,10 @@ public class BuildObject : MonoBehaviour
     private void DistroyObject()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void TakeDamage(int amount)
+    {
+        GetDamage();
     }
 }

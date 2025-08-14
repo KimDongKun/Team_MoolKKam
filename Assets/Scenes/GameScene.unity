@@ -819,7 +819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8163512465336316521, guid: b5041a729e8368f4182b36493a5d17d4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8163512465336316521, guid: b5041a729e8368f4182b36493a5d17d4, type: 3}
       propertyPath: m_TagString
@@ -4007,7 +4007,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97887c41e15ce5347b43ae5567014100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
   targetTag: enemy
   DefaultRange: {x: 0, y: 0, z: 0}
   dot: {fileID: 1250332459}
@@ -4054,6 +4053,61 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5747233018861669681}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &667027861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 667027863}
+  - component: {fileID: 667027862}
+  m_Layer: 0
+  m_Name: Meteo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &667027862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667027861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4010ad246d931241a79db977015457a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meteorPrefab: {fileID: 1069480365728279185, guid: bf61ba711fd349e49bacec88638e9fe7, type: 3}
+  initialSize: 20
+  topY: 15
+  xRange: {x: -10, y: 10}
+  respawnDelay: 0.2
+  meteorSpeed: 8
+  randomHorizontal: 1
+  fixedDirX: 1
+  autoSpawn: 0
+  spawnDelayMin: 4
+  spawnDelayMax: 7
+--- !u!4 &667027863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667027861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -47.45903, y: 7.9010296, z: -30.359238}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &669903162
 PrefabInstance:
@@ -4302,6 +4356,54 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!1 &712950465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 712950466}
+  - component: {fileID: 712950467}
+  m_Layer: 0
+  m_Name: NightWave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &712950466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712950465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -47.45903, y: 7.9010296, z: -30.359238}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &712950467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712950465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbb86772b9b369e4aaff640d1c2d2ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meteorPool: {fileID: 667027862}
+  dayDuration: 2
+  nightDuration: 180
+  currentDay: 1
 --- !u!1 &717506329
 GameObject:
   m_ObjectHideFlags: 0
@@ -5212,7 +5314,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97887c41e15ce5347b43ae5567014100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
   targetTag: enemy
   DefaultRange: {x: 0, y: 0, z: 0}
   dot: {fileID: 0}
@@ -5499,6 +5600,52 @@ Transform:
   - {fileID: 1449001887}
   m_Father: {fileID: 5747233018861669681}
   m_LocalEulerAnglesHint: {x: 9.992, y: -36.678, z: -72.446}
+--- !u!1 &882878313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 882878314}
+  - component: {fileID: 882878315}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &882878314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882878313}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -47.45903, y: 7.9010296, z: -30.359238}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &882878315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882878313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95aeb05312a564542b315b09e4b365dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 4507722973445348299, guid: e7e31dd9696741040a15ad7450b70332, type: 3}
+  initialSize: 50
 --- !u!114 &884195164 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2737727756526638659, guid: 7c0053447138fc54cbb56814eaf020c1, type: 3}
@@ -6353,17 +6500,33 @@ MonoBehaviour:
   stunned: 0
   hpSlider: {fileID: 0}
   anim: {fileID: 0}
+  spawned: 1
+  player: {fileID: 0}
+  slider: {fileID: 0}
   moveSpeed: 2
   attackRange: 4.5
+  attackSpeed: 0.05
   attackCooldown: 5
   attackPoint: {fileID: 318273065}
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
+  buildingLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  statueLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  aggroRadius: 6
+  buildingDetectRadius: 3
   stopDistance: 1.5
   attackBoxSize: {x: 0, y: 0, z: 0}
   animator: {fileID: 0}
   attackAreaObject: {fileID: 318273065}
+  buildingTag: Building
+  statueTag: Statue
+  deaggroRadius: 12
+  retargetCooldown: 0.3
 --- !u!4 &1083101725 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8791395880036493523, guid: b5041a729e8368f4182b36493a5d17d4, type: 3}
@@ -13173,6 +13336,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5971957152001033400, guid: 1a1abe3828bbc244aa093dbe098a2b69, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 6569406830163341451, guid: 1a1abe3828bbc244aa093dbe098a2b69, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -13365,6 +13532,10 @@ PrefabInstance:
     - target: {fileID: 4798912229045687288, guid: ecc7790c349225c45b50e39a7580b014, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798912229045687288, guid: ecc7790c349225c45b50e39a7580b014, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 5232840018118902677, guid: ecc7790c349225c45b50e39a7580b014, type: 3}
       propertyPath: m_AnchorMax.x
@@ -13669,3 +13840,6 @@ SceneRoots:
   - {fileID: 121389099}
   - {fileID: 1278258938}
   - {fileID: 4946988047666632299}
+  - {fileID: 667027863}
+  - {fileID: 882878314}
+  - {fileID: 712950466}
