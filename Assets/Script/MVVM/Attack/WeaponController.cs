@@ -2,10 +2,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.VFX;
+using System.Collections;
 
 public class WeaponController : MonoBehaviour
 {
-    public int damage = 10;
+    private int damage = 20;
     public string targetTag = "enemy";
     private bool canDamage = false;
     private HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
@@ -23,9 +24,15 @@ public class WeaponController : MonoBehaviour
     {
         attackModel = attack;
         canDamage = true;
+        
         UpdateHitbox(attack);
         damagedEnemies.Clear(); // 🧹 공격 시작할 때 맞은 적 목록 초기화
-        
+        StartCoroutine(DamageTime(0.1f)); // 공격 가능 시간 설정
+    }
+    IEnumerator DamageTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        canDamage = false; // 일정 시간 후 공격 불가
     }
 
     public void DisableDamage()

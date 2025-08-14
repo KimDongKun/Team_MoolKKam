@@ -42,7 +42,7 @@ public class AttackAnimStateScript : StateMachineBehaviour
     override public void OnStateMachineExit(Animator animator, int stateMachinePathHash)
 
     {
-        Debug.Log("AttackAnimStateScript: OnStateMachineExit called, exiting attack state.");
+        //Debug.Log("AttackAnimStateScript: OnStateMachineExit called, exiting attack state.");
         PlayerController playerController = animator.GetComponent<PlayerController>();
         playerController.DisableDamage();
     }
