@@ -363,7 +363,7 @@ public void GarudExit()
     {
         weaponEffact.SetBool("Attack", true);
         playerModel.IsAttacking = true;
-        Debug.Log($"EnableDamage called with attack: {attack}");
+       // Debug.Log($"EnableDamage called with attack: {attack}");
         AttackModel attackModel = new AttackModel();
         attackModel.Type = AttackType.Basic; // 기본 공격 타입 설정
         attackModel.Range = weaponController.DefaultRange; // 기본 공격 범위 설정

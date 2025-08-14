@@ -17,11 +17,11 @@ public class NPCController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(npcName + npcModel.isNPCTrader);
+     //   Debug.Log(npcName + npcModel.isNPCTrader);
         var itemDataList = itemData.ToList();
         npcModel = new NPCModel(npcName, npcImage, npcTalks, isNpcTrader, itemDataList);
         npcModel.isNPCTrader = isNpcTrader;
-        Debug.Log(npcName + npcModel.isNPCTrader);
+      //  Debug.Log(npcName + npcModel.isNPCTrader);
     }
 
 
