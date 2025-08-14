@@ -9642,7 +9642,7 @@ GameObject:
   - component: {fileID: 1487019192}
   - component: {fileID: 1487019191}
   - component: {fileID: 1487019190}
-  m_Layer: 1
+  m_Layer: 3
   m_Name: Cube
   m_TagString: ground
   m_Icon: {fileID: 0}
