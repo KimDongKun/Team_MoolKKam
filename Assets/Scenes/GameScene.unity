@@ -8998,7 +8998,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9805,7 +9805,7 @@ GameObject:
   - component: {fileID: 1487019192}
   - component: {fileID: 1487019191}
   - component: {fileID: 1487019190}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube
   m_TagString: ground
   m_Icon: {fileID: 0}
@@ -13781,7 +13781,7 @@ MonoBehaviour:
   maxCheckDistance: 17
   groundLayer:
     serializedVersion: 2
-    m_Bits: 2
+    m_Bits: 64
   bufferTime: 0.3
   skill1_canSkill: 1
   skill2_canSkill: 1

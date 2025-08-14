@@ -300,8 +300,9 @@ public class PlayerController : MonoBehaviour
 
     float GetDistanceToGround()
     {
+        Debug.Log("GetDistanceToGround called");
         if (col == null) return lastDistance;
-
+        Debug.Log("GetDistanceToGround: CapsuleCollider found");
         RaycastHit hit;
 
         // 발바닥 위치 계산 (Collider 기준)
