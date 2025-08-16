@@ -67,46 +67,40 @@ public class TradeViewModel : INotifyPropertyChanged
         switch (weaponModel.UpgradeLevel)
         {
             case 1:
-                costItemList[0].Quantity = 100;
+                costItemList[0].Quantity = 0;
                 costItemList[1].Quantity = 20;
                 costItemList[2].Quantity = 10;
                 costItemList[3].Quantity = 5;
-                costItemList[4].Quantity = 1;
                 return costItemList;
             case 2:
-                costItemList[0].Quantity = 300;
+                costItemList[0].Quantity = 0;
                 costItemList[1].Quantity = 40;
                 costItemList[2].Quantity = 20;
                 costItemList[3].Quantity = 10;
-                costItemList[4].Quantity = 3;
                 return costItemList;
             case 3:
-                costItemList[0].Quantity = 500;
+                costItemList[0].Quantity = 0;
                 costItemList[1].Quantity = 80;
                 costItemList[2].Quantity = 40;
                 costItemList[3].Quantity = 20;
-                costItemList[4].Quantity = 5;
                 return costItemList;
             case 4:
-                costItemList[0].Quantity = 1000;
+                costItemList[0].Quantity = 0;
                 costItemList[1].Quantity = 150;
                 costItemList[2].Quantity = 60;
                 costItemList[3].Quantity = 30;
-                costItemList[4].Quantity = 10;
                 return costItemList;
             case 5:
-                costItemList[0].Quantity = 3000;
+                costItemList[0].Quantity = 0;
                 costItemList[1].Quantity = 200;
                 costItemList[2].Quantity = 150;
                 costItemList[3].Quantity = 50;
-                costItemList[4].Quantity = 20;
                 return costItemList;
             default:
-                costItemList[0].Quantity = 10000;
+                costItemList[0].Quantity = 0;
                 costItemList[1].Quantity = 300;
                 costItemList[2].Quantity = 200;
                 costItemList[3].Quantity = 100;
-                costItemList[4].Quantity = 30;
                 return costItemList;
         }
     }

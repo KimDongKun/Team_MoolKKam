@@ -43,6 +43,9 @@ public class PlayerUIView : MonoBehaviour
     [Header("Trader UI")]
     [SerializeField] GameObject tradeUI;
 
+    [Header("Build UI")]
+    [SerializeField] BuildController buildController;
+
     public void Init(PlayerViewModel vm)
     {
         playerViewModel = vm;
@@ -126,8 +129,8 @@ public class PlayerUIView : MonoBehaviour
     }
     void SetCostData()
     {
-
-        //weaponLevel.text = playerViewModel.WeaponLevel;
+        Debug.Log("현재 레벨" + playerViewModel.WeaponLevel);
+        weaponLevel.text = playerViewModel.WeaponLevel;
 
         var gold = playerViewModel.itemList.FirstOrDefault(item => item.itemData.ItemID == "0");
         var first = playerViewModel.itemList.FirstOrDefault(item => item.itemData.ItemID == "01");
@@ -217,6 +220,7 @@ public class PlayerUIView : MonoBehaviour
             npcUI.SetActive(false);
             upgradeUI.gameObject.SetActive(false);
             tradeUI.gameObject.SetActive(false);
+            buildController.buildUI.SetActive(false);
             // playerViewModel.
         }
     }

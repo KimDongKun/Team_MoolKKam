@@ -42,6 +42,7 @@ public class ResourceController : MonoBehaviour
     {
         if (other.TryGetComponent<PlayerController>(out player))
         {
+            player.playerModel.CompleteGathering();
             Debug.Log("ÀÚ¿ø È¹µæ À¯¹« bool => false : " + type.ToString());
         }
 

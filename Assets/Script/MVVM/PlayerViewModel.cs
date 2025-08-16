@@ -282,10 +282,11 @@ public class PlayerViewModel : INotifyPropertyChanged
     public void CompleteGathering()
     {
         Debug.Log("자원채취 완료"+ AddItemData.ItemName);
-        AddItem(AddItemData);
+        AddItem(AddItemData,3);
         playerModel.resourceObject.SetActive(false);
         
         playerModel.CompleteGathering();
+        InventoryUpdate();
         OnPropertyChanged("CompleteGathering");
     }
 

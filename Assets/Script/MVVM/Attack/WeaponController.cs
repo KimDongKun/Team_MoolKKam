@@ -6,7 +6,7 @@ using System.Collections;
 
 public class WeaponController : MonoBehaviour
 {
-    private int damage = 20;
+    public WeaponModel weaponModel;
     public string targetTag = "enemy";
     private bool canDamage = false;
     private HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
@@ -75,7 +75,7 @@ public class WeaponController : MonoBehaviour
         var health = other.GetComponent<EnemyController>();
         if (health != null)
         {
-            health.TakeDamage(damage,attackModel);
+            health.TakeDamage((int)weaponModel.Damage, attackModel);
             damagedEnemies.Add(other.gameObject); // 맞은 적 등록
         }
     }
