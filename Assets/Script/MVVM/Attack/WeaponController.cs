@@ -69,8 +69,19 @@ public class WeaponController : MonoBehaviour
         string objectTeg = other.tag;
         if (!canDamage) return;
        // Debug.Log($"WeaponController OnTriggerStay: {other.gameObject.name} with tag {other.tag}");
-        if (!objectTeg.Equals(targetTag)) return;
         if (damagedEnemies.Contains(other.gameObject)) return; // 이미 맞은 적은 무시
+        if (objectTeg.Equals("boss")) {
+         //   Debug.Log($"WeaponController OnTriggerStay: Hit Boss {other.gameObject.name}");
+            var bosshealth = other.GetComponent<BossController>();
+            if (bosshealth != null)
+            {
+                bosshealth.TakeDamage(attackModel.Damage);
+                damagedEnemies.Add(other.gameObject); // 맞은 적 등록
+            }
+            return; // 보스는 따로 처리하므로 여기서 종료
+        }
+
+        if (!objectTeg.Equals(targetTag)) return;
         // 데미지 처리
         var health = other.GetComponent<EnemyController>();
         if (health != null)

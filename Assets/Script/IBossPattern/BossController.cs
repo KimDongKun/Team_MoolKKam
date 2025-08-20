@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
@@ -9,10 +10,11 @@ public class BossController : MonoBehaviour
     public List<IBossPattern> patternList;
 
     public GameObject BossUI;
-
+    public Slider healthUi;
     private float nextAttackTime = 0;
     private GameObject selectPattern;
-
+    private float MaxHp = 500f;
+    private float health = 500f;
     public bool isAlive = true;
 
     private void Start()
@@ -22,7 +24,23 @@ public class BossController : MonoBehaviour
         {
             patternList.Add(gameObjects[i].GetComponent<IBossPattern>());
         }
+        healthUi.maxValue = MaxHp;
+        healthUi.value = MaxHp; // Assuming max health is 500
     }
+
+    public void TakeDamage(float damage)
+    {
+        if (!isAlive) return;
+        health -= damage;
+        healthUi.value = health; // Assuming max health is 500   
+        Debug.Log($"보스 체력: {health}");
+        if (health <= 0)
+        {
+            isAlive = false;
+            BossUI?.SetActive(false);
+            Debug.Log("보스가 죽었습니다.");
+        }
+    }   
     private void Update()
     {
        

@@ -9,6 +9,7 @@ TagManager:
   - Weapon
   - Building
   - Statue
+  - boss
   layers:
   - Default
   - TransparentFX
