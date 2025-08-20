@@ -11,5 +11,6 @@ public class WeaponModel
         Name = "Sword";
         UpgradeLevel = 1;
         Damage = 10 * UpgradeLevel;
+        
     }
 }
