@@ -47,11 +47,39 @@ public class PlayerViewModel : INotifyPropertyChanged
         {
             if (playerModel.Health != value)
             {
-                playerModel.Health = value;
+                if(value >= playerModel.MaxHealth)
+                {
+                    playerModel.Health = playerModel.MaxHealth; // 최대 체력을 초과하지 않도록 설정
+                }
+                else
+                {
+                    playerModel.Health = value;
+                }
                 OnPropertyChanged("Health");
             }
         }
     }
+    public float Mp
+    {
+        get { return playerModel.MP; }
+        set
+        {
+                Debug.Log($"Mp : {value}");
+            if (playerModel.MP != value)
+            {
+                if(value >= playerModel.MaxMP)
+                {
+                    playerModel.MP = playerModel.MaxMP; // 최대 마나를 초과하지 않도록 설정
+                }
+                else
+                {
+                    playerModel.MP = value;
+                }
+                OnPropertyChanged("Mp");
+            }
+        }
+    }
+
     public void ReceiveDamage(float damage)
     {
         // 모델에서 체력 감소 처리
@@ -170,6 +198,10 @@ public class PlayerViewModel : INotifyPropertyChanged
 
   
     }
+    public bool canSkill()
+    {
+        return playerModel.MP >= 5f;
+    }
 
     public void UseSkill(Animator animator, Rigidbody rb, string type)
     {
@@ -276,9 +308,27 @@ public class PlayerViewModel : INotifyPropertyChanged
         }
         playerModel.Health -= dmg;
        // Debug.Log("데미지 받음 :" + playerModel.Health);
+       playerModel.IsDamaged = true; // 데미지를 받았음을 표시
+        playerModel.Animator.SetTrigger("TakeDamege");
         OnPropertyChanged("Health");
+        // 일정 시간 후 false 로 되돌림
+        MonoBehaviour mono = playerModel.Animator.GetComponent<MonoBehaviour>();
+        if (mono != null)
+        {
+            mono.StartCoroutine(ResetDamagedFlag(0.5f)); // 0.5초 후 해제
+        }
+
+
         return "hit";
     }
+
+    private IEnumerator ResetDamagedFlag(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        playerModel.IsDamaged = false;
+    }
+
+
     public void CompleteGathering()
     {
         Debug.Log("자원채취 완료"+ AddItemData.ItemName);

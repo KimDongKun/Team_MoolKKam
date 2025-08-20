@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public VisualEffect chargeEffect;
 
 
+    public List<GameObject> enableUi; // 활성화할 UI 오브젝트 리스트
+
     public float maxCheckDistance = 17f;  // 최대 검사 거리
     public LayerMask groundLayer;        // Ground 전용 레이어 (선택사항)
     public float bufferTime = 0.3f; // 선입력 유지 시간 (초)
@@ -48,6 +50,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    
+
+        if (playerModel.IsDamaged)
+        {
+            return;
+        }
             float h = Input.GetAxisRaw("Horizontal");
         if (h != 0)
         {
@@ -58,6 +67,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("PressMove", false);
 
         }
+
         if (Input.GetMouseButton(0) || (AttackBufferTimer != 0 && AttackBufferTimer < bufferTime))
         {
             animator.SetBool("OnLeftClick", true);
@@ -78,6 +88,15 @@ public class PlayerController : MonoBehaviour
         }
         animator.SetBool("IsAttacking", playerModel.IsAttacking);
 
+        foreach (GameObject ob in enableUi)
+        {
+            if (ob.activeSelf)
+            {
+                animator.SetFloat("Speed", 0f);
+                return;
+            }
+        }
+
 
         if (!playerModel.IsAttacking && !playerModel.IsGuarding && !playerModel.IsRolling ||
     (playerModel.IsAttacking && !playerModel.IsGrounded))
@@ -90,7 +109,7 @@ public class PlayerController : MonoBehaviour
         }
             playerViewModel.JumpPlayer(Input.GetKeyDown(KeyCode.Space), animator, rb); //플레이어 점프함수
  
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !playerModel.IsRolling && playerModel.IsPlayerMoving  )
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !playerModel.IsRolling && playerModel.IsPlayerMoving && playerModel.IsGrounded  )
         {
             playerViewModel.RollPlayer(animator,rb); //플레이어 구르기
         }
@@ -111,7 +130,7 @@ public class PlayerController : MonoBehaviour
         }
         if(((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerModel.IsGuarding  && !playerModel.HasParried && !playerModel.IsAttacking) ||(Input.GetKey(KeyCode.S) && playerModel.IsGuarding && !playerModel.IsAttacking && !playerModel.HasParried)) // 가드 상태 스킬
         {
-            if (Input.GetKey(KeyCode.W) && skill2_canSkill)
+            if (Input.GetKey(KeyCode.W) && skill2_canSkill && playerViewModel.canSkill())
             {
                 playerModel.IsAttacking = true;
                 StartCoroutine(EnableAttack("UpperSkill", 0.05f));
@@ -121,8 +140,9 @@ public class PlayerController : MonoBehaviour
                 animator.SetTrigger("UpperSkill");
                 skill2_canSkill = false; // 스킬 쿨타임 시작
                 playerModel.IsGrounded = false;
+                playerViewModel.Mp -= 5;
             }
-            else if(h!= 0 && skill1_canSkill && (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
+            else if(h!= 0 && skill1_canSkill && (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerViewModel.canSkill())
             {
 
             playerModel.IsAttacking = true;
@@ -132,10 +152,12 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(SkillCollDown("GuardAttackSkill",2));    // 나중에 스킬 객체 만들어서 각 쿨타임적용
             StartCoroutine(EnableAttack("GuardAttackSkill", 0.05f));
             skill1_canSkill = false; // 스킬 쿨타임 시작   
+                playerViewModel.Mp -= 5;
 
 
 
-            }else if (Input.GetKey(KeyCode.S) && skill3_canSkill && !playerModel.IsChaged)
+            }
+            else if (Input.GetKey(KeyCode.S) && skill3_canSkill && !playerModel.IsChaged && playerViewModel.canSkill())
             {
 
                 int a = playerModel.FacingDirection; // 플레이어가 바라보는 방향 0: 오른쪽, 1: 왼쪽
@@ -148,6 +170,7 @@ public class PlayerController : MonoBehaviour
                 playerModel.chargeTime = 0f; // 차지 시간 초기화
                 playerModel.currentLevel = -1; // 차지 레벨 초기화
                 chargeEffect.SetBool("Attack", false);
+                playerViewModel.Mp -= 5;
 
             }
 
@@ -373,6 +396,7 @@ public void GarudExit()
             attackModel.Type = AttackType.Parry;
             playerModel.StartAttack(weaponController, attackModel);
             playerModel.HasParried = true;
+            playerViewModel.Mp += 10;
             StartCoroutine(SlashFX(0));
             StartCoroutine(DisAbleHasParryed());
             StartCoroutine(SlashFX(9));
