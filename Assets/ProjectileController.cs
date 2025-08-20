@@ -10,8 +10,9 @@ public class ProjectileController : MonoBehaviour
     private Vector3 velocity;
     private bool launched = false;
 
+    Vector3 setTarget;
+    float setSpeed;
 
-    
     public void SetAttackModel(AttackModel attackModel)
     {
         this.attackModel = attackModel;
@@ -20,6 +21,8 @@ public class ProjectileController : MonoBehaviour
 
     public void Launch(Transform target, float speed)
     {
+        setTarget = target.transform.position;
+        setSpeed = speed;
         this.target = target;
         launched = true;
     }
@@ -27,7 +30,7 @@ public class ProjectileController : MonoBehaviour
     public void Launch_Arrow(Transform target, float speed)
     {
         this.target = target;
-        Vector3 toTarget = target.position - transform.position;
+        Vector3 toTarget = this.target.position - transform.position;
         Vector3 toTargetXZ = new Vector3(toTarget.x, 0, toTarget.z);
 
         float distanceXZ = toTargetXZ.magnitude;
@@ -64,14 +67,15 @@ public class ProjectileController : MonoBehaviour
         // 이동 Arrow
         //transform.position += velocity * Time.deltaTime;
         //velocity += Vector3.up * gravity * Time.deltaTime;
-
-        this.transform.position = Vector3.MoveTowards(this.transform.position, target.position + (Vector3.up*2), Time.deltaTime*20f);
-
+        
+        this.transform.position = Vector3.MoveTowards(this.transform.position, setTarget + (Vector3.up*2), Time.deltaTime* setSpeed);
+        
         // 적에 도달 시
         if (Vector3.Distance(transform.position, target.position) <= 2f)
         {
             Debug.Log("충돌"+ target.name);
             target.GetComponent<Enemy>()?.TakeDamage(attackModel.Damage, attackModel);
+            //target.GetComponent<PlayerController>()?.TakeDamage(attackModel.Damage, attackModel);
             Destroy(this.gameObject);
         }
     }
