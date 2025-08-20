@@ -69,7 +69,7 @@ public class NPCViewModel
         costFirst = setCostDate[1].Quantity;
         costSecond = setCostDate[2].Quantity;
         costThird = setCostDate[3].Quantity;
-        costFourth = setCostDate[4].Quantity;
+        //costFourth = setCostDate[4].Quantity;
 
         
         Debug.Log("Check");
