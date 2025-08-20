@@ -1,6 +1,7 @@
-using UnityEngine;
-
+using System;
 using System.Collections;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NightWaveManager : MonoBehaviour
 {
@@ -14,6 +15,15 @@ public class NightWaveManager : MonoBehaviour
 
     private bool running;
 
+    public bool IsNight { get; private set; }
+    public float NightRemaining { get; private set; }
+
+    public event Action<int> OnDayStart;
+    public event Action<int, float> OnNightStart;          // (day, duration)
+    public event Action<float, float> OnNightProgress;     // (elapsed, duration)
+    public event Action<int> OnNightEnd;
+
+
     void Start()
     {
         if (!running) StartCoroutine(DayNightLoop());
@@ -26,27 +36,50 @@ public class NightWaveManager : MonoBehaviour
         while (true)
         {
             // 낮
+            IsNight = false;
+            OnDayStart?.Invoke(currentDay);
             Debug.Log($"[DAY {currentDay}] DAY START");
             yield return new WaitForSeconds(dayDuration);
 
             // 밤 시작
+            IsNight = true;
             Debug.Log($"[DAY {currentDay}] NIGHT START");
             var cfg = GetWave(currentDay);
 
-            // MeteorPool 방향/모드만 건드림(기존 코드 최대활용)
             meteorPool.randomHorizontal = cfg.randomHorizontal;
             meteorPool.fixedDirX = cfg.fixedDirX;
-
-            // 자동 루프는 꺼두고(혹시 켜져있으면 정지) → 우리가 수동으로 스폰
             meteorPool.StopAutoLoop();
+
+            OnNightStart?.Invoke(currentDay, nightDuration);
+
+            // 진행률 트래킹 코루틴 병렬 실행
+            var progress = StartCoroutine(TrackNightProgress(nightDuration));
 
             yield return StartCoroutine(RunNight(cfg));
 
+            // 진행률 트래킹 종료 보장
+            if (progress != null) StopCoroutine(progress);
+
             Debug.Log($"[DAY {currentDay}] NIGHT END");
+            OnNightEnd?.Invoke(currentDay);
+
             currentDay++;
         }
     }
 
+    IEnumerator TrackNightProgress(float duration)
+    {
+        float t = 0f;
+        NightRemaining = duration;
+        while (t < duration)
+        {
+            OnNightProgress?.Invoke(t, duration);
+            NightRemaining = duration - t;
+            t += Time.deltaTime;
+            yield return null;
+        }
+        NightRemaining = 0f;
+    }
     IEnumerator RunNight(WaveConfig cfg)
     {
         float elapsed = 0f;
@@ -84,15 +117,15 @@ public class NightWaveManager : MonoBehaviour
         switch (day)
         {
             case 1:
-                cfg.meteorCount = 6; cfg.intervalMin = 12f; cfg.intervalMax = 15f;
+                cfg.meteorCount = 20; cfg.intervalMin = 6f; cfg.intervalMax = 12f;
                 cfg.randomHorizontal = false; cfg.fixedDirX = 1; // 한쪽만
                 break;
             case 2:
-                cfg.meteorCount = 8; cfg.intervalMin = 10f; cfg.intervalMax = 13f;
+                cfg.meteorCount = 30; cfg.intervalMin = 5f; cfg.intervalMax = 13f;
                 cfg.randomHorizontal = true; // 좌우 번갈아
                 break;
             case 3:
-                cfg.meteorCount = 10; cfg.intervalMin = 9f; cfg.intervalMax = 11f;
+                cfg.meteorCount = 40; cfg.intervalMin = 4f; cfg.intervalMax = 11f;
                 cfg.randomHorizontal = true;
                 break;
             default: // 4일차+

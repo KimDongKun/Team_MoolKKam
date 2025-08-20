@@ -10,6 +10,9 @@ public class PlayerModel
     public WeaponModel weaponModel { get; set; }
     public string Name { get; set; }
     public float Health { get; set; }
+    public float MaxHealth { get; set; } // 플레이어의 최대 체력 
+    public float MaxMP { get; set; } // 플레이어의 최대 마나
+    public float MP { get; set; } // 플레이어의 마나
     public float Attack { get; set; }
     public float Speed { get; set; }
     
@@ -28,6 +31,7 @@ public class PlayerModel
     public bool IsGrounded { get; set; } // = true; // 플레이어가 땅에 있는지 여부
     public bool IsRolling { get; set; } // 플레이어가 구르고 있는지 여부
 
+    public bool IsDamaged { get; set; } // 플레이어가 데미지를 받았는지 여부   
     public bool HasParried { get; set; } // 플레이어가 방어를 했는지 여부    
 
     public bool HasJumpAttacked { get; set; } // 플레이어가 점프 공격을 했는지 여부
@@ -95,6 +99,8 @@ public class PlayerModel
 
         Name = name;
         Health = 100f;
+        MP = 20f; // 플레이어의 마나
+        MaxMP = 25f; // 플레이어의 최대 마나
         Attack = 5f;
         Speed = 9f;
         JumpForce = 15f; // 점프 힘

@@ -20,6 +20,8 @@ public class PlayerUIView : MonoBehaviour
     [SerializeField] TMP_Text diamondText;
 
     [SerializeField] Slider hpSlider;
+    [SerializeField] Slider MpSlider;
+
     [SerializeField] Slider gatheringSlider;
 
     [Header("NPC UI")]
@@ -74,14 +76,18 @@ public class PlayerUIView : MonoBehaviour
             hpSlider.value = playerViewModel.Health;
             //  Debug.Log(playerViewModel.Health);
         }
-        else if(e.PropertyName == "TakeDamage")
+        else if(e.PropertyName == "Mp"){
+         //   Debug.Log("MP 변경됨: " + playerViewModel.Mp);
+            MpSlider.value = playerViewModel.Mp;
+        }
+        else if (e.PropertyName == "TakeDamage")
         {
             hpSlider.value = playerViewModel.Health;
         }
         else if (e.PropertyName == "CompleteGathering" || e.PropertyName == "InventoryUpdate")
         {
             Debug.Log("호출된 프로퍼티:" + e.PropertyName);
-           for(int i = 0; i<playerViewModel.itemList.Count; i++)
+            for (int i = 0; i < playerViewModel.itemList.Count; i++)
             {
                 var name = playerViewModel.itemList[i].itemData.ItemName;
                 if (name == "Gold")
@@ -112,6 +118,7 @@ public class PlayerUIView : MonoBehaviour
     public void UpdateUI()
     {
         hpSlider.value = playerViewModel.Health;
+
         if (npcViewModel != null)
         {
             SetCostData();
