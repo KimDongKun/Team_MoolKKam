@@ -16,6 +16,7 @@ public class PlayerViewModel : INotifyPropertyChanged
     public Color HealthColor => playerModel.Health < 30 ? Color.red : Color.green;
     private float rollTimer = 0f;
 
+    private Coroutine _parryDashCR; // PlayerViewModel 필드에 보강(중복 실행 방지)
 
 
 
@@ -207,19 +208,37 @@ public class PlayerViewModel : INotifyPropertyChanged
     {
         if(type == "ParryedAttack")
         {
-            float dashForce = 45f; // 대시 힘  
-            rb.linearVelocity = Vector3.zero;
-            rb.AddForce(rb.transform.forward * dashForce, ForceMode.VelocityChange);
-            rb.useGravity = false; // 중력 비활성화
-            playerModel.HasParried = false; // 패링 상태 해제
-        MonoBehaviour mono = rb.GetComponent<MonoBehaviour>();
-        if (mono != null)
-        {
-            mono.StartCoroutine(RestoreGravity(rb, 0.15f));
-        }
+            if (_parryDashCR != null) return; // 이미 실행 중이면 무시
+
+            // 시작 코루틴
+            MonoBehaviour mb = rb.GetComponent<MonoBehaviour>();
+            if (mb != null)
+            {
+                _parryDashCR = mb.StartCoroutine(
+                    ParryDoubleDash(animator, rb,
+                        forwardForce: 45f,   // 1차/복귀 대시 힘
+                        dashTime: 0.2f,     // 한 번 대시 유지 시간
+                        midPause: 0f      // 중간 쉬는 시간
+                    )
+                );
+            }
+            return;
         }
         if(type == "GuardAttackSkill")
         {
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (mouseWorldPos.x > rb.transform.position.x)
+            {
+                // 오른쪽 바라보기
+                rb.transform.rotation = Quaternion.Euler(0, 90, 0);
+                playerModel.FacingDirection = 0;
+            }
+            else
+            {
+                // 왼쪽 바라보기
+                rb.transform.rotation = Quaternion.Euler(0, 270, 0);
+                playerModel.FacingDirection = 1;
+            }
             animator.SetTrigger("GuardAttackSkill");
             float dashForce = 45f; // 대시 힘  
             rb.linearVelocity = Vector3.zero;
@@ -233,6 +252,61 @@ public class PlayerViewModel : INotifyPropertyChanged
         }
 
     }
+
+    private IEnumerator ParryDoubleDash(Animator animator, Rigidbody rb,
+                                       float forwardForce, float dashTime, float midPause)
+    {
+        Vector3 startPos = rb.position;
+        float startYaw = rb.rotation.eulerAngles.y; // 끝나고 원래 방향으로 복구하고 싶다면 사용
+
+        playerModel.HasParried = false;
+        playerModel.IsAttacking = true;
+        rb.useGravity = false;
+
+        var ctrl = animator.GetComponent<PlayerController>();
+
+        // 1) 전진 대시
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(rb.transform.forward * forwardForce, ForceMode.VelocityChange);
+        yield return new WaitForSeconds(dashTime);
+
+        // 잠깐 멈춤
+        rb.linearVelocity = Vector3.zero;
+        if (midPause > 0f) yield return new WaitForSeconds(midPause);
+
+        // 이펙트
+        ctrl?.PlaySlashFX(13);
+
+     
+        Vector3 backDir = (startPos - rb.position).normalized;
+
+     
+        if (backDir.x >= 0f)
+        {
+            rb.transform.rotation = Quaternion.Euler(0f, 90f, 0f);   // 오른쪽
+            playerModel.FacingDirection = 0;
+        }
+        else
+        {
+            rb.transform.rotation = Quaternion.Euler(0f, 270f, 0f);  // 왼쪽
+            playerModel.FacingDirection = 1;
+        }
+
+
+        rb.AddForce(rb.transform.forward * forwardForce, ForceMode.VelocityChange);
+        yield return new WaitForSeconds(dashTime);
+
+       
+        rb.linearVelocity = Vector3.zero;
+        rb.position = new Vector3(startPos.x, rb.position.y, rb.position.z);
+        rb.transform.rotation = Quaternion.Euler(0f, startYaw, 0f);   //
+
+        rb.useGravity = true;
+        playerModel.IsAttacking = false;
+        _parryDashCR = null;
+    }
+
+
     private IEnumerator RestoreGravity(Rigidbody rb, float delay)
     {
         yield return new WaitForSeconds(delay);

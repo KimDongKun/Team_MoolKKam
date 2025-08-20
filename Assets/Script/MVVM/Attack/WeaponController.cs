@@ -75,7 +75,7 @@ public class WeaponController : MonoBehaviour
         var health = other.GetComponent<EnemyController>();
         if (health != null)
         {
-            health.TakeDamage((int)weaponModel.Damage, attackModel);
+            health.TakeDamage(attackModel.Damage, attackModel);
             damagedEnemies.Add(other.gameObject); // 맞은 적 등록
         }
     }

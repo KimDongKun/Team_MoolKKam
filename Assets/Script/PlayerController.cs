@@ -128,28 +128,42 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(EnableAttack("ParrySkill", 0.05f));
 
         }
-        if(((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerModel.IsGuarding  && !playerModel.HasParried && !playerModel.IsAttacking) ||(Input.GetKey(KeyCode.S) && playerModel.IsGuarding && !playerModel.IsAttacking && !playerModel.HasParried)) // 가드 상태 스킬
+        if (((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && Input.GetKey(KeyCode.W) && skill2_canSkill && playerViewModel.canSkill()))  // 올려치기 스킬
         {
-            if (Input.GetKey(KeyCode.W) && skill2_canSkill && playerViewModel.canSkill())
-            {
-                playerModel.IsAttacking = true;
-                StartCoroutine(EnableAttack("UpperSkill", 0.05f));
-                StartCoroutine(SlashFX(4));
-                StartCoroutine(SkillCollDown("UpperSkill", 2));
-                ApplyJumpAttack(0f, 13f, Vector3.up);
-                animator.SetTrigger("UpperSkill");
-                skill2_canSkill = false; // 스킬 쿨타임 시작
-                playerModel.IsGrounded = false;
-                playerViewModel.Mp -= 5;
-            }
-            else if(h!= 0 && skill1_canSkill && (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerViewModel.canSkill())
+            playerModel.IsAttacking = true;
+            StartCoroutine(EnableAttack("UpperSkill", 0.05f));
+            StartCoroutine(SlashFX(4));
+            StartCoroutine(SkillCollDown("UpperSkill", 2));
+            ApplyJumpAttack(0f, 13f, Vector3.up);
+            animator.SetTrigger("UpperSkill");
+            skill2_canSkill = false; // 스킬 쿨타임 시작
+            playerModel.IsGrounded = false;
+            playerViewModel.Mp -= 5;
+        }
+
+        if (((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerModel.IsGuarding  && !playerModel.HasParried && !playerModel.IsAttacking) ||(Input.GetKey(KeyCode.S) && playerModel.IsGuarding && !playerModel.IsAttacking && !playerModel.HasParried)) // 가드 상태 스킬
+        {
+            //if (Input.GetKey(KeyCode.W) && skill2_canSkill && playerViewModel.canSkill())
+            //{
+            //    playerModel.IsAttacking = true;
+            //    StartCoroutine(EnableAttack("UpperSkill", 0.05f));
+            //    StartCoroutine(SlashFX(4));
+            //    StartCoroutine(SkillCollDown("UpperSkill", 2));
+            //    ApplyJumpAttack(0f, 13f, Vector3.up);
+            //    animator.SetTrigger("UpperSkill");
+            //    skill2_canSkill = false; // 스킬 쿨타임 시작
+            //    playerModel.IsGrounded = false;
+            //    playerViewModel.Mp -= 5;
+            //}
+            //else 
+            if(skill1_canSkill && (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && playerViewModel.canSkill())
             {
 
             playerModel.IsAttacking = true;
             playerViewModel.UseSkill(animator, rb, "GuardAttackSkill");
             StartCoroutine(SlashFX(6));
             StartCoroutine(SlashFX(8));
-            StartCoroutine(SkillCollDown("GuardAttackSkill",2));    // 나중에 스킬 객체 만들어서 각 쿨타임적용
+               StartCoroutine(SkillCollDown("GuardAttackSkill",2));    // 나중에 스킬 객체 만들어서 각 쿨타임적용
             StartCoroutine(EnableAttack("GuardAttackSkill", 0.05f));
             skill1_canSkill = false; // 스킬 쿨타임 시작   
                 playerViewModel.Mp -= 5;
@@ -273,7 +287,10 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
+    public void PlaySlashFX(int index)
+    {
+        StartCoroutine(SlashFX(index));
+    }
     private void PlayChargeShakeOnce(int index)
     {
         if (index == 1)
@@ -391,6 +408,7 @@ public void GarudExit()
         AttackModel attackModel = new AttackModel();
         attackModel.Type = AttackType.Basic; // 기본 공격 타입 설정
         attackModel.Range = weaponController.DefaultRange; // 기본 공격 범위 설정
+        attackModel.Damage = (int)weaponController.weaponModel.Damage; // 공격력 설정
         if (attack == "Parring")
         {
             attackModel.Type = AttackType.Parry;
@@ -439,7 +457,7 @@ public void GarudExit()
         }
         else if (attack == "ParrySkill")
         {
-
+            attackModel.Damage = (int)weaponController.weaponModel.Damage * 2;
         }
         else if (attack == "GuardAttackSkill")
         {
