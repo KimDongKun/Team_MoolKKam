@@ -9,7 +9,8 @@ public class WeaponModel
     public WeaponModel()
     {
         Name = "Sword";
-        Damage = 10 * UpgradeLevel;
         UpgradeLevel = 1;
+        Damage = 10 * UpgradeLevel;
+        
     }
 }

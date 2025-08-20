@@ -8,7 +8,7 @@ public class TowerController : BuildObject
     public float detectionRange = 10f; // 감지 범위
     public Transform firePoint;        // 발사 위치
     public GameObject projectilePrefab; // 발사체 프리팹
-    public float fireRate = 1f;        // 공격 주기(초당 발사)
+    public float fireRate = 2f;        // 공격 주기(초당 발사)
     public float projectileSpeed = 20f; // 발사 초기 속도
 
     private float fireTimer = 0f;
