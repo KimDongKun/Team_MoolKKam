@@ -21,6 +21,8 @@ public class PlayerUIView : MonoBehaviour
 
     [SerializeField] Slider hpSlider;
     [SerializeField] Slider MpSlider;
+    [SerializeField] TMP_Text PlayerHP;
+    [SerializeField] TMP_Text PlayerMP;
 
     [SerializeField] Slider gatheringSlider;
 
@@ -44,9 +46,12 @@ public class PlayerUIView : MonoBehaviour
 
     [Header("Trader UI")]
     [SerializeField] GameObject tradeUI;
+    [SerializeField] RandomEnhanceStonePickController randomPickController;
 
     [Header("Build UI")]
     [SerializeField] BuildController buildController;
+
+    
 
     public void Init(PlayerViewModel vm)
     {
@@ -68,16 +73,18 @@ public class PlayerUIView : MonoBehaviour
         // 변경된 속성에 따라 UI 업데이트
         if (e.PropertyName == "Name")
         {
-            goldText.text = playerViewModel.Name;
+            //goldText.text = playerViewModel.Name;
             Debug.Log(playerViewModel.Name);
         }
         else if (e.PropertyName == "Health")
         {
+            PlayerHP.text = $"{playerViewModel.Health}/200";
             hpSlider.value = playerViewModel.Health;
             //  Debug.Log(playerViewModel.Health);
         }
         else if(e.PropertyName == "Mp"){
-         //   Debug.Log("MP 변경됨: " + playerViewModel.Mp);
+            //   Debug.Log("MP 변경됨: " + playerViewModel.Mp);
+            PlayerMP.text = $"{playerViewModel.Mp}/25";
             MpSlider.value = playerViewModel.Mp;
         }
         else if (e.PropertyName == "TakeDamage")
@@ -92,7 +99,7 @@ public class PlayerUIView : MonoBehaviour
                 var name = playerViewModel.itemList[i].itemData.ItemName;
                 if (name == "Gold")
                 {
-                    goldText.text = playerViewModel.itemList[i].Quantity.ToString();
+                    //goldText.text = playerViewModel.itemList[i].Quantity.ToString();
                 }
                 else if (name == "Log")
                 {
@@ -118,7 +125,10 @@ public class PlayerUIView : MonoBehaviour
     public void UpdateUI()
     {
         hpSlider.value = playerViewModel.Health;
+        MpSlider.value = playerViewModel.Mp;
 
+        PlayerHP.text = $"{playerViewModel.Health}/200";
+        PlayerMP.text = $"{playerViewModel.Mp}/25";
         if (npcViewModel != null)
         {
             SetCostData();
@@ -152,7 +162,7 @@ public class PlayerUIView : MonoBehaviour
         int forthQuantity = forth != null ? forth.Quantity : 0;
 
 
-        Gold.text = $"{goldQuantity.ToString()}/{npcViewModel.costGold.ToString()}";
+        //Gold.text = $"{goldQuantity.ToString()}/{npcViewModel.costGold.ToString()}";
         firstVaule.text = $"{firstQuantity.ToString()}/{npcViewModel.costFirst.ToString()}";
         secondVaule.text = $"{secondQuantity.ToString()}/{npcViewModel.costSecond.ToString()}";
         thirdVaule.text = $"{thirdQuantity.ToString()}/{npcViewModel.costThird.ToString()}";

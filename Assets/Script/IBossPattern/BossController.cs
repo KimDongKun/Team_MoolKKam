@@ -1,4 +1,6 @@
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +18,7 @@ public class BossController : MonoBehaviour
     private float MaxHp = 500f;
     private float health = 500f;
     public bool isAlive = true;
+    public Material bossMat;
 
     private void Start()
     {
@@ -26,6 +29,7 @@ public class BossController : MonoBehaviour
         }
         healthUi.maxValue = MaxHp;
         healthUi.value = MaxHp; // Assuming max health is 500
+        bossMat.SetColor("_BaseColor", Color.white);
     }
 
     public void TakeDamage(float damage)
@@ -33,6 +37,7 @@ public class BossController : MonoBehaviour
         if (!isAlive) return;
         health -= damage;
         healthUi.value = health; // Assuming max health is 500   
+        StartCoroutine(GetDamageColor());
         Debug.Log($"보스 체력: {health}");
         if (health <= 0)
         {
@@ -41,6 +46,14 @@ public class BossController : MonoBehaviour
             Debug.Log("보스가 죽었습니다.");
         }
     }   
+    IEnumerator GetDamageColor()
+    {
+        bossMat.SetColor("_BaseColor", Color.red);
+        Debug.Log("보스 공격받아 피격상태");
+        yield return new WaitForSeconds(0.25f);
+        bossMat.SetColor("_BaseColor", Color.white);
+
+    }
     private void Update()
     {
        
@@ -64,7 +77,7 @@ public class BossController : MonoBehaviour
     {
         selectPattern?.SetActive(false);
 
-        int index = Random.Range(0, patternList.Count);
+        int index = UnityEngine.Random.Range(0, patternList.Count);
         IBossPattern pattern = patternList[index];
         selectPattern = gameObjects[index];
         selectPattern.SetActive(true);

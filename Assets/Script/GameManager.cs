@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player.playerModel = new PlayerModel("플레이어A");
+        player.playerModel = new PlayerModel("플레이어A",player.playerMaterial);
         player.playerViewModel = new PlayerViewModel(player.playerModel);
         player.playerModel.Animator = player.GetComponent<Animator>();
         player.weaponController.weaponModel = player.playerModel.weaponModel;

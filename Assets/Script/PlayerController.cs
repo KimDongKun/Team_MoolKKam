@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public PlayerModel playerModel;
     public PlayerViewModel playerViewModel;
 
+    public Material playerMaterial;
+
     [Header("Component")]
     public WeaponController weaponController;
     public Animator animator;
@@ -374,12 +376,14 @@ public void GarudExit()
     }
     public string TakeDamage(int damage)
     {
+        Debug.Log("플레이어 피격!");
             return    playerViewModel.TakeDamage(damage);
     }
     
     IEnumerator DisAbleHasParryed()
     {
         yield return new WaitForSeconds(0.3f);
+        Time.timeScale = 1f;
         playerModel.HasParried = false;
     }
 
@@ -415,6 +419,7 @@ public void GarudExit()
             playerModel.StartAttack(weaponController, attackModel);
             playerModel.HasParried = true;
             playerViewModel.Mp += 10;
+            Time.timeScale = 0.2f;
             StartCoroutine(SlashFX(0));
             StartCoroutine(DisAbleHasParryed());
             StartCoroutine(SlashFX(9));
@@ -457,10 +462,12 @@ public void GarudExit()
         }
         else if (attack == "ParrySkill")
         {
+            Time.timeScale = 1f;
             attackModel.Damage = (int)weaponController.weaponModel.Damage * 2;
         }
         else if (attack == "GuardAttackSkill")
         {
+            Time.timeScale = 1f;
             attackModel.Type = AttackType.Skill; // 스킬 공격 타입 설정
             playerModel.StartAttack(weaponController, attackModel);
             StartCoroutine(EndAttack(0.3f, 1.5f)); // 공격 종료 후 히트박스 비활성화
@@ -527,6 +534,7 @@ public void GarudExit()
              yield return new WaitForSeconds(time);
         playerModel.EndAttack(weaponController);
         weaponEffact.SetBool("Attack", false);
+        Time.timeScale = 1f;
     }
 
     IEnumerator SlashFX(int index)

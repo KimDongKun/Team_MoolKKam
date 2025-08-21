@@ -41,6 +41,7 @@ public class TentacleMagic : BossPattern, IBossPattern
         for (int i = 0; i < tentacles.Length; i++)
         {
             GameObject magic = Instantiate(magicPrefab, tentacles[i].transform.position, Quaternion.identity);
+            magic.GetComponent<ProjectileController>().isBoss = true;
             magic.GetComponent<ProjectileController>().Launch(player,40);
         }
         
