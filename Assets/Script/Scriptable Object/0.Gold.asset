@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemID: 0
   ItemName: Gold
-  Icon: {fileID: 0}
+  Icon: {fileID: 708739306, guid: 999fa9e845e6192488f1dac15491090d, type: 3}
   MaxStack: 1

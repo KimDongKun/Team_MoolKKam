@@ -8,6 +8,7 @@ public class ResourceController : MonoBehaviour
     public resourceType type = resourceType.None;
 
     public ItemData itemData;
+    public float reTimer=3;
 
     public enum resourceType
     {
@@ -20,7 +21,7 @@ public class ResourceController : MonoBehaviour
     }
     private void OnDisable()
     {
-        Invoke("ActiveObject", 3);
+        Invoke("ActiveObject", reTimer);
     }
     private void ActiveObject()
     {

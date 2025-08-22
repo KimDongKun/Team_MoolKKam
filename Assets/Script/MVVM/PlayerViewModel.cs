@@ -80,7 +80,25 @@ public class PlayerViewModel : INotifyPropertyChanged
             }
         }
     }
-
+    public void HealingPotion(float heal)
+    {
+        var potion = itemList.FirstOrDefault(i => i.itemData.ItemName == "Potion");
+        if (potion.Quantity > 0)
+        {
+            Debug.Log("포션 갯수 : "+ potion.Quantity);
+            potion.Quantity -= 1;
+            playerModel.Health += heal;
+            if (playerModel.Health < 200)
+            {
+                playerModel.Health = playerModel.MaxHealth;
+            }
+            InventoryUpdate();
+        }
+        else
+        {
+            Debug.Log("포션 갯수부족");
+        }
+    }
     public void ReceiveDamage(float damage)
     {
         // 모델에서 체력 감소 처리
