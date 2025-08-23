@@ -87,11 +87,8 @@ public class PlayerViewModel : INotifyPropertyChanged
         {
             Debug.Log("Æ÷¼Ç °¹¼ö : "+ potion.Quantity);
             potion.Quantity -= 1;
-            playerModel.Health += heal;
-            if (playerModel.Health < 200)
-            {
-                playerModel.Health = playerModel.MaxHealth;
-            }
+            playerModel.Health = Mathf.Clamp(playerModel.Health + heal, 0, 200);
+           
             InventoryUpdate();
         }
         else
