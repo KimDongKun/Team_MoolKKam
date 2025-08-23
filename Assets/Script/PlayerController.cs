@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     //[Header("MVVM_DGP")]
     public PlayerModel playerModel;
     public PlayerViewModel playerViewModel;
+    public Material playerMaterial;
 
     [Header("Component")]
     public WeaponController weaponController;
