@@ -100,6 +100,7 @@ public class PlayerModel
 
         Name = name;
         Health = 200f;
+        MaxHealth = 200f;
         MP = 25f; // 플레이어의 마나
         MaxMP = 25f; // 플레이어의 최대 마나
         Attack = 5f;
