@@ -40,7 +40,7 @@ MonoBehaviour:
     m_Value: 0
   pixelBlockSize:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 3
   targetResolution:
     m_OverrideState: 1
     m_Value: 4096
@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Value: 2
   customPixelAspectRatio:
     m_OverrideState: 1
-    m_Value: 1.1
+    m_Value: -5.82
   posterizeLevels:
     m_OverrideState: 1
     m_Value: 256

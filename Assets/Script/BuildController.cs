@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class BuildController : MonoBehaviour
@@ -62,9 +63,10 @@ public class BuildController : MonoBehaviour
     }
     private void Update()
     {
-        if (isBuilding)
+        float mouse_X = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
+        if (isBuilding && mouse_X > -10f && mouse_X < 45)
         {
-            float mouse_X = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
+            
             useBuildModel.BuildModelPrefab.transform.position = new Vector3(mouse_X, useBuildModel.InstallPos.y, 0);
 
             if (Input.GetMouseButtonDown(0))

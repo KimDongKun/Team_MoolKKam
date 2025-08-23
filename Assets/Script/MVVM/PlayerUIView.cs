@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Linq;
 using TMPro;
@@ -18,9 +19,12 @@ public class PlayerUIView : MonoBehaviour
     [SerializeField] TMP_Text stoneText;
     [SerializeField] TMP_Text ironText;
     [SerializeField] TMP_Text diamondText;
+    [SerializeField] TMP_Text potionText;
 
     [SerializeField] Slider hpSlider;
     [SerializeField] Slider MpSlider;
+    [SerializeField] TMP_Text PlayerHP;
+    [SerializeField] TMP_Text PlayerMP;
 
     [SerializeField] Slider gatheringSlider;
 
@@ -44,9 +48,13 @@ public class PlayerUIView : MonoBehaviour
 
     [Header("Trader UI")]
     [SerializeField] GameObject tradeUI;
+    [SerializeField] Button RandomPickButton;
+    [SerializeField] RandomEnhanceStonePickController randomPickController;
 
     [Header("Build UI")]
     [SerializeField] BuildController buildController;
+
+    
 
     public void Init(PlayerViewModel vm)
     {
@@ -68,16 +76,18 @@ public class PlayerUIView : MonoBehaviour
         // 변경된 속성에 따라 UI 업데이트
         if (e.PropertyName == "Name")
         {
-            goldText.text = playerViewModel.Name;
+            //goldText.text = playerViewModel.Name;
             Debug.Log(playerViewModel.Name);
         }
         else if (e.PropertyName == "Health")
         {
+            PlayerHP.text = $"{playerViewModel.Health}/200";
             hpSlider.value = playerViewModel.Health;
             //  Debug.Log(playerViewModel.Health);
         }
         else if(e.PropertyName == "Mp"){
-         //   Debug.Log("MP 변경됨: " + playerViewModel.Mp);
+            //   Debug.Log("MP 변경됨: " + playerViewModel.Mp);
+            PlayerMP.text = $"{playerViewModel.Mp}/25";
             MpSlider.value = playerViewModel.Mp;
         }
         else if (e.PropertyName == "TakeDamage")
@@ -110,6 +120,11 @@ public class PlayerUIView : MonoBehaviour
                 {
                     diamondText.text = playerViewModel.itemList[i].Quantity.ToString();
                 }
+                else if(name == "Potion")
+                {
+                    Debug.Log("포션찾음");
+                    potionText.text = playerViewModel.itemList[i].Quantity.ToString();
+                }
             }
         }
         UpdateUI();
@@ -118,7 +133,10 @@ public class PlayerUIView : MonoBehaviour
     public void UpdateUI()
     {
         hpSlider.value = playerViewModel.Health;
+        MpSlider.value = playerViewModel.Mp;
 
+        PlayerHP.text = $"{playerViewModel.Health}/200";
+        PlayerMP.text = $"{playerViewModel.Mp}/25";
         if (npcViewModel != null)
         {
             SetCostData();
@@ -152,11 +170,23 @@ public class PlayerUIView : MonoBehaviour
         int forthQuantity = forth != null ? forth.Quantity : 0;
 
 
-        Gold.text = $"{goldQuantity.ToString()}/{npcViewModel.costGold.ToString()}";
+        //Gold.text = $"{goldQuantity.ToString()}/{npcViewModel.costGold.ToString()}";
         firstVaule.text = $"{firstQuantity.ToString()}/{npcViewModel.costFirst.ToString()}";
         secondVaule.text = $"{secondQuantity.ToString()}/{npcViewModel.costSecond.ToString()}";
         thirdVaule.text = $"{thirdQuantity.ToString()}/{npcViewModel.costThird.ToString()}";
         forthVaule.text = $"{forthQuantity.ToString()}/{npcViewModel.costFourth.ToString()}";
+    }
+    public void TradeButtonAddListener()
+    {
+        randomPickController.RandomStonePickList(playerViewModel);
+        playerViewModel.InventoryUpdate();
+    }
+    public void UpgradeButtonAddListener()
+    {
+        playerViewModel.UpgradeWeaponPlayer();
+        upgradeEffectUI.SetActive(false);
+        upgradeEffectUI.SetActive(true);
+        playerViewModel.InventoryUpdate();
     }
 
     private void Update()
@@ -189,38 +219,23 @@ public class PlayerUIView : MonoBehaviour
             if (npcViewModel.isNPCTrader)
             {
                 Debug.Log("NPC : 거래시작");
-                TradeViewModel tradeViewModel = new TradeViewModel(npcViewModel.tradeModel);
-
                 npcViewModel.tradeUI.SetActive(true);
                 npcViewModel.ShowTradeUI();
-                UpgradeButton.onClick.RemoveAllListeners();
-
-                var costItemList = tradeViewModel.TryTrade(playerViewModel.itemList, npcViewModel.tradeModel.costitemList);
-                if (costItemList)
-                {
-                    Debug.Log("거래조건 충족함.");
-                    UpgradeButton.onClick.AddListener(() => tradeViewModel.Trade(playerViewModel.itemList, npcViewModel.tradeModel.costitemList));
-                    UpgradeButton.onClick.AddListener(() => playerViewModel.UpgradeWeaponPlayer());
-                    UpgradeButton.onClick.AddListener(() => upgradeEffectUI.SetActive(false));
-                    UpgradeButton.onClick.AddListener(() => upgradeEffectUI.SetActive(true));
-                    UpgradeButton.onClick.AddListener(() => playerViewModel.InventoryUpdate());
-                }
-                else
-                {
-                    Debug.Log("거래조건 충족하지못함.");
-                }
+                SetButtonData();
                 SetCostData();
-
-
             }
             else
             {
                 npcUI.SetActive(true);
                 npcViewModel.ShowNextDialogue();
             }
-            
-            
-            
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (playerViewModel.Health < 200)
+            {
+                playerViewModel.HealingPotion(20);
+            }
         }
         else if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -229,6 +244,29 @@ public class PlayerUIView : MonoBehaviour
             tradeUI.gameObject.SetActive(false);
             buildController.buildUI.SetActive(false);
             // playerViewModel.
+        }
+    }
+
+    void SetButtonData()
+    {
+        TradeViewModel tradeViewModel = new TradeViewModel(npcViewModel.tradeModel);
+        UpgradeButton.onClick.RemoveAllListeners();
+        RandomPickButton.onClick.RemoveAllListeners();
+        var costItemList = tradeViewModel.TryTrade(playerViewModel.itemList, npcViewModel.tradeModel.costitemList);
+        if (costItemList)
+        {
+            Debug.Log("거래조건 충족함.");
+            UpgradeButton.onClick.AddListener(() => tradeViewModel.Trade(playerViewModel.itemList, npcViewModel.tradeModel.costitemList));
+            UpgradeButton.onClick.AddListener(() => UpgradeButtonAddListener());
+            UpgradeButton.onClick.AddListener(() => SetButtonData());
+
+            RandomPickButton.onClick.AddListener(() => tradeViewModel.Trade(playerViewModel.itemList, npcViewModel.tradeModel.costitemList));
+            RandomPickButton.onClick.AddListener(() => TradeButtonAddListener());
+            RandomPickButton.onClick.AddListener(() => SetButtonData());
+        }
+        else
+        {
+            Debug.Log("거래조건 충족하지못함.");
         }
     }
 }

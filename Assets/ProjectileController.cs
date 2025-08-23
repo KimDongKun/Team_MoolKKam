@@ -4,6 +4,7 @@ public class ProjectileController : MonoBehaviour
 {
     private AttackModel attackModel;
 
+    public bool isBoss= false;
     public float gravity = -9.81f;
     
     private Transform target;
@@ -63,19 +64,19 @@ public class ProjectileController : MonoBehaviour
     void Update()
     {
         if (!launched || target == null) return;
-
-        // 이동 Arrow
-        //transform.position += velocity * Time.deltaTime;
-        //velocity += Vector3.up * gravity * Time.deltaTime;
-        
         this.transform.position = Vector3.MoveTowards(this.transform.position, setTarget + (Vector3.up*2), Time.deltaTime* setSpeed);
         
         // 적에 도달 시
         if (Vector3.Distance(transform.position, target.position) <= 2f)
         {
             Debug.Log("충돌"+ target.name);
-            target.GetComponent<Enemy>()?.TakeDamage(attackModel.Damage, attackModel);
-            //target.GetComponent<PlayerController>()?.TakeDamage(attackModel.Damage, attackModel);
+
+
+            if (isBoss) target.GetComponent<PlayerController>()?.TakeDamage(10);
+            else
+            {
+                target.GetComponent<Enemy>()?.TakeDamage(attackModel.Damage, attackModel);
+            }
             Destroy(this.gameObject);
         }
     }

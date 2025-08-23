@@ -63,15 +63,21 @@ public class NPCViewModel
     }
     public void ShowTradeUI()
     {
+        
         TradeViewModel tradeViewModel = new TradeViewModel(tradeModel);
-        var setCostDate = tradeViewModel.SetUpgradeCostValue(npcModel.PlayerModel.weaponModel);
-        costGold = setCostDate[0].Quantity;
-        costFirst = setCostDate[1].Quantity;
-        costSecond = setCostDate[2].Quantity;
-        costThird = setCostDate[3].Quantity;
+        if (tradeModel.costitemList.Count > 2)
+        {
+            var setCostDate = tradeViewModel.SetUpgradeCostValue(npcModel.PlayerModel.weaponModel);
+            costGold = setCostDate[0].Quantity;
+            costFirst = setCostDate[1].Quantity;
+            costSecond = setCostDate[2].Quantity;
+            costThird = setCostDate[3].Quantity;
+        }
+        
+
         //costFourth = setCostDate[4].Quantity;
 
-        
+
         Debug.Log("Check");
     }
 

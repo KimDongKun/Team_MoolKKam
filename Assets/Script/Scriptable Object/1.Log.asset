@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemID: 1
   ItemName: Log
-  Icon: {fileID: 0}
+  Icon: {fileID: -1566367592, guid: 0a2e2dc9bcdcd4945b342eea5bd9eb29, type: 3}
   MaxStack: 1

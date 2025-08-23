@@ -80,7 +80,22 @@ public class PlayerViewModel : INotifyPropertyChanged
             }
         }
     }
-
+    public void HealingPotion(float heal)
+    {
+        var potion = itemList.FirstOrDefault(i => i.itemData.ItemName == "Potion");
+        if (potion.Quantity > 0)
+        {
+            Debug.Log("포션 갯수 : "+ potion.Quantity);
+            potion.Quantity -= 1;
+            playerModel.Health = Mathf.Clamp(playerModel.Health + heal, 0, 200);
+           
+            InventoryUpdate();
+        }
+        else
+        {
+            Debug.Log("포션 갯수부족");
+        }
+    }
     public void ReceiveDamage(float damage)
     {
         // 모델에서 체력 감소 처리
@@ -385,7 +400,7 @@ public class PlayerViewModel : INotifyPropertyChanged
         playerModel.Health -= dmg;
        // Debug.Log("데미지 받음 :" + playerModel.Health);
        playerModel.IsDamaged = true; // 데미지를 받았음을 표시
-        playerModel.Animator.SetTrigger("TakeDamege");
+        playerModel.playerMaterial.SetColor("_EmissionColor", Color.red * 2.0f);
         OnPropertyChanged("Health");
         // 일정 시간 후 false 로 되돌림
         MonoBehaviour mono = playerModel.Animator.GetComponent<MonoBehaviour>();
@@ -401,6 +416,7 @@ public class PlayerViewModel : INotifyPropertyChanged
     private IEnumerator ResetDamagedFlag(float delay)
     {
         yield return new WaitForSeconds(delay);
+        playerModel.playerMaterial.SetColor("_EmissionColor", Color.white * 1.0f);
         playerModel.IsDamaged = false;
     }
 

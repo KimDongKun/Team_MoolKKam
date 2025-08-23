@@ -57,6 +57,7 @@ public class PlayerModel
     public bool IsNpcMeeting { get; private set; }
     public ItemData CurrentItem { get; private set; }
     public List<InventoryData> GetItemList = new List<InventoryData>();
+    public Material playerMaterial;
 
     public void StartAttack(WeaponController weapon, AttackModel attackModel)
     {
@@ -93,14 +94,13 @@ public class PlayerModel
         CurrentItem = null;
         resourceObject = null;
     }
-    public PlayerModel(string name) //테스트 셋업용
+    public PlayerModel(string name, Material playerMat) //테스트 셋업용
     {
         weaponModel = new WeaponModel();
 
         Name = name;
-        Health = 100f;
-        MaxHealth = 100f; // 플레이어의 최대 체력
-        MP = 20f; // 플레이어의 마나
+        Health = 200f;
+        MP = 25f; // 플레이어의 마나
         MaxMP = 25f; // 플레이어의 최대 마나
         Attack = 5f;
         Speed = 9f;
@@ -113,5 +113,7 @@ public class PlayerModel
         IsAttacking = false;
         IsRolling = false; // 플레이어가 구르고 있는지 여부
 
+        playerMaterial = playerMat;
+        playerMaterial.SetColor("_EmissionColor", Color.white * 1.0f);
     }
 }
