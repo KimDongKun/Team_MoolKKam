@@ -26,7 +26,6 @@ public class EnemyController : Enemy
     public Animator animator;
     public Transform attackAreaObject;
     private Coroutine attackCo;
-
     public string buildingTag = "Building"; // 건물 태그이름
     public string statueTag = "Statue";  // 석상 태그이름
 

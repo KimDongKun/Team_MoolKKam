@@ -268,12 +268,14 @@ public class PlayerViewModel : INotifyPropertyChanged
         // 1) ¿¸¡¯ ¥ÎΩ√
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(rb.transform.forward * forwardForce, ForceMode.VelocityChange);
+        PlayerController playerController = animator.GetComponent<PlayerController>();
+        playerController.attackSoundScript.PlaySfx("DashSkill");
         yield return new WaitForSeconds(dashTime);
 
         // ¿·±Ò ∏ÿ√„
         rb.linearVelocity = Vector3.zero;
         if (midPause > 0f) yield return new WaitForSeconds(midPause);
-
+        playerController.attackSoundScript.PlaySfx("DashSkill");
         // ¿Ã∆Â∆Æ
         ctrl?.PlaySlashFX(13);
 

@@ -17,6 +17,7 @@ public abstract class Enemy : MonoBehaviour
     protected float currentHealth;
     private float stunTime = 2;
     public Slider slider;
+    public GameObject dropItem;
     // Ç® ÂüÁ¶
     private EnemyPool pool;
     public void SetPool(EnemyPool p) => pool = p;
@@ -87,6 +88,9 @@ public abstract class Enemy : MonoBehaviour
         Debug.Log($"{gameObject.name} »ç¸Á!");
         //  Destroy(gameObject);
         //  Ç®·Î ¹Ý³³
+        Vector3 position = transform.position;
+        position.y += 1.5f;
+        Instantiate(dropItem, position, Quaternion.identity);
         pool?.Despawn(this);
     }
 

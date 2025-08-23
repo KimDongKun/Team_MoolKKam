@@ -2036,6 +2036,7 @@ MonoBehaviour:
   spawned: 1
   player: {fileID: 0}
   slider: {fileID: 2618774953124656202}
+  dropItem: {fileID: 2213870069254302096, guid: e7f25e59d6b5ef4469a012199da705c1, type: 3}
   moveSpeed: 2
   attackRange: 4.5
   attackSpeed: 0.05
@@ -2044,10 +2045,22 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
+  buildingLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  statueLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  aggroRadius: 6
+  buildingDetectRadius: 3
   stopDistance: 1.5
   attackBoxSize: {x: 0, y: 0, z: 0}
   animator: {fileID: 0}
   attackAreaObject: {fileID: 6601162990664688280}
+  buildingTag: Building
+  statueTag: Statue
+  deaggroRadius: 12
+  retargetCooldown: 0.3
 --- !u!1 &4507921833120691072
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.VFX;
 
@@ -36,13 +38,20 @@ public class PlayerController : MonoBehaviour
     public bool skill1_canSkill = true;
     public bool skill2_canSkill = true; // 스킬 쿨타임 변수
     public bool skill3_canSkill = true; // 스킬 쿨타임 변수    
-    
+    public GameObject deathUi; // 죽었을 때 활성화할 UI 오브젝트
+    public TMP_Text deathText; // 죽었을 때 표시할 텍스트
+    public float respawnTime = 5f; // 재생성 시간 (초)
+    public float respawnTiemedown = 0; // 재생성 타이머
+    public GameObject respawn;
+    public AttackSoundScript attackSoundScript; // 공격 사운드 스크립트
+    public List<AudioClip> audioSources; // 오디오 소스 리스트
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-
+        attackSoundScript = GetComponent<AttackSoundScript>();
         if (col == null)
             col = GetComponent<CapsuleCollider>();
     }
@@ -50,7 +59,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(playerModel.Health <= 0)
+        {
+            if(respawnTiemedown == 0)
+            {
+            deathUi.SetActive(true);
+            animator.SetTrigger("Death");
+                animator.SetBool("IsDeath",true);
+            }
+            respawnTiemedown += Time.deltaTime;
+            deathText.text = $"Respawn {respawnTime - respawnTiemedown:F1}"; // 남은 재생성 시간 표시
+            if (respawnTiemedown >= respawnTime)
+            {
+                playerModel.Health = playerModel.MaxHealth; // 플레이어 체력 초기화
+                deathUi.SetActive(false); // 죽음 UI 비활성화
+                transform.position = respawn.transform.position; // 플레이어 위치 재설정
+                respawnTiemedown = 0;
+                animator.SetBool("IsDeath", false);
+            }
+            return;
+        }
     
 
         if (playerModel.IsDamaged)
@@ -323,7 +351,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
     private CapsuleCollider col;
     private void OnDrawGizmos()
     {
@@ -411,6 +438,7 @@ public void GarudExit()
         attackModel.Damage = (int)weaponController.weaponModel.Damage; // 공격력 설정
         if (attack == "Parring")
         {
+            attackSoundScript.PlaySfx("Parry");
             attackModel.Type = AttackType.Parry;
             playerModel.StartAttack(weaponController, attackModel);
             playerModel.HasParried = true;
@@ -424,19 +452,22 @@ public void GarudExit()
         if (attack == "Combo_1")
         {
             StartCoroutine(SlashFX(0));
-
+            attackSoundScript.PlaySfx("Combo1");
 
         }
         else if (attack == "Combo_2")
         {
             StartCoroutine(SlashFX(1));
+            attackSoundScript.PlaySfx("Combo2");
         }
         else if (attack == "Combo_3")
         {
             StartCoroutine(SlashFX(2));
+            attackSoundScript.PlaySfx("Combo3");
         }
         if (attack == "JumpAttack01")
         {
+            attackSoundScript.PlaySfx("JumpAttack3");
             ApplyJumpAttack(3f, 45f, Vector3.down);
             StartCoroutine(SlashFX(3));
             StartCoroutine(SlashFX(7));
@@ -444,23 +475,27 @@ public void GarudExit()
         }
         else if (attack == "JumpAttack02")
         {
-
+            attackSoundScript.PlaySfx("JumpAttack2");
             ApplyJumpAttack(3f, 9f, Vector3.up);
             StartCoroutine(SlashFX(4));
             attackModel.Range.y = 2f;
         }
         else if (attack == "JumpAttack03")
         {
+            attackSoundScript.PlaySfx("JumpAttack1");
+            attackSoundScript.PlaySfx("JumpAttack3");
             ApplyJumpAttack(3f, 4f, Vector3.up);
             StartCoroutine(SlashFX(5));
             attackModel.Range.y = 1.5f;
         }
         else if (attack == "ParrySkill")
         {
+           
             attackModel.Damage = (int)weaponController.weaponModel.Damage * 2;
         }
         else if (attack == "GuardAttackSkill")
         {
+            attackSoundScript.PlaySfx("DashSkill");
             attackModel.Type = AttackType.Skill; // 스킬 공격 타입 설정
             playerModel.StartAttack(weaponController, attackModel);
             StartCoroutine(EndAttack(0.3f, 1.5f)); // 공격 종료 후 히트박스 비활성화
@@ -468,6 +503,7 @@ public void GarudExit()
         }
         else if (attack == "UpperSkill")
         {
+            attackSoundScript.PlaySfx("UpperSkill");
             attackModel.Type = AttackType.Skill; // 스킬 공격 타입 설정
             attackModel.Range = new Vector3(1f, 1f, 1.4f); // 상향 공격 범위 설정
         }
