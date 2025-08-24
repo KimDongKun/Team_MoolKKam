@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class NightWaveManager : MonoBehaviour
@@ -13,8 +14,12 @@ public class NightWaveManager : MonoBehaviour
     public float nightDuration = 180f;  // 밤 3분
     public int currentDay = 1;
 
-    private bool running;
 
+    public GameObject boss;
+    private bool running;
+    public GameObject endPageUi;
+    public Transform endPageSpawnPos;
+    public GameObject player;
     public bool IsNight { get; private set; }
     public float NightRemaining { get; private set; }
 
@@ -23,6 +28,9 @@ public class NightWaveManager : MonoBehaviour
     public event Action<float, float> OnNightProgress;     // (elapsed, duration)
     public event Action<int> OnNightEnd;
 
+    public GameObject idleNpc; // 관리자 평소 대화 npc 스크립트
+    public GameObject endPageNpc; // 관리자 평소 대화 npc 스크립트
+    public bool isEndPage = false;
 
     void Start()
     {
@@ -128,15 +136,45 @@ public class NightWaveManager : MonoBehaviour
                 cfg.meteorCount = 40; cfg.intervalMin = 4f; cfg.intervalMax = 11f;
                 cfg.randomHorizontal = true;
                 break;
+            case 4:
+                if (!boss.activeSelf)
+                {
+                    isEndPage = true;
+                    endPageUi.SetActive(true);
+                    idleNpc.SetActive(false);
+                    endPageNpc.SetActive(true);
+                    StartCoroutine(EndPageEvent());
+                    // boss.SetActive(true);
+                }
+                nightDuration = 600f;
+                cfg.meteorCount = 0;
+                break;
             default: // 4일차+
-                cfg.meteorCount = Mathf.Min(25, 20 + (day - 9) * 2);
-                cfg.intervalMin = 3f; cfg.intervalMax = 4f;
-                cfg.randomHorizontal = true;
+                if(boss.activeSelf) Debug.Log("GameOver.");
+
+                //cfg.intervalMin = 3f; cfg.intervalMax = 4f;
+                //cfg.randomHorizontal = true;
                 break;
         }
 
         return cfg;
     }
+
+    IEnumerator EndPageEvent()
+    {
+        yield return new WaitForSeconds(1.5f);
+        endPageSpawnPos = GameObject.Find("endPageSpawn").transform;
+        player.transform.position = endPageSpawnPos.position;
+        yield return new WaitForSeconds(2.5f);
+        endPageUi.SetActive(false);
+
+    }
+
+    public void SpawnBoss()
+    {
+        boss.SetActive(true);
+    }
+
 
     private struct WaveConfig
     {

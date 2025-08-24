@@ -67,6 +67,7 @@ public class PlayerUIView : MonoBehaviour
         npcViewModel = new NPCViewModel(playerViewModel.npcModel);
         npcViewModel.OnDialogueUpdate += UpdateDialogue;
 
+        Debug.Log("NPC PropertyChanged 구독 시작");
         npcNextTextButton.onClick.RemoveAllListeners();
         npcNextTextButton.onClick.AddListener(npcViewModel.ShowNextDialogue);
     }
@@ -212,6 +213,7 @@ public class PlayerUIView : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && playerViewModel.IsNpcMeeting)
         {
+           
             OnNPCPropertyChanged(playerViewModel);
             npcImage.texture = npcViewModel.Image;
             npcName.text = npcViewModel.Name;
@@ -245,6 +247,11 @@ public class PlayerUIView : MonoBehaviour
             buildController.buildUI.SetActive(false);
             // playerViewModel.
         }
+    }
+
+    public void EscapeUi()
+    {
+        npcUI.SetActive(false);
     }
 
     void SetButtonData()

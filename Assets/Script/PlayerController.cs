@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     public float maxCheckDistance = 17f;  // 최대 검사 거리
     public LayerMask groundLayer;        // Ground 전용 레이어 (선택사항)
-    public float bufferTime = 0.3f; // 선입력 유지 시간 (초)
+    public float bufferTime = 0.15f; // 선입력 유지 시간 (초)
     private float AttackBufferTimer = 0f;
 
     public bool skill1_canSkill = true;
@@ -305,7 +305,7 @@ public class PlayerController : MonoBehaviour
         if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && !playerModel.IsAttacking && !playerModel.IsGuarding && !playerModel.IsGrounded && !playerModel.HasJumpAttacked) // 공중공격 트리거
         {
             Debug.Log($"Distance to ground: {distance}");
-            if (distance > 2f)
+            if (distance > 1.8f)
             {
                 playerModel.IsAttacking = true;
                 playerModel.HasJumpAttacked = true;
@@ -430,6 +430,7 @@ public void GarudExit()
 
     public void EnableDamage(string attack)
     {
+      if(Time.timeScale != 1f)  Time.timeScale = 1f; // 정상속도
         weaponEffact.SetBool("Attack", true);
         playerModel.IsAttacking = true;
        // Debug.Log($"EnableDamage called with attack: {attack}");
@@ -439,6 +440,7 @@ public void GarudExit()
         attackModel.Damage = (int)weaponController.weaponModel.Damage; // 공격력 설정
         if (attack == "Parring")
         {
+            Time.timeScale = 0.3f; // 느리게
             attackSoundScript.PlaySfx("Parry");
             attackModel.Type = AttackType.Parry;
             playerModel.StartAttack(weaponController, attackModel);
@@ -559,9 +561,10 @@ public void GarudExit()
 
     IEnumerator EndAttack(float time,float delay)   // 플레이어 공격 히트박스 적용 시간
     {
-               yield return new WaitForSeconds(delay);
+               yield return new WaitForSecondsRealtime(delay);
      //   playerModel.IsAttacking = false;
-             yield return new WaitForSeconds(time);
+             yield return new WaitForSecondsRealtime(time);
+        if (Time.timeScale != 1f) Time.timeScale = 1f; // 정상속도
         playerModel.EndAttack(weaponController);
         weaponEffact.SetBool("Attack", false);
     }

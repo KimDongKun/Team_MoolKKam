@@ -12,6 +12,8 @@ public class EnemyController : Enemy
     private float lastAttackTime = -999f;
     public Transform attackPoint;
     public LayerMask playerLayer;
+    
+
 
     // 🔸 추가: 건물/석상 공격을 위한 설정
     public LayerMask buildingLayer;         // 건물 레이어

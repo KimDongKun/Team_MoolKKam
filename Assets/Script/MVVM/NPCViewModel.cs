@@ -52,13 +52,15 @@ public class NPCViewModel
     
     public void ShowNextDialogue()
     {
+        Debug.Log($"ShowNextDialogue {dialogueIndex} / {Talks.Count}, isTrigger: {npcModel.isTrigger}");
         if (dialogueIndex < Talks.Count && npcModel.isTrigger)
         {
             OnDialogueUpdate?.Invoke(Talks[dialogueIndex++]);
         }
         else
         {
-            ResetDialoque();
+            // ResetDialoque();
+            EndDialoque();
         }
     }
     public void ShowTradeUI()
@@ -79,6 +81,29 @@ public class NPCViewModel
 
 
         Debug.Log("Check");
+    }
+
+    public void EndDialoque()
+    {
+        ResetDialoque();
+        GameObject uimanager = GameObject.Find("UI Manager");
+        PlayerUIView playerUIView = uimanager.GetComponent<PlayerUIView>();
+        playerUIView.EscapeUi();
+        string name = playerUIView.npcViewModel.Name;
+        
+        if(name.Equals("지친 관리자"))
+        {
+            GameObject nightManager = GameObject.Find("NightWave");
+            NightWaveManager nightWaveManager = nightManager.GetComponent<NightWaveManager>();
+            if (nightWaveManager.isEndPage)
+            {
+
+                nightWaveManager.SpawnBoss();
+
+                return;
+            }
+        }
+        Debug.Log($"EndDialoque {name}");
     }
 
     public void ResetDialoque()

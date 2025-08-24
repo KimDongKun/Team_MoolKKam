@@ -13,7 +13,8 @@ public class DayNightUIController : MonoBehaviour
     [SerializeField] public Slider nightProgress;     // 0~1 (³²Àº ½Ã°£ Ç¥½Ã¸é 1 - t/dur)
     [SerializeField] public TMP_Text nightTimerText;  // "02:15"
     [SerializeField] CanvasGroup nightTint;    // ¹ã¿¡¸¸ »ìÂ¦ ¾îµÓ°Ô (alpha 0~0.35)
-
+    [SerializeField] GameObject nightImage;
+    [SerializeField] GameObject DayImage;
     [Header("Style")]
     [SerializeField] float tintAlphaNight = 0.35f;
     [SerializeField] float tintFade = 0.3f;
@@ -25,6 +26,8 @@ public class DayNightUIController : MonoBehaviour
         if (!manager) manager = FindAnyObjectByType<NightWaveManager>();
         if (manager)
         {
+            nightImage.SetActive(false);
+            DayImage.SetActive(false);
             manager.OnDayStart += HandleDay;
             manager.OnNightStart += HandleNight;
             manager.OnNightProgress += HandleNightProgress;
@@ -53,7 +56,12 @@ public class DayNightUIController : MonoBehaviour
 
     void HandleDay(int day)
     {
-        if (phaseText) phaseText.text = "DAY";
+        if (phaseText)
+        {
+            phaseText.text = "DAY";
+            DayImage.SetActive(true);
+            nightImage.SetActive(false);
+        }
         if (dayText) dayText.text = $"Day {day}";
         if (nightProgress) nightProgress.gameObject.SetActive(false);
         if (nightTimerText) nightTimerText.gameObject.SetActive(false);
@@ -62,7 +70,12 @@ public class DayNightUIController : MonoBehaviour
 
     void HandleNight(int day, float duration)
     {
-        if (phaseText) phaseText.text = "NIGHT";
+        if (phaseText)
+        {
+            phaseText.text = "NIGHT";
+            nightImage.SetActive(true);
+            DayImage.SetActive(false);
+        }
         if (dayText) dayText.text = $"Day {day}";
         if (nightProgress)
         {

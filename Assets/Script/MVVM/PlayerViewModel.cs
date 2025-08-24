@@ -390,6 +390,10 @@ public class PlayerViewModel : INotifyPropertyChanged
                 return "parry"; // 가드 중에 적의 공격을 막으면 반격
             }
             else { 
+                playerModel.Health -= dmg / 5; // 가드 중에는 데미지를 1/5로 감소
+                Mp += 1;
+                PlayerController playerController = playerModel.Animator.GetComponent<PlayerController>();
+                playerController.PlaySlashFX(9);
                 return "block"; // 가드 중에는 데미지를 받지 않음
             }
         }

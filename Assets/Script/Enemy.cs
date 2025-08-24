@@ -18,6 +18,9 @@ public abstract class Enemy : MonoBehaviour
     private float stunTime = 2;
     public Slider slider;
     public GameObject dropItem;
+
+    public GameObject nightWaveManager;
+
     // 풀 참조
     private EnemyPool pool;
     public void SetPool(EnemyPool p) => pool = p;
@@ -27,6 +30,7 @@ public abstract class Enemy : MonoBehaviour
     //  풀에서 꺼내질 때(스폰 직전) 매번 호출될 초기화 훅
     public virtual void ResetForSpawn()
     {
+        nightWaveManager = GameObject.Find("NightWave");
         currentHealth = maxHealth;
         stunned = false;
         spawned = true;               // 스폰 애니메이션 동안 무적/무시
@@ -79,6 +83,10 @@ public abstract class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (!nightWaveManager.GetComponent<NightWaveManager>().IsNight)
+        {
+            Die();
+        }
         if (ShouldAttack()) Attack();
         else Move();
     }

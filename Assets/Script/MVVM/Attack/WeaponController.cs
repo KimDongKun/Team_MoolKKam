@@ -14,11 +14,13 @@ public class WeaponController : MonoBehaviour
     public Vector3 DefaultRange;
     private BoxCollider col;
     public VisualEffect dot;
+    public PlayerController playerController;
     public void Start()
     {
         DefaultRange = GetComponent<BoxCollider>().size; // 기본 범위 크기 저장
         col = GetComponent<BoxCollider>(); 
         Debug.Log($"WeaponController Start: DefaultRange = {DefaultRange}");
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();   
     }
     public void EnableDamage(AttackModel attack)
     {
@@ -70,9 +72,11 @@ public class WeaponController : MonoBehaviour
         if (!canDamage) return;
        // Debug.Log($"WeaponController OnTriggerStay: {other.gameObject.name} with tag {other.tag}");
         if (damagedEnemies.Contains(other.gameObject)) return; // 이미 맞은 적은 무시
+        
         if (objectTeg.Equals("boss")) {
          //   Debug.Log($"WeaponController OnTriggerStay: Hit Boss {other.gameObject.name}");
             var bosshealth = other.GetComponent<BossController>();
+            playerController.playerViewModel.Mp += 1; // 공격할 때마다 MP 1 증가
             if (bosshealth != null)
             {
                 bosshealth.TakeDamage(attackModel.Damage);
@@ -86,6 +90,7 @@ public class WeaponController : MonoBehaviour
         var health = other.GetComponent<EnemyController>();
         if (health != null)
         {
+            playerController.playerViewModel.Mp += 1; // 공격할 때마다 MP 1 증가
             health.TakeDamage(attackModel.Damage, attackModel);
             damagedEnemies.Add(other.gameObject); // 맞은 적 등록
         }
