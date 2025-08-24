@@ -78,6 +78,7 @@ public class BuildController : MonoBehaviour
 
                 useBuildModel.BuildModelPrefab.SetActive(false);
                 GameObject ins = Instantiate(useBuildModel.BuildModelPrefab, useBuildModel.BuildModelPrefab.transform.position, Quaternion.identity);
+                ins.tag = "Building";
                 ins.GetComponent<BuildObject>().isInstall = true;
                 ins.SetActive(true);
                 BuildClick();
