@@ -101,8 +101,8 @@ public class PlayerModel
         Name = name;
         Health = 200f;
         MaxHealth = 200f;
-        MP = 25f; // 플레이어의 마나
-        MaxMP = 25f; // 플레이어의 최대 마나
+        MP = 50f; // 플레이어의 마나
+        MaxMP = 50f; // 플레이어의 최대 마나
         Attack = 5f;
         Speed = 9f;
         JumpForce = 15f; // 점프 힘

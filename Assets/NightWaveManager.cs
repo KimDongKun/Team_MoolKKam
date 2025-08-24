@@ -23,13 +23,14 @@ public class NightWaveManager : MonoBehaviour
     public bool IsNight { get; private set; }
     public float NightRemaining { get; private set; }
 
-    public event Action<int> OnDayStart;
+    public event Action<int, float> OnDayStart;
     public event Action<int, float> OnNightStart;          // (day, duration)
     public event Action<float, float> OnNightProgress;     // (elapsed, duration)
     public event Action<int> OnNightEnd;
 
     public GameObject idleNpc; // 관리자 평소 대화 npc 스크립트
     public GameObject endPageNpc; // 관리자 평소 대화 npc 스크립트
+    public GameObject endWall;
     public bool isEndPage = false;
 
     void Start()
@@ -45,8 +46,9 @@ public class NightWaveManager : MonoBehaviour
         {
             // 낮
             IsNight = false;
-            OnDayStart?.Invoke(currentDay);
+            OnDayStart?.Invoke(currentDay, dayDuration);
             Debug.Log($"[DAY {currentDay}] DAY START");
+            StartCoroutine(TrackNightProgress(dayDuration));
             yield return new WaitForSeconds(dayDuration);
 
             // 밤 시작
@@ -143,6 +145,7 @@ public class NightWaveManager : MonoBehaviour
                     endPageUi.SetActive(true);
                     idleNpc.SetActive(false);
                     endPageNpc.SetActive(true);
+                    endWall.SetActive(true);
                     StartCoroutine(EndPageEvent());
                     // boss.SetActive(true);
                 }

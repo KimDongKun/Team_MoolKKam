@@ -88,7 +88,7 @@ public class PlayerUIView : MonoBehaviour
         }
         else if(e.PropertyName == "Mp"){
             //   Debug.Log("MP º¯°æµÊ: " + playerViewModel.Mp);
-            PlayerMP.text = $"{playerViewModel.Mp}/25";
+            PlayerMP.text = $"{playerViewModel.Mp}/50";
             MpSlider.value = playerViewModel.Mp;
         }
         else if (e.PropertyName == "TakeDamage")
@@ -137,7 +137,7 @@ public class PlayerUIView : MonoBehaviour
         MpSlider.value = playerViewModel.Mp;
 
         PlayerHP.text = $"{playerViewModel.Health}/200";
-        PlayerMP.text = $"{playerViewModel.Mp}/25";
+        PlayerMP.text = $"{playerViewModel.Mp}/50";
         if (npcViewModel != null)
         {
             SetCostData();

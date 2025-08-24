@@ -12,6 +12,8 @@ public class BossController : MonoBehaviour
     public List<IBossPattern> patternList;
 
     public GameObject BossUI;
+    public GameObject EndingUI;
+
     public Slider healthUi;
     private float nextAttackTime = 0;
     private GameObject selectPattern;
@@ -43,6 +45,7 @@ public class BossController : MonoBehaviour
         {
             isAlive = false;
             BossUI?.SetActive(false);
+            EndingUI?.SetActive(true);
             Debug.Log("보스가 죽었습니다.");
         }
     }   

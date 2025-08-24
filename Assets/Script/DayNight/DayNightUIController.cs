@@ -54,7 +54,7 @@ public class DayNightUIController : MonoBehaviour
         if (nightTint) nightTint.alpha = 0f;
     }
 
-    void HandleDay(int day)
+    void HandleDay(int day, float duration)
     {
         if (phaseText)
         {
@@ -63,8 +63,14 @@ public class DayNightUIController : MonoBehaviour
             nightImage.SetActive(false);
         }
         if (dayText) dayText.text = $"Day {day}";
-        if (nightProgress) nightProgress.gameObject.SetActive(false);
-        if (nightTimerText) nightTimerText.gameObject.SetActive(false);
+        if (nightProgress) nightProgress.gameObject.SetActive(true);
+        if (nightTimerText) nightTimerText.gameObject.SetActive(true);
+
+        if (nightTimerText)
+        {
+            nightTimerText.text = Format(duration);
+            nightTimerText.gameObject.SetActive(true);
+        }
         FadeTint(0f);
     }
 

@@ -42,7 +42,7 @@ public class DayNightLightingController : MonoBehaviour
         }
     }
 
-    void HandleDay(int day)
+    void HandleDay(int day, float duration)
     {
         StartLerp(dayLightColor, dayIntensity, dayAmbient, 0f);
     }
