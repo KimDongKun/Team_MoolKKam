@@ -11036,6 +11036,7 @@ MonoBehaviour:
   dayDuration: 5
   nightDuration: 5
   currentDay: 3
+  bossUi: {fileID: 1631814123}
   boss: {fileID: 1459220226}
   endPageUi: {fileID: 927629326}
   endPageSpawnPos: {fileID: 383205046}
@@ -11043,7 +11044,7 @@ MonoBehaviour:
   idleNpc: {fileID: 6621936461284743006}
   endPageNpc: {fileID: 1319999501}
   endWall: {fileID: 1391460872}
-  endPageRertyUi: {fileID: 0}
+  endPageRertyUi: {fileID: 2112821009}
   isEndPage: 0
 --- !u!1 &713436634
 GameObject:
@@ -30187,7 +30188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2112821010
 RectTransform:
   m_ObjectHideFlags: 0
