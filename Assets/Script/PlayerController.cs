@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     public VisualEffect chargeEffect;
 
+    public NightWaveManager nightWaveManager;
 
     public List<GameObject> enableUi; // 활성화할 UI 오브젝트 리스트
 
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         attackSoundScript = GetComponent<AttackSoundScript>();
+        nightWaveManager = GameObject.Find("NightWave").GetComponent<NightWaveManager>();   
         if (col == null)
             col = GetComponent<CapsuleCollider>();
     }
@@ -62,19 +64,31 @@ public class PlayerController : MonoBehaviour
     {
         if(playerModel.Health <= 0)
         {
+            if (nightWaveManager.isEndPage && respawnTiemedown == 0)
+            {
+                StartCoroutine(nightWaveManager.EndPageRetry());
+                respawnTime = 1.5f;
+                //return;
+            } 
             if(respawnTiemedown == 0)
             {
-            deathUi.SetActive(true);
-            animator.SetTrigger("Death");
+
+                if (!nightWaveManager.isEndPage) 
+                {
+                    deathUi.SetActive(true);
+                }
+                animator.SetTrigger("Death");
                 animator.SetBool("IsDeath",true);
             }
+  
             respawnTiemedown += Time.deltaTime;
             deathText.text = $"Respawn {respawnTime - respawnTiemedown:F1}"; // 남은 재생성 시간 표시
             if (respawnTiemedown >= respawnTime)
             {
-                playerModel.Health = playerModel.MaxHealth; // 플레이어 체력 초기화
+                playerViewModel.Health = playerModel.MaxHealth; // 플레이어 체력 초기화
                 deathUi.SetActive(false); // 죽음 UI 비활성화
-                transform.position = respawn.transform.position; // 플레이어 위치 재설정
+
+                if (!nightWaveManager.isEndPage) transform.position = respawn.transform.position; // 플레이어 위치 재설정
                 respawnTiemedown = 0;
                 animator.SetBool("IsDeath", false);
             }

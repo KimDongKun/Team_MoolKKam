@@ -14,6 +14,7 @@ public class NightWaveManager : MonoBehaviour
     public float nightDuration = 180f;  // 밤 3분
     public int currentDay = 1;
 
+    public GameObject bossUi;
 
     public GameObject boss;
     private bool running;
@@ -31,6 +32,7 @@ public class NightWaveManager : MonoBehaviour
     public GameObject idleNpc; // 관리자 평소 대화 npc 스크립트
     public GameObject endPageNpc; // 관리자 평소 대화 npc 스크립트
     public GameObject endWall;
+    public GameObject endPageRertyUi;
     public bool isEndPage = false;
 
     void Start()
@@ -163,6 +165,17 @@ public class NightWaveManager : MonoBehaviour
         return cfg;
     }
 
+    public IEnumerator EndPageRetry()
+    {
+        boss.SetActive(false);
+        nightDuration = 600f;
+        endPageRertyUi.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        player.transform.position = endPageSpawnPos.position;
+        yield return new WaitForSeconds(2f);
+        endPageRertyUi.SetActive(false);
+    }
+
     IEnumerator EndPageEvent()
     {
         yield return new WaitForSeconds(1.5f);
@@ -170,6 +183,7 @@ public class NightWaveManager : MonoBehaviour
         player.transform.position = endPageSpawnPos.position;
         yield return new WaitForSeconds(2.5f);
         endPageUi.SetActive(false);
+        
 
     }
 
