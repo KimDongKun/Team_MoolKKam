@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class BossController : MonoBehaviour
 {
     public PlayerController player;
+    public AudioController audioController;
     public List<GameObject> gameObjects;
     public List<IBossPattern> patternList;
 
@@ -22,6 +23,8 @@ public class BossController : MonoBehaviour
     public bool isAlive = true;
     public Material bossMat;
 
+    public AudioSource bossSound;
+    public AudioClip[] bossClips;
     private void Start()
     {
         patternList = new List<IBossPattern>();
@@ -39,6 +42,7 @@ public class BossController : MonoBehaviour
         if (!isAlive) return;
         health -= damage;
         healthUi.value = health; // Assuming max health is 500   
+        
         StartCoroutine(GetDamageColor());
         Debug.Log($"보스 체력: {health}");
         if (health <= 0)
@@ -46,7 +50,13 @@ public class BossController : MonoBehaviour
             isAlive = false;
             BossUI?.SetActive(false);
             EndingUI?.SetActive(true);
+            this.gameObject.SetActive(false);
             Debug.Log("보스가 죽었습니다.");
+            BossSoundPlay(bossClips[1]);
+        }
+        else
+        {
+            BossSoundPlay(bossClips[0]);
         }
     }   
     IEnumerator GetDamageColor()
@@ -75,6 +85,11 @@ public class BossController : MonoBehaviour
                 BossUI?.SetActive(true);
             }
         }
+    }
+    public void BossSoundPlay(AudioClip clip)
+    {
+        bossSound.resource = clip;
+        bossSound.Play();
     }
     public void RandomPattern()
     {

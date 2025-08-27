@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Unity.Burst.CompilerServices;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class PlayerViewModel : INotifyPropertyChanged
@@ -88,7 +85,9 @@ public class PlayerViewModel : INotifyPropertyChanged
             Debug.Log("Æ÷¼Ç °¹¼ö : "+ potion.Quantity);
             potion.Quantity -= 1;
             playerModel.Health = Mathf.Clamp(playerModel.Health + heal, 0, 200);
-           
+            playerModel.MP = Mathf.Clamp(playerModel.MP + heal, 0, 50);
+
+
             InventoryUpdate();
         }
         else
@@ -216,7 +215,7 @@ public class PlayerViewModel : INotifyPropertyChanged
     }
     public bool canSkill()
     {
-        return playerModel.MP >= 5f;
+        return playerModel.MP >= 10f;
     }
 
     public void UseSkill(Animator animator, Rigidbody rb, string type)

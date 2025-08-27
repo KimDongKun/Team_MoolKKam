@@ -129,15 +129,15 @@ public class NightWaveManager : MonoBehaviour
         switch (day)
         {
             case 1:
-                cfg.meteorCount = 20; cfg.intervalMin = 6f; cfg.intervalMax = 12f;
+                cfg.meteorCount = 40; cfg.intervalMin = 6f; cfg.intervalMax = 12f;
                 cfg.randomHorizontal = false; cfg.fixedDirX = 1; // 한쪽만
                 break;
             case 2:
-                cfg.meteorCount = 30; cfg.intervalMin = 5f; cfg.intervalMax = 13f;
+                cfg.meteorCount = 60; cfg.intervalMin = 5f; cfg.intervalMax = 13f;
                 cfg.randomHorizontal = true; // 좌우 번갈아
                 break;
             case 3:
-                cfg.meteorCount = 40; cfg.intervalMin = 4f; cfg.intervalMax = 11f;
+                cfg.meteorCount = 80; cfg.intervalMin = 4f; cfg.intervalMax = 11f;
                 cfg.randomHorizontal = true;
                 break;
             case 4:

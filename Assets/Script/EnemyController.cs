@@ -289,6 +289,7 @@ public class EnemyController : Enemy
 
         FlipToTarget();
         animator.SetBool("isMoving", true);
+        //animator.Play("Walk_ver_B_Front_L45");
 
         Vector3 pos = transform.position;
         pos.z = -1.05f;

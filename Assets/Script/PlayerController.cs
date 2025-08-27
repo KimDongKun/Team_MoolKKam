@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("Component")]
     public WeaponController weaponController;
     public Animator animator;
+    public DamagePostProcess damagePostProcess;
 
     [Header("Player Data")]
     public GameObject player;
@@ -416,7 +417,11 @@ public void GarudExit()
     }
     public string TakeDamage(int damage)
     {
-            return    playerViewModel.TakeDamage(damage);
+        if(playerModel.IsGuarding) attackSoundScript.PlaySfx("Parry");
+
+        damagePostProcess.ShowDamageEffect();
+        CameraShake2D.Instance.Shake(0.2f, 5f);
+        return    playerViewModel.TakeDamage(damage);
     }
     
     IEnumerator DisAbleHasParryed()
@@ -444,7 +449,9 @@ public void GarudExit()
 
     public void EnableDamage(string attack)
     {
-      if(Time.timeScale != 1f)  Time.timeScale = 1f; // 정상속도
+        CameraShake2D.Instance.Shake(0.15f, 1f);
+
+        if (Time.timeScale != 1f)  Time.timeScale = 1f; // 정상속도
         weaponEffact.SetBool("Attack", true);
         playerModel.IsAttacking = true;
        // Debug.Log($"EnableDamage called with attack: {attack}");

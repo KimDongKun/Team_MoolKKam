@@ -3,7 +3,6 @@ using System.Collections;
 using System.Threading;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public class TentacleMagic : BossPattern, IBossPattern
 {

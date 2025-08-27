@@ -65,9 +65,16 @@ public class ProjectileController : MonoBehaviour
     {
         if (!launched || target == null) return;
         this.transform.position = Vector3.MoveTowards(this.transform.position, setTarget + (Vector3.up*2), Time.deltaTime* setSpeed);
-        
+
+        float dis = Vector3.Distance(transform.position, target.position);
+
+        if (dis <= 0f)
+        {
+            Destroy(this.gameObject);
+        }
+
         // 적에 도달 시
-        if (Vector3.Distance(transform.position, target.position) <= 2f)
+        if (dis <= 2.4f)
         {
             Debug.Log("충돌"+ target.name);
 
@@ -79,5 +86,6 @@ public class ProjectileController : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
+        
     }
 }

@@ -1,12 +1,9 @@
-using System;
+
 using System.ComponentModel;
 using System.Linq;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
-using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 public class PlayerUIView : MonoBehaviour
 {
@@ -54,7 +51,10 @@ public class PlayerUIView : MonoBehaviour
     [Header("Build UI")]
     [SerializeField] BuildController buildController;
 
-    
+    [Header("Setting UI")]
+    [SerializeField] GameObject settingUI;
+
+
 
     public void Init(PlayerViewModel vm)
     {
@@ -202,6 +202,8 @@ public class PlayerUIView : MonoBehaviour
                 if (gatheringSlider.value.Equals(gatheringSlider.maxValue))
                 {
                     playerViewModel.CompleteGathering();
+                    UISoundController.Instance.PlayUISound("GetItem");
+                    gatheringSlider.gameObject.SetActive(false);
                 }
             }
         }
@@ -221,6 +223,8 @@ public class PlayerUIView : MonoBehaviour
             if (npcViewModel.isNPCTrader)
             {
                 Debug.Log("NPC : 거래시작");
+                UISoundController.Instance.PlayUISound("Trade");
+
                 npcViewModel.tradeUI.SetActive(true);
                 npcViewModel.ShowTradeUI();
                 SetButtonData();
@@ -237,6 +241,8 @@ public class PlayerUIView : MonoBehaviour
             if (playerViewModel.Health < 200)
             {
                 playerViewModel.HealingPotion(20);
+
+                UISoundController.Instance.PlayUISound("UsePotion");
             }
         }
         else if(Input.GetKeyDown(KeyCode.Escape))
@@ -245,6 +251,9 @@ public class PlayerUIView : MonoBehaviour
             upgradeUI.gameObject.SetActive(false);
             tradeUI.gameObject.SetActive(false);
             buildController.buildUI.SetActive(false);
+            settingUI.gameObject.SetActive(false);
+
+            upgradeEffectUI.SetActive(false);
             // playerViewModel.
         }
     }
