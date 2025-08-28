@@ -452,6 +452,15 @@ public class PlayerViewModel : INotifyPropertyChanged
 
     public void CompleteGathering()
     {
+        if(AddItemData.ItemName == "Potion")
+        {
+            TutorialManager.isUserGetPotion = true;
+        }
+        else if(AddItemData.ItemName == "Log")
+        {
+            TutorialManager.isUserGetLog = true;
+        }
+
         Debug.Log("자원채취 완료"+ AddItemData.ItemName);
         AddItem(AddItemData,3);
         playerModel.resourceObject.SetActive(false);

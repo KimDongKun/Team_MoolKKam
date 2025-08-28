@@ -179,11 +179,15 @@ public class PlayerUIView : MonoBehaviour
     }
     public void TradeButtonAddListener()
     {
+        TutorialManager.isUserGetStone = true;
+
         randomPickController.RandomStonePickList(playerViewModel);
         playerViewModel.InventoryUpdate();
     }
     public void UpgradeButtonAddListener()
     {
+        TutorialManager.isUserEnchant = true;
+
         playerViewModel.UpgradeWeaponPlayer();
         upgradeEffectUI.SetActive(false);
         upgradeEffectUI.SetActive(true);

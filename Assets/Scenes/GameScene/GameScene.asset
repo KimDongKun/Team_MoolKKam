@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Value: 2
   customPixelAspectRatio:
     m_OverrideState: 1
-    m_Value: -5.82
+    m_Value: 0
   posterizeLevels:
     m_OverrideState: 1
     m_Value: 256

@@ -35,13 +35,18 @@ public class NightWaveManager : MonoBehaviour
     public GameObject endPageRertyUi;
     public bool isEndPage = false;
 
-    void Start()
+    public void Start()
     {
         if (!running) StartCoroutine(DayNightLoop());
     }
 
     IEnumerator DayNightLoop()
     {
+        while (TutorialManager.isTutorial)
+        {
+            yield return null;
+        }
+
         running = true;
 
         while (true)

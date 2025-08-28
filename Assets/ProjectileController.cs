@@ -60,15 +60,18 @@ public class ProjectileController : MonoBehaviour
         velocity = dirXZ * vxz + Vector3.up * vy;
         launched = true;
     }
-
+   
     void Update()
     {
         if (!launched || target == null) return;
-        this.transform.position = Vector3.MoveTowards(this.transform.position, setTarget + (Vector3.up*2), Time.deltaTime* setSpeed);
 
+        Vector3 targetPos = setTarget + (Vector3.up * 2);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, Time.deltaTime* setSpeed);
+
+        float over = Vector3.Distance(transform.position, targetPos);
         float dis = Vector3.Distance(transform.position, target.position);
 
-        if (dis <= 0f)
+        if (over <= 0f)
         {
             Destroy(this.gameObject);
         }
