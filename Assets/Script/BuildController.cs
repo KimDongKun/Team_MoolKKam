@@ -64,25 +64,35 @@ public class BuildController : MonoBehaviour
     private void Update()
     {
         float mouse_X = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
-        if (isBuilding && mouse_X > -10f && mouse_X < 45)
+        if (isBuilding)
         {
-            
             useBuildModel.BuildModelPrefab.transform.position = new Vector3(mouse_X, useBuildModel.InstallPos.y, 0);
-
-            if (Input.GetMouseButtonDown(0))
+            if (mouse_X > -10f && mouse_X < 45)
             {
-                TradeModel tradeModel = new TradeModel(player.playerModel, selectCostItem);
-                TradeViewModel tradeViewModel = new TradeViewModel(tradeModel);
-                tradeViewModel.Trade(player.playerModel.GetItemList, selectCostItem);
-                player.playerViewModel.InventoryUpdate();
+                useBuildModel.BuildModelPrefab.GetComponent<SpriteRenderer>().color = Color.white;
 
-                useBuildModel.BuildModelPrefab.SetActive(false);
-                GameObject ins = Instantiate(useBuildModel.BuildModelPrefab, useBuildModel.BuildModelPrefab.transform.position, Quaternion.identity);
-                ins.tag = "Building";
-                ins.GetComponent<BuildObject>().isInstall = true;
-                ins.SetActive(true);
-                BuildClick();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    TutorialManager.isUserGetBuild = true;
+
+                    TradeModel tradeModel = new TradeModel(player.playerModel, selectCostItem);
+                    TradeViewModel tradeViewModel = new TradeViewModel(tradeModel);
+                    tradeViewModel.Trade(player.playerModel.GetItemList, selectCostItem);
+                    player.playerViewModel.InventoryUpdate();
+
+                    useBuildModel.BuildModelPrefab.SetActive(false);
+                    GameObject ins = Instantiate(useBuildModel.BuildModelPrefab, useBuildModel.BuildModelPrefab.transform.position, Quaternion.identity);
+                    ins.tag = "Building";
+                    ins.GetComponent<BuildObject>().isInstall = true;
+                    ins.SetActive(true);
+                    BuildClick();
+                }
+            }
+            else
+            {
+                useBuildModel.BuildModelPrefab.GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
+        
     }
 }

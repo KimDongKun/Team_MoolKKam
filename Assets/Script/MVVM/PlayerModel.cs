@@ -61,7 +61,7 @@ public class PlayerModel
     public void StartAttack(WeaponController weapon, AttackModel attackModel)
     {
         weapon.EnableDamage(attackModel);
-
+        if(attackModel.Type == AttackType.Skill) TutorialManager.isUseSkill = true;
 
     }
     public void EndAttack(WeaponController weapon)
