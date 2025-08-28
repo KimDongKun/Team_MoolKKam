@@ -171,16 +171,24 @@ public class PlayerViewModel : INotifyPropertyChanged
     {
         rollTimer += Time.deltaTime;
         float t = rollTimer / playerModel.rollTime;
-
-        if (t >= 1f)
+        Debug.Log($"구르기 진행도 : {t}");    
+        if (t >= 0.52f)
         {
-            playerModel.IsRolling = false;
-            player.transform.position = rollTargetPos; // 최종 위치 고정
+        //    playerModel.IsRolling = false;
+          //  player.transform.position = rollTargetPos; // 최종 위치 고정
+            player.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0); ;
+            Debug.Log("구르기 끝");
         }
         else
         {
-            float newX = Mathf.Lerp(rollStartPos.x, rollTargetPos.x, t);
-            player.transform.position = new Vector3(newX, player.transform.position.y, player.transform.position.z);
+
+            //player.transform.position = new Vector3(newX, player.transform.position.y, player.transform.position.z);
+            float xPower = 13f;
+            if(playerModel.FacingDirection != 0)
+            {
+                xPower *= -1f;
+            }
+            player.GetComponent<Rigidbody>().linearVelocity = new Vector3(xPower,0,0); ;
         }
     }
 
@@ -240,20 +248,38 @@ public class PlayerViewModel : INotifyPropertyChanged
         }
         if(type == "GuardAttackSkill")
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (mouseWorldPos.x > rb.transform.position.x)
+            //Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //if (mouseWorldPos.x > rb.transform.position.x)
+            //{
+            //    // 오른쪽 바라보기
+            //    rb.transform.rotation = Quaternion.Euler(0, 90, 0);
+            //    playerModel.FacingDirection = 0;
+            //}
+            //else
+            //{
+            //    // 왼쪽 바라보기
+            //    rb.transform.rotation = Quaternion.Euler(0, 270, 0);
+            //    playerModel.FacingDirection = 1;
+            //}
+            bool keyA = Input.GetKey(KeyCode.A);
+            bool keyD = Input.GetKey(KeyCode.D);
+
+            if (keyA)
             {
-                // 오른쪽 바라보기
-                rb.transform.rotation = Quaternion.Euler(0, 90, 0);
+                rb.transform.rotation = Quaternion.Euler(0, 270, 0);
+                playerModel.FacingDirection = 1;
+            }
+            else if (keyD)
+            {
+                    rb.transform.rotation = Quaternion.Euler(0, 90, 0);
                 playerModel.FacingDirection = 0;
             }
             else
             {
-                // 왼쪽 바라보기
-                rb.transform.rotation = Quaternion.Euler(0, 270, 0);
-                playerModel.FacingDirection = 1;
+
             }
-            animator.SetTrigger("GuardAttackSkill");
+
+                animator.SetTrigger("GuardAttackSkill");
             float dashForce = 45f; // 대시 힘  
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(rb.transform.forward * dashForce, ForceMode.VelocityChange);

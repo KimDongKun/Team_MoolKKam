@@ -167,7 +167,7 @@ public class NightWaveManager : MonoBehaviour
 
     public IEnumerator EndPageRetry()
     {
-        boss.SetActive(false);
+        //boss.SetActive(false);
         nightDuration = 600f;
         endPageRertyUi.SetActive(true);
         yield return new WaitForSeconds(2f);

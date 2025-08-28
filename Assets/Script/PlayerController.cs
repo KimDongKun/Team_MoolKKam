@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     public AttackSoundScript attackSoundScript; // 공격 사운드 스크립트
     public List<AudioClip> audioSources; // 오디오 소스 리스트
 
+    public bool isInvisible = false; // 무적 상태 변수    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
             if (nightWaveManager.isEndPage && respawnTiemedown == 0)
             {
                 StartCoroutine(nightWaveManager.EndPageRetry());
+                isInvisible = true;
                 respawnTime = 1.5f;
                 //return;
             } 
@@ -89,7 +91,11 @@ public class PlayerController : MonoBehaviour
                 playerViewModel.Health = playerModel.MaxHealth; // 플레이어 체력 초기화
                 deathUi.SetActive(false); // 죽음 UI 비활성화
 
-                if (!nightWaveManager.isEndPage) transform.position = respawn.transform.position; // 플레이어 위치 재설정
+                if (!nightWaveManager.isEndPage)
+                {
+                    transform.position = respawn.transform.position; // 플레이어 위치 재설정
+                    StartCoroutine(InvisibleTimer(2f)); // 2초간 무적 상태 유지
+                }
                 respawnTiemedown = 0;
                 animator.SetBool("IsDeath", false);
             }
@@ -360,6 +366,11 @@ public class PlayerController : MonoBehaviour
         //  StartCoroutine(StopAfterAnimation(0.2f)); // 움찔 애니메이션 길이만큼 재생
     }
 
+    private IEnumerator InvisibleTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+               isInvisible = false;
+    }
     private IEnumerator StopAfterAnimation(float duration)
     {
         yield return new WaitForSeconds(duration);
