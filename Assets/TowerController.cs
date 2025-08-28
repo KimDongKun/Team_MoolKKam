@@ -67,7 +67,7 @@ public class TowerController : BuildObject
         AttackModel attackModel = new AttackModel();
         attackModel.Name = "Tower";
         attackModel.Damage = Damage;
-        attackModel.Type = AttackType.Basic;
+        attackModel.Type = AttackType.Tower;
 
         ProjectileController proj = projObj.GetComponent<ProjectileController>();
         proj.SetAttackModel(attackModel);

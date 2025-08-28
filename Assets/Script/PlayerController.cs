@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             }
   
             respawnTiemedown += Time.deltaTime;
-            deathText.text = $"Respawn {respawnTime - respawnTiemedown:F1}"; // 남은 재생성 시간 표시
+            deathText.text = $"관리자에 의해 육체를 재 구성 하는중...\n{respawnTime - respawnTiemedown:F1}"; // 남은 재생성 시간 표시
             if (respawnTiemedown >= respawnTime)
             {
                 playerViewModel.Health = playerModel.MaxHealth; // 플레이어 체력 초기화
@@ -525,13 +525,13 @@ public void GarudExit()
         }
         else if (attack == "ParrySkill")
         {
-           
-            attackModel.Damage = (int)weaponController.weaponModel.Damage * 2;
+            attackModel.Damage = (int)(weaponController.weaponModel.Damage * 2f);
         }
         else if (attack == "GuardAttackSkill")
         {
             attackSoundScript.PlaySfx("DashSkill");
             attackModel.Type = AttackType.Skill; // 스킬 공격 타입 설정
+            attackModel.Damage = (int)(weaponController.weaponModel.Damage * 1.5f);
             playerModel.StartAttack(weaponController, attackModel);
             StartCoroutine(EndAttack(0.3f, 1.5f)); // 공격 종료 후 히트박스 비활성화
             return;
@@ -539,6 +539,7 @@ public void GarudExit()
         else if (attack == "UpperSkill")
         {
             attackSoundScript.PlaySfx("UpperSkill");
+            attackModel.Damage = (int)(weaponController.weaponModel.Damage * 1.8f);
             attackModel.Type = AttackType.Skill; // 스킬 공격 타입 설정
             attackModel.Range = new Vector3(1f, 1f, 1.4f); // 상향 공격 범위 설정
         }

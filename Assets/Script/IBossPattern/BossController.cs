@@ -53,6 +53,7 @@ public class BossController : MonoBehaviour
             this.gameObject.SetActive(false);
             Debug.Log("보스가 죽었습니다.");
             BossSoundPlay(bossClips[1]);
+            audioController.BGM_BossEnding();
         }
         else
         {

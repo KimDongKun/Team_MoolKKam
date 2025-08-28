@@ -56,6 +56,7 @@ public class NightWaveManager : MonoBehaviour
             OnDayStart?.Invoke(currentDay, dayDuration);
             Debug.Log($"[DAY {currentDay}] DAY START");
             StartCoroutine(TrackNightProgress(dayDuration));
+            if (currentDay.Equals(4)) GuideMessage.Instance.OnMessage("4일차 밤은 보스전입니다.\n무기를 강화하고, 포션을 얻어 보스전을 준비하세요.");
             yield return new WaitForSeconds(dayDuration);
 
             // 밤 시작
@@ -134,15 +135,15 @@ public class NightWaveManager : MonoBehaviour
         switch (day)
         {
             case 1:
-                cfg.meteorCount = 40; cfg.intervalMin = 6f; cfg.intervalMax = 12f;
+                cfg.meteorCount = 40; cfg.intervalMin = 4f; cfg.intervalMax = 6f;
                 cfg.randomHorizontal = false; cfg.fixedDirX = 1; // 한쪽만
                 break;
             case 2:
-                cfg.meteorCount = 60; cfg.intervalMin = 5f; cfg.intervalMax = 13f;
+                cfg.meteorCount = 40; cfg.intervalMin = 3f; cfg.intervalMax = 5f;
                 cfg.randomHorizontal = true; // 좌우 번갈아
                 break;
             case 3:
-                cfg.meteorCount = 80; cfg.intervalMin = 4f; cfg.intervalMax = 11f;
+                cfg.meteorCount = 40; cfg.intervalMin = 2f; cfg.intervalMax = 4f;
                 cfg.randomHorizontal = true;
                 break;
             case 4:
@@ -158,6 +159,7 @@ public class NightWaveManager : MonoBehaviour
                 }
                 nightDuration = 600f;
                 cfg.meteorCount = 0;
+                GuideMessage.Instance.DisableMessage();
                 break;
             default: // 4일차+
                 if(boss.activeSelf) Debug.Log("GameOver.");

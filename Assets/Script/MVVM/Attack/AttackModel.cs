@@ -22,5 +22,6 @@ public enum AttackType
     Basic,
     Skill,
     Parry,
-    Counter
+    Counter,
+    Tower
 }

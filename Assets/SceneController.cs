@@ -5,7 +5,7 @@ public class SceneController : MonoBehaviour
 {
     private void Start()
     {
-        Screen.SetResolution(1920, 1080, true);
+        SetWindow(true);
     }
     public void MoveScene(string sceneName)
     {
@@ -14,6 +14,10 @@ public class SceneController : MonoBehaviour
     public void MoveMenuScene()
     {
         SceneManager.LoadScene("MenuScene");
+    }
+    public void SetWindow(bool isFullScreen)
+    {
+        Screen.SetResolution(1920, 1080, isFullScreen);
     }
     public void ExitGame()
     {

@@ -20,7 +20,6 @@ public abstract class Enemy : MonoBehaviour
     public GameObject dropItem;
 
     public GameObject nightWaveManager;
-    public AudioSource damageAudio;
 
     // 풀 참조
     private EnemyPool pool;
@@ -62,7 +61,8 @@ public abstract class Enemy : MonoBehaviour
         Flip();
         currentHealth -= amount;
         slider.value = currentHealth;
-        damageAudio.Play();
+
+        //if(!attack.Type.Equals(AttackType.Tower)) damageAudio.Play();
 
         Debug.Log($"{gameObject.name} 피격! 현재 체력: {currentHealth} 공격유형 {attack.Type}");
         if (attack.Type == AttackType.Parry || attack.Type == AttackType.Skill)

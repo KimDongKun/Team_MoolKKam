@@ -180,6 +180,7 @@ public class PlayerUIView : MonoBehaviour
     public void TradeButtonAddListener()
     {
         TutorialManager.isUserGetStone = true;
+        UISoundController.Instance.PlayUISound("Stone");
 
         randomPickController.RandomStonePickList(playerViewModel);
         playerViewModel.InventoryUpdate();
@@ -187,6 +188,7 @@ public class PlayerUIView : MonoBehaviour
     public void UpgradeButtonAddListener()
     {
         TutorialManager.isUserEnchant = true;
+        UISoundController.Instance.PlayUISound("Enchant");
 
         playerViewModel.UpgradeWeaponPlayer();
         upgradeEffectUI.SetActive(false);

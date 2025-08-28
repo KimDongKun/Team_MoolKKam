@@ -15,8 +15,12 @@ public class WeaponController : MonoBehaviour
     private BoxCollider col;
     public VisualEffect dot;
     public PlayerController playerController;
+
+    private AudioSource damageSound;
     public void Start()
     {
+        damageSound = this.GetComponent<AudioSource>();
+
         DefaultRange = GetComponent<BoxCollider>().size; // 기본 범위 크기 저장
         col = GetComponent<BoxCollider>(); 
         Debug.Log($"WeaponController Start: DefaultRange = {DefaultRange}");
@@ -93,6 +97,7 @@ public class WeaponController : MonoBehaviour
             playerController.playerViewModel.Mp += 1; // 공격할 때마다 MP 1 증가
             health.TakeDamage(attackModel.Damage, attackModel);
             damagedEnemies.Add(other.gameObject); // 맞은 적 등록
+            damageSound.Play();
         }
     }
 }

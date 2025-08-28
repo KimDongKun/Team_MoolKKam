@@ -29,6 +29,7 @@ public class TutorialManager : MonoBehaviour
     public Transform target_Build;
     public Transform target_GetStone;
     public Transform target_Enchant;
+    public Transform target_End;
 
     public Transform player;
     public Image arrowImage;
@@ -70,9 +71,9 @@ public class TutorialManager : MonoBehaviour
         switch (currentStep)
         {
             case TutorialStep.Start:
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.P))
                 {
-                    SkipTutorial();
+                    SetStep(TutorialStep.End);
                 }
                 else if (Input.GetKeyDown(KeyCode.Return)) // Enter
                 {
@@ -176,7 +177,7 @@ public class TutorialManager : MonoBehaviour
         switch (step)
         {
             case TutorialStep.Start:
-                GuideMessage.Instance.OnMessage("튜토리얼을 스킵하려면 ESC, 진행하려면 Enter를 누르세요.");
+                GuideMessage.Instance.OnMessage("튜토리얼을 스킵하려면 P, 진행하려면 Enter를 누르세요.");
                 break;
             case TutorialStep.Move:
                 GuideMessage.Instance.OnMessage("A, D 키를 눌러 이동할 수 있습니다.");
@@ -230,10 +231,11 @@ public class TutorialManager : MonoBehaviour
                 GuideMessage.Instance.OnMessage("강화석을 각각 100개씩 제공해드렸습니다.\n 화살표를 따라 E를 눌러 상호작용 해주세요.\n강화석을 통해 무기를 강화하면 더욱 강한 피해를 입힐 수 있습니다. (Esc키를 누르면 UI를 닫을수있습니다.)");
                 break;
             case TutorialStep.End_1:
-                target = null;
-                GuideMessage.Instance.OnMessage("적을 잡아 달의 파편을 모으고, 달의 파편을 강화석으로 바꾼 다음 무기를 강화하시면 됩니다.\n(Enter를 눌러 다음으로 넘기기)");
+                SetArrowTarget(target_End);
+                GuideMessage.Instance.OnMessage("적을 잡아 달의 파편을 모으고, 달의 파편을 강화석으로 바꾼 다음 무기를 강화하시면 됩니다.\n달의 침략자들은 맵 중앙의 관리자를 노리고있습니다. 관리자를 지켜내세요.\n(Enter를 눌러 다음으로 넘기기)");
                 break;
             case TutorialStep.End_2:
+                target = null;
                 GuideMessage.Instance.OnMessage("적 공격타이밍에 맞추어 가드를 하면 Parring(패링)스킬을 통해 다양한 스킬연계도 가능합니다.\n예시) Parring(패링)스킬 후 바로 기본공격(마우스 좌클릭)\n(Enter를 눌러 다음으로 넘기기)");
                 break;
             case TutorialStep.End_3:
