@@ -53,6 +53,7 @@ public class PlayerUIView : MonoBehaviour
 
     [Header("Setting UI")]
     [SerializeField] GameObject settingUI;
+    [SerializeField] GameObject introUI;
 
 
 
@@ -258,7 +259,7 @@ public class PlayerUIView : MonoBehaviour
             tradeUI.gameObject.SetActive(false);
             buildController.buildUI.SetActive(false);
             settingUI.gameObject.SetActive(false);
-
+            introUI.SetActive(false);
             upgradeEffectUI.SetActive(false);
             // playerViewModel.
         }

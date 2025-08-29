@@ -31,6 +31,7 @@ public class TutorialManager : MonoBehaviour
     public Transform target_Enchant;
     public Transform target_End;
 
+    public GameObject introUI;
     public Transform player;
     public Image arrowImage;
 
@@ -73,10 +74,12 @@ public class TutorialManager : MonoBehaviour
             case TutorialStep.Start:
                 if (Input.GetKeyDown(KeyCode.P))
                 {
+                    introUI.SetActive(false);
                     SetStep(TutorialStep.End);
                 }
                 else if (Input.GetKeyDown(KeyCode.Return)) // Enter
                 {
+                    introUI.SetActive(false);
                     SetStep(TutorialStep.Move);
                 }
                 break;
@@ -214,7 +217,7 @@ public class TutorialManager : MonoBehaviour
                 isUserGetBuild = false;
                 SetAddItem(tutorial_log, 10);
                 SetArrowTarget(target_Build);
-                GuideMessage.Instance.OnMessage("나무를 10개 제공해드렸습니다.\n왼쪽 상단의 건설버튼을 눌러 아무 건축물을 지어주세요. (Esc키를 누르면 UI를 닫을수있습니다.)");
+                GuideMessage.Instance.OnMessage("나무를 10개 제공해드렸습니다.\n우측 상단의 건설버튼을 눌러 아무 건축물을 지어주세요. (Esc키를 누르면 UI를 닫을수있습니다.)");
                 break;
             case TutorialStep.GetStone:
                 isUserGetStone = false;
