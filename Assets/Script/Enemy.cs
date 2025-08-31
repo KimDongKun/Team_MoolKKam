@@ -21,6 +21,8 @@ public abstract class Enemy : MonoBehaviour
 
     public GameObject nightWaveManager;
 
+    public bool isAlive = false;
+
     // 풀 참조
     private EnemyPool pool;
     public void SetPool(EnemyPool p) => pool = p;
@@ -30,6 +32,7 @@ public abstract class Enemy : MonoBehaviour
     //  풀에서 꺼내질 때(스폰 직전) 매번 호출될 초기화 훅
     public virtual void ResetForSpawn()
     {
+        isAlive = true;
         nightWaveManager = GameObject.Find("NightWave");
         currentHealth = maxHealth;
         stunned = false;
@@ -86,7 +89,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (!nightWaveManager.GetComponent<NightWaveManager>().IsNight)
+        if (!nightWaveManager.GetComponent<NightWaveManager>().IsNight && isAlive)
         {
             Die();
         }
@@ -96,6 +99,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        isAlive = false;
         Debug.Log($"{gameObject.name} 사망!");
         //  Destroy(gameObject);
         //  풀로 반납

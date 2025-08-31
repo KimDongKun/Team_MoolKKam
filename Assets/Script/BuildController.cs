@@ -91,6 +91,11 @@ public class BuildController : MonoBehaviour
             else
             {
                 useBuildModel.BuildModelPrefab.GetComponent<SpriteRenderer>().color = Color.red;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    useBuildModel.BuildModelPrefab.SetActive(false);
+                    BuildClick();
+                }
             }
         }
         

@@ -11477,7 +11477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meteorPrefab: {fileID: 1069480365728279185, guid: bf61ba711fd349e49bacec88638e9fe7, type: 3}
-  initialSize: 20
+  initialSize: 50
   topY: 15
   xRange: {x: 0, y: 35}
   respawnDelay: 0.2
@@ -14237,6 +14237,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1459220233}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: set_volume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &815788515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5971957152001033400, guid: 1a1abe3828bbc244aa093dbe098a2b69, type: 3}
@@ -16446,7 +16458,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1553839392}
   m_FillRect: {fileID: 1750010686}
   m_HandleRect: {fileID: 1553839391}
@@ -20001,7 +20013,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 963376775}
   m_FillRect: {fileID: 1234776127}
   m_HandleRect: {fileID: 963376773}
@@ -23610,7 +23622,7 @@ Transform:
   m_GameObject: {fileID: 1367339423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -65.62, y: 2.53, z: -36.98}
+  m_LocalPosition: {x: 20.04, y: 2.53, z: -36.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28767,7 +28779,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1857090058}
   m_FillRect: {fileID: 1407150345}
   m_HandleRect: {fileID: 1857090057}
@@ -34988,6 +35000,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.8627451
       objectReference: {fileID: 0}
+    - target: {fileID: 382570672906157473, guid: 59763c99c61784347b9a3401c9dc1253, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2001351677424273544, guid: 59763c99c61784347b9a3401c9dc1253, type: 3}
       propertyPath: m_text
       value: "\uD29C\uD1A0\uB9AC\uC5BC"
@@ -37000,7 +37016,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 3182993357090631634}
   m_FillRect: {fileID: 7204233445494666665}
   m_HandleRect: {fileID: 6311925081091561534}

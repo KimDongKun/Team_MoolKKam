@@ -95,7 +95,7 @@ public class WeaponController : MonoBehaviour
         if (health != null)
         {
             playerController.playerViewModel.Mp += 1; // 공격할 때마다 MP 1 증가
-            health.TakeDamage(attackModel.Damage, attackModel);
+            if(health.isAlive) health.TakeDamage(attackModel.Damage, attackModel);
             damagedEnemies.Add(other.gameObject); // 맞은 적 등록
             damageSound.Play();
         }

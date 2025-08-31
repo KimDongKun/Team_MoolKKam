@@ -85,7 +85,8 @@ public class ProjectileController : MonoBehaviour
             if (isBoss) target.GetComponent<PlayerController>()?.TakeDamage(10);
             else
             {
-                target.GetComponent<Enemy>()?.TakeDamage(attackModel.Damage, attackModel);
+                if(target.GetComponent<Enemy>().isAlive) target.GetComponent<Enemy>()?.TakeDamage(attackModel.Damage, attackModel);
+
             }
             Destroy(this.gameObject);
         }
